@@ -1,0 +1,30 @@
+<templates xml:space="preserve">
+    <t t-name="machine_module.MachineRoute" owl="1">
+        <div class="container">
+            <button class="empty_btn"/><h2 class="preventive_maintenance_title">Machine Preventive Maintenance</h2>
+            <div class="row">
+                <t t-foreach="state.machineTypeArrays" t-as="item" t-key="'type-' + index + '-' + item.type">
+                    <div class="col-md-4 routing_row">
+                        <h2 class="machine_title"><t t-esc="item.type"/></h2>
+                        <table class="ppc_plan_table">
+                            <tbody class="table_body">
+                                <t t-foreach="item.data" t-as="machine" t-key="machine.id">
+                                    <tr>
+                                        <td><button class="machine_select_btn" id="select_machine_button" t-esc="machine.subMachines" t-att-class="machineUnderMaintenance(machine)" t-on-click="onButtonClicked" t-att="{'data-machine-id': machine.id}"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </div>
+            <div class="route_representation">
+                <h3>Selected Route:</h3>
+                <h1><t t-esc="state.selectedRoute.join(' --> ')"/></h1>
+            </div>
+             <div style="text-align: right;">
+                <button class="r_save_btn" id="route_save_button">Save</button>
+            </div>
+        </div>
+    </t>
+</templates>

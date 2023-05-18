@@ -1,0 +1,40 @@
+{
+    'name': 'Machine Module',
+    'sequence': -1,
+    'author': 'Ateeq Ur Rehman',
+    'version': '0.0.0.1',
+    'category': 'Machine',
+    'summary': 'Machine ERP Module',
+    'description': """Machine ERP Module""",
+    # 'depends': ['base','mail'],
+    'depends': ['base', 'mail', 'web' , 'bus'],
+    'data': [
+        'C:\Edraak\Odoo main\odoo project 2\custom_modules\machine_module\security\ir.model.access.csv',
+        # 'F:/odooPrac/custom/machine_module/static/src/machine-status_screen/xml/machine_status_screen.xml',
+        'C:/Edraak/Odoo main/odoo project 2/custom_modules/machine_module/views/Machine_view.xml',
+    ],
+    'demo': [],
+    'application':True,
+    'installable': True,
+    'auto_install': False,
+    'assets': {
+        'web.assets_backend':[
+            'machine_module/static/src/machine-status_screen/xml/machine_status_screen.xml',
+            'machine_module/static/src/machine-status_screen/js/machine_status_screen.js',
+            'machine_module/static/src/ppc_plan_approval_screen/js/ppc_plan_approval.js',
+            'machine_module/static/src/ppc_plan_approval_screen/xml/ppc_plan_approval.xml',
+            'machine_module/static/src/ppc_plan_approval_screen/css/ppc_plan_approval.css',
+            'machine_module/static/src/internal_department_status/js/internal_department_status.js',
+            'machine_module/static/src/internal_department_status/xml/internal_department_status.xml',
+            'machine_module/static/src/internal_department_status/css/internal_department_status.css',
+            'machine_module/static/src/ppc_plan_view/js/ppc_plan_view.js',
+            'machine_module/static/src/ppc_plan_view/xml/ppc_plan_view.xml',
+            'machine_module/static/src/ppc_plan_view/css/ppc_plan_view.css',
+            'machine_module/static/src/machine_routing_screen/js/machine_routing_screen.js',
+            'machine_module/static/src/machine_routing_screen/xml/machine_routing_screen.xml',
+            'machine_module/static/src/machine_routing_screen/css/machine_routing_screen.css',
+        ],
+    },
+    'license': 'LGPL-3'
+}
+# -*- coding: utf-8 -*-

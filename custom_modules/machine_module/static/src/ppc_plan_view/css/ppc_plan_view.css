@@ -1,0 +1,39 @@
+.ppc_plan_heading{
+height:70px;
+}
+.ppc_plan_view_columns {
+    padding-left: 2%;
+    padding-right: 4%;
+}
+table.internal_approved_plan_table{
+    width: 100%;
+}
+table.internal_approved_plan_table th, .internal_approved_plan_table td {
+border:0.5px solid #00000059;
+}
+.reprocess_table td{
+border:0.5px solid #00000059;
+}
+.internal_plan_buttons{
+width: 100%;
+margin-bottom: 20px;
+background-color: #03045E;
+color: white;
+padding: 10px;
+font-size: 15px;
+border: 0px;
+}
+.table_button{
+background-color: #0015FF;
+border: 0px;
+color: white;
+padding: 2px;
+text-align: center;
+font-size: 15px;
+display: flex;
+cursor:pointer;
+}
+.table_button2 {
+background-color:#EA2B1F;
+}
+

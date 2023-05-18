@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="machine_module.departmentStatus" owl="1">
+<!--        BOOTSTRAP ACCORDIAN-->
+        <div style="margin:3%;">
+            <h1>Internal Department status</h1>
+            <div class="accordion-item department_accordian" t-foreach="state.departmentArrays" t-as="item" t-key="'type-' + index + '-' + item.type" style="width: 50%;">
+                <h2 class="accordion-header" id="heading-{{ 'type-' + index + '-' + item.type }}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-' + 'type-' + index + '-' + item.type" aria-expanded="false" aria-controls="collapseOne">
+                        <h3 class="accordian_heading"><span t-esc="item.type"/></h3>
+                    </button>
+                </h2>
+                <div t-att-id="'collapse-' + 'type-' + index + '-' + item.type" class="accordion-collapse show" aria-labelledby="heading-{{ 'type-' + index + '-' + item.type }}" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <table>
+                            <tbody calss="table_body">
+                                <t t-foreach="item.data" t-as="dept" t-key="dept.id">
+                                    <tr class="department_table_body">
+                                        <td><span t-esc="dept.ppLotNum"/>_<span t-esc="dept.shade"/>_<span t-esc="dept.contract"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
+

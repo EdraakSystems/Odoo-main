@@ -1,0 +1,40 @@
+.machine_title{
+text-transform: capitalize;
+}
+.routing_row{
+margin-top:3%;
+}
+.machine_select_btn {
+background-color: #EEEEEE;
+border:0px;
+padding: 3px 20px 3px 20px;
+margin-top: 3%;
+}
+.machine_under_maintenance{
+background-color: red;
+color:white;
+}
+.empty_btn{
+background-color: red;
+border: 0px;
+padding: 20px 65px 0px 0px;
+}
+.preventive_maintenance_title{
+display: inline-block;
+font-size: 22px;
+margin-left: 15px;
+}
+.route_representation {
+border: 2px solid gray;
+margin-top: 4%;
+padding: 2% 5% 2% 5%;
+}
+.r_save_btn{
+border: 0px;
+background-color: black;
+color: white;
+padding: 5px 25px 5px 25px;
+font-size: 15px;
+margin-top: 2%;
+box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 15px;
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="machine_module.ppcPlanView" owl="1">
+        <div class="container">
+            <div class="row">
+              <div class="col ppc_plan_view_columns">
+                  <div class="ppc_plan_heading">
+                      <h1>Create Internal Plan</h1>
+                      <h5> Click to add to Daily Machine Plan</h5>
+                  </div>
+                  <table class="create_plan_table">
+                      <tbody>
+                          <t t-foreach="state.approvedPlanList" t-as="plan" t-key="plan.id">
+                              <tr class="department_table_body">
+                                  <td><span t-esc="plan.ppLotNum"/>_<span t-esc="plan.shade"/>_<span t-esc="plan.contract"/></td>
+                                  <td><input class="ppc_table_checkbox" type="checkbox" t-att-checked="plan.executionApproval" t-on-change="checkboxAction" t-att="{'data-plan-id': plan.id}"/></td>
+                              </tr>
+                          </t>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="col ppc_plan_view_columns">
+                  <div class="ppc_plan_heading">
+                      <h1>Reprocess</h1>
+                  </div>
+                  <table class="reprocess_table">
+                      <tbody>
+                          <t t-foreach="state.reprocessList" t-as="reprocess" t-key="reprocess.id">
+                              <tr class="department_table_body">
+                                  <td><span t-esc="reprocess.ppLotNum"/>_<span t-esc="reprocess.shade"/>_<span t-esc="reprocess.contract"/></td>
+                              </tr>
+                          </t>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="col ppc_plan_view_columns">
+                <div class="ppc_plan_heading">
+                      <h1>Buttons</h1>
+                </div>
+                  <button class="internal_plan_buttons" id="internal_plan_btn" t-on-click="redirectToInternalPlanScreen">Show Internal Plan</button>
+                  <button class="internal_plan_buttons" id="machine_status_btn" t-on-click="redirectToMachineStatusScreen">Show Next Machine Status</button>
+                  <button class="internal_plan_buttons" id="next_dept_btn" t-on-click="redirectToDepartmentScreen">Show Next Department</button>
+              </div>
+            </div>
+        </div>
+        <div class="container">
+                <table class="internal_approved_plan_table" t-att-data="state.internalApprovedList">
+                    <thead class="table_head">
+                        <tr>
+                            <th>PP. Lot</th>
+                            <th>Job Card</th>
+                            <th>Machine Route</th>
+                            <th>Machine Params</th>
+                            <th>Define Route</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table_body">
+                        <t t-foreach="state.internalApprovedList" t-as="executionApproved" t-key="executionApproved.id">
+                            <tr>
+                                <td width="30%"><span t-esc="executionApproved.ppLotNum"/>_<span t-esc="executionApproved.shade"/>_<span t-esc="executionApproved.jobCard"/></td>
+                                <td width="10%"><t t-esc="executionApproved.jobCard"/></td>
+                                <td width="30%"><h3>U1  -->  S3  -->  M4  -->  LB2</h3></td>
+                                <td width="15%"><buttons class="table_button" id="machine_param_button">Enter Machine Params</buttons></td>
+                                <td width="15%">
+                                  <button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">
+                                    Define Machine Route
+                                  </button>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    FORM VIEW For Machine Data-->
+    <record id="view_machine_form" model="ir.ui.view">
+        <field name="name">machine.data.form</field>
+        <field name="model">machine.data</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="machineName" style="border-bottom: 0.5px solid black;"/>
+                        <field name="ppLotNum" style="border-bottom: 0.5px solid black;"/>
+                        <field name="fabricType" style="border-bottom: 0.5px solid black;"/>
+                        <field name="quality" style="border-bottom: 0.5px solid black;"/>
+                        <field name="shade" style="border-bottom: 0.5px solid black;"/>
+                        <field name="jobCard" style="border-bottom: 0.5px solid black;"/>
+                        <field name="greyMeter" style="border-bottom: 0.5px solid black;"/>
+                        <field name="contract" style="border-bottom: 0.5px solid black;"/>
+                        <field name="departmentNames" style="border-bottom: 0.5px solid black;"/>
+                        <field name="planApprove"/>
+                        <field name="reprocess"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--    Action For Machine Data View-->
+    <record id="action_machine" model="ir.actions.act_window">
+        <field name="name">Machine Data</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">machine.data</field>
+        <field name="view_mode">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Machine Record
+            </p>
+        </field>
+    </record>
+
+        <!--    FORM VIEW For Machine Names/Details-->
+    <record id="view_machine_names_form" model="ir.ui.view">
+        <field name="name">machine.details.form</field>
+        <field name="model">machine.details</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="subMachines" style="border-bottom: 0.5px solid black;"/>
+                        <field name="nameOfMachines" style="border-bottom: 0.5px solid black;"/>
+                        <field name="underMaintenance"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--        Action For Machine Params View-->
+    <record id="action_machine_details" model="ir.actions.act_window">
+        <field name="name">Machine Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">machine.details</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <!--  Machine Status Screen Action  -->
+    <record id="action_machine_status" model="ir.actions.client">
+        <field name="name">Machine Status View</field>
+        <field name="tag">machine_module.machine_status_screen_js</field>
+    </record>
+
+    <!--  Ppc Plan Approval Action  -->
+    <record id="action_ppc_plan_approval" model="ir.actions.client">
+        <field name="name">PPC Plan Approval</field>
+        <field name="tag">machine_module.ppc_plan_approval_js</field>
+    </record>
+    <!--  Internal Department Status Action  -->
+    <record id="action_internal_department_status" model="ir.actions.client">
+        <field name="name">Internal Department Status</field>
+        <field name="tag">machine_module.department_status_screen_js</field>
+    </record>
+
+    <!--  PPC Plan View Action  -->
+    <record id="action_ppc_plan_view" model="ir.actions.client">
+        <field name="name">Ppc Plan View</field>
+        <field name="tag">machine_module.ppc_plan_view_js</field>
+    </record>
+
+    <!--  Machine Routing Action  -->
+    <record id="action_machine_route" model="ir.actions.client">
+        <field name="name">Ppc Plan View</field>
+        <field name="tag">machine_module.machine_route_screen_js</field>
+    </record>
+
+
+    <menuitem name="Machines" id="machine_menu" sequence="-1" action="action_machine" />
+    <menuitem name="Add Machine" id="machine_params_menu" sequence="0" action="action_machine_details" parent="machine_menu" />
+    <menuitem name="Internal Plan Selection" id="ppc_plan_approval" sequence="1" action="action_ppc_plan_approval" parent="machine_menu"/>
+    <menuitem name="Create Internal Plan" id="ppc_plan_view" sequence="2" action="action_ppc_plan_view" parent="machine_menu"/>
+<!--    <menuitem name="Internal Department Status" id="internal_department_status" sequence="3" action="action_internal_department_status" parent="machine_menu"/>-->
+<!--    <menuitem name="Machines Status" id="machine_status" sequence="4" action="action_machine_status" parent="machine_menu"/>-->
+    <menuitem name="Machine Routing" id="machine_route" sequence="5" action="action_machine_route" parent="machine_menu"/>
+
+</odoo>
