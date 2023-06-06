@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="machine_module.MachineParams" owl="1">
+        <div class="container">
+            <h1>MACHINE PARAMS</h1>
+            <div class="tabsets">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation" t-foreach="state.machineRouteNames" t-as="machineRoute" t-key="generateRandomNumber()" t-log="generateRandomNumber()">
+                        <button class="nav-link" t-att-id="'nav-link-' + machineRoute.machineId" t-att-data-bs-toggle="'tab'" t-att-data-bs-target="'#tab-' + machineRoute.machineId" type="button" role="tab" t-att-aria-controls="'tab-' + machineRoute.machineId" t-att-aria-selected="machineRoute === state.machineRouteNames[0]" t-att-class="{'active': machineRoute === state.machineRouteNames[0]}">
+                            <t t-esc="machineRoute.machineData.subMachines"/>
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane" t-foreach="state.machineRouteNames" t-as="machineRoute" t-att-id="'tab-' + machineRoute.machineId" t-att-role="'tabpanel'" t-att-aria-labelledby="'nav-link-' + machineRoute.machineId" t-key="'tab-' + machineRoute.machineId + generateRandomNumber()" t-att-class="{'active': machineRoute === state.machineRouteNames[0]}">
+                        <h3 style="text-transform:capitalize;"><t t-esc="machineRoute.machineData.nameOfMachines"/></h3>
+                        <h3 style="text-transform:capitalize;">ID: <t t-esc="machineRoute.machineId"/></h3>
+                        <div id="mac_params_forms">
+                            <t t-foreach="state.machineTypeParamList" t-as="machineType" t-key="machineType.machineType">
+                                <t t-if="machineType.machineType === machineRoute.machineData.nameOfMachines">
+                                    <div class="row">
+                                        <t t-foreach="machineType.paramsList" t-as="param" t-key="param">
+                                            <div class="col-md-6 param_fields">
+                                                <div class="param-field">
+                                                    <label class="input_label" t-att-for="'param_input_' + param"><t t-esc="param"/></label>
+                                                    <input class="param-input" t-att-id="'param_input_' + param" t-att-name="param" t-att-placeholder="'Enter ' + param"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <button class="btn-save r_save_btn" id="param_save_btn" t-on-click="saveParams" t-att-machine-id="machineRoute.machineId" t-att-machine-name="machineRoute.machineData.nameOfMachines" t-att-sub-machines="machineRoute.machineData.subMachines">Save</button>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

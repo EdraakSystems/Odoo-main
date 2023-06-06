@@ -1,30 +1,108 @@
 <templates xml:space="preserve">
-    <t t-name="machine_module.MachineRoute" owl="1">
-        <div class="container">
-            <button class="empty_btn"/><h2 class="preventive_maintenance_title">Machine Preventive Maintenance</h2>
-            <div class="row">
-                <t t-foreach="state.machineTypeArrays" t-as="item" t-key="'type-' + index + '-' + item.type">
-                    <div class="col-md-4 routing_row">
-                        <h2 class="machine_title"><t t-esc="item.type"/></h2>
-                        <table class="ppc_plan_table">
-                            <tbody class="table_body">
-                                <t t-foreach="item.data" t-as="machine" t-key="machine.id">
-                                    <tr>
-                                        <td><button class="machine_select_btn" id="select_machine_button" t-esc="machine.subMachines" t-att-class="machineUnderMaintenance(machine)" t-on-click="onButtonClicked" t-att="{'data-machine-id': machine.id}"/></td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
-                    </div>
+  <t t-name="machine_module.MachineRoute" owl="1">
+    <div class="container">
+      <button class="empty_btn" />
+      <h2 class="preventive_maintenance_title">Machine's under Preventive Maintenance</h2>
+      <div class="row">
+        <t t-foreach="state.machineTypeArrays" t-as="item" t-key="'type-' + index + '-' + item.type">
+          <div class="col-md-4 routing_row">
+            <h2 class="machine_title">
+              <t t-esc="item.type" />
+            </h2>
+            <div class="span-container">
+              <t t-set="spanCount" t-value="0" />
+              <t t-foreach="item.data" t-as="machine" t-key="machine.id">
+                <t t-set="spanCount" t-value="spanCount + 1" />
+                <t t-if="spanCount &lt;= 2">
+                  <span>
+                    <button class="machine_select_btn" id="select_machine_button"
+                      t-esc="machine.subMachines" t-att-class="machineUnderMaintenance(machine)"
+                      t-on-click="onButtonClicked" t-att-data-machine-id="machine.id" />
+                  </span>
                 </t>
+                <t t-if="spanCount === 2">
+                  <br />
+                  <t t-set="spanCount" t-value="0" />
+                </t>
+              </t>
             </div>
-            <div class="route_representation">
-                <h3>Selected Route:</h3>
-                <h1><t t-esc="state.selectedRoute.join(' --> ')"/></h1>
-            </div>
-             <div style="text-align: right;">
-                <button class="r_save_btn" id="route_save_button">Save</button>
-            </div>
-        </div>
-    </t>
+          </div>
+        </t>
+      </div>
+      <div class="route_representation"  t-if="state.selectedRoute.length > 0">
+        <h3>Selected Route:</h3>
+        <h1>
+            <t t-esc="state.selectedRoute.join(' --> ')" />
+        </h1>
+      </div>
+      <div style="text-align: right; border-top: 1.5px solid #80808054; margin-top: 5%;">
+        <button class="r_save_btn" id="route_save_button" t-on-click="saveRoute">Save</button>
+      </div>
+    </div>
+  </t>
 </templates>
+
+
+
+<!--<templates xml:space="preserve">-->
+<!--  <t t-name="machine_module.MachineRoute" owl="1">-->
+<!--    <div class="container">-->
+<!--      <button class="empty_btn" />-->
+<!--      <h2 class="preventive_maintenance_title">Machine's under Preventive Maintenance</h2>-->
+<!--      <div class="row">-->
+<!--        <t t-foreach="state.machineTypeArrays" t-as="item" t-key="'type-' + index + '-' + item.type">-->
+<!--          <div class="col-md-4 routing_row">-->
+<!--            <h2 class="machine_title">-->
+<!--              <t t-esc="item.type" />-->
+<!--            </h2>-->
+<!--            <div class="span-container">-->
+<!--              <t t-set="spanCount" t-value="0" />-->
+<!--              <t t-foreach="item.data" t-as="machine" t-key="machine.id">-->
+<!--                <t t-set="spanCount" t-value="spanCount + 1" />-->
+<!--                <t t-if="spanCount &lt;= 2">-->
+<!--                  <span>-->
+<!--                    <button class="machine_select_btn" id="select_machine_button"-->
+<!--                      t-esc="machine.subMachines" t-att-class="machineUnderMaintenance(machine)"-->
+<!--                      t-on-click="onButtonClicked" t-att-data-machine-id="machine.id" />-->
+<!--                  </span>-->
+<!--                </t>-->
+<!--                <t t-if="spanCount === 2">-->
+<!--                  <br />-->
+<!--                  <t t-set="spanCount" t-value="0" />-->
+<!--                </t>-->
+<!--              </t>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </t>-->
+<!--      </div>-->
+
+
+<!--&lt;!&ndash;      <div class="route_representation" t-if="state.selectedRoute.length > 0">&ndash;&gt;-->
+<!--&lt;!&ndash;        <h3>Selected Route:</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;        <t t-foreach="state.selectedRoute" t-as="route" t-key="generateRandomNumber()" t-log="generateRandomNumber()">&ndash;&gt;-->
+<!--&lt;!&ndash;          <button class="route_button" >Button</button> &lt;!&ndash; Button for each element &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;          <h1>&ndash;&gt;-->
+<!--&lt;!&ndash;            <t t-esc="route" />&ndash;&gt;-->
+<!--&lt;!&ndash;          </h1>&ndash;&gt;-->
+<!--&lt;!&ndash;        </t>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+
+
+<!--      <div class="route_representation" t-if="state.selectedRoute.length > 0">-->
+<!--        <h3>Selected Route:</h3>-->
+<!--        <t t-foreach="state.selectedRoute" t-as="route" t-key="generateRandomNumber()" t-log="state.selectedRoute">-->
+<!--          <div>-->
+<!--            <button class="route_button" t-on-click="removeRoute" t-att-route="route">Delete</button> &lt;!&ndash; Button to delete the element &ndash;&gt;-->
+<!--            <h1>-->
+<!--              <t t-esc="route" />-->
+<!--            </h1>-->
+<!--          </div>-->
+<!--        </t>-->
+<!--      </div>-->
+<!--      <div style="text-align: right; border-top: 1.5px solid #80808054; margin-top: 5%;">-->
+<!--        <button class="r_save_btn" id="route_save_button" t-on-click="saveRoute">Save</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </t>-->
+<!--</templates>-->
+

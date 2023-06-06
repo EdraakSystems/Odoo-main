@@ -28,6 +28,7 @@
                           <t t-foreach="state.reprocessList" t-as="reprocess" t-key="reprocess.id">
                               <tr class="department_table_body">
                                   <td><span t-esc="reprocess.ppLotNum"/>_<span t-esc="reprocess.shade"/>_<span t-esc="reprocess.contract"/></td>
+                                  <td><input class="ppc_table_checkbox" type="checkbox" t-att-checked="reprocess.executionApproval" t-on-change="checkboxActionOnReprocess" t-att="{'data-reprocess-id': reprocess.id}"/></td>
                               </tr>
                           </t>
                       </tbody>
@@ -35,11 +36,10 @@
               </div>
               <div class="col ppc_plan_view_columns">
                 <div class="ppc_plan_heading">
-                      <h1>Buttons</h1>
                 </div>
                   <button class="internal_plan_buttons" id="internal_plan_btn" t-on-click="redirectToInternalPlanScreen">Show Internal Plan</button>
-                  <button class="internal_plan_buttons" id="machine_status_btn" t-on-click="redirectToMachineStatusScreen">Show Next Machine Status</button>
-                  <button class="internal_plan_buttons" id="next_dept_btn" t-on-click="redirectToDepartmentScreen">Show Next Department</button>
+                  <button class="internal_plan_buttons" id="machine_status_btn" t-on-click="redirectToMachineStatusScreen">Show Machine Status</button>
+                  <button class="internal_plan_buttons" id="next_dept_btn" t-on-click="redirectToDepartmentScreen">Show Department Status</button>
               </div>
             </div>
         </div>
@@ -59,8 +59,12 @@
                             <tr>
                                 <td width="30%"><span t-esc="executionApproved.ppLotNum"/>_<span t-esc="executionApproved.shade"/>_<span t-esc="executionApproved.jobCard"/></td>
                                 <td width="10%"><t t-esc="executionApproved.jobCard"/></td>
-                                <td width="30%"><h3>U1  -->  S3  -->  M4  -->  LB2</h3></td>
-                                <td width="15%"><buttons class="table_button" id="machine_param_button">Enter Machine Params</buttons></td>
+                                <td width="30%">
+                                    <span t-foreach="executionApproved.machineRoute" t-as="routes" t-key="'machine' + routes.id + routes.index">
+                                        <span t-esc="routes.subMachines" /> -->
+                                    </span>
+                                </td>
+                                <td width="15%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Enter Machine Params</buttons></td>
                                 <td width="15%">
                                   <button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">
                                     Define Machine Route
@@ -69,7 +73,12 @@
                             </tr>
                         </t>
                     </tbody>
-            </table>
+                </table>
         </div>
     </t>
 </templates>
+
+
+
+
+

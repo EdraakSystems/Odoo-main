@@ -1,3 +1,51 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<templates xml:space="preserve">-->
+<!--    <t t-name="machine_module.ppcPlanApproval" owl="1">-->
+<!--        <div class="container">-->
+<!--            <h1>Internal Plan Selection</h1>-->
+<!--            <p>Check to Approve PPC Plan</p>-->
+<!--            <t t-foreach="state.fabricTypeArrays" t-as="item" t-key="'type-' + index + '-' + item.type">-->
+<!--                <div class="table_border">-->
+<!--                    <h2>Fabric Type: <t t-esc="item.type"/></h2>-->
+<!--                    <table class="ppc_plan_table border">-->
+<!--                        <thead class="table_head">-->
+<!--                            <tr>-->
+<!--                                <th>Contract</th>-->
+<!--                                <th>Quality</th>-->
+<!--                                <th>Shade</th>-->
+<!--                                <th>PP. Lot</th>-->
+<!--                                <th>Job Card</th>-->
+<!--                                <th>Grey Meter</th>-->
+<!--                                <th>Dispatch Date</th>-->
+<!--                                <th>Plan Approved</th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody class="table_body">-->
+<!--                            <t t-foreach="item.data" t-as="machine" t-key="machine.id">-->
+<!--                                <tr>-->
+<!--                                    <td><t t-esc="machine.contract"/></td>-->
+<!--                                    <td><t t-esc="machine.quality"/></td>-->
+<!--                                    <td><t t-esc="machine.shade"/></td>-->
+<!--                                    <td><t t-esc="machine.ppLotNum"/></td>-->
+<!--                                    <td><t t-esc="machine.jobCard"/></td>-->
+<!--                                    <td><t t-esc="machine.greyMeter"/></td>-->
+<!--                                    <td><t t-esc="machine.dispatch_date"/></td>-->
+<!--                                    <td><input class="ppc_table_checkbox" type="checkbox" t-att-checked="machine.planApprove" t-on-change="onChangeCheckbox" t-att="{'data-machine-id': machine.id}"/></td>-->
+<!--                               </tr>-->
+<!--                            </t>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+<!--                </div>-->
+<!--            </t>-->
+<!--            <div style="text-align: right;">-->
+<!--                <button class="r_save_btn" id="ppc_plan_save_button" t-on-click="redirectToRoutingScreen">Done</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
+
+
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="machine_module.ppcPlanApproval" owl="1">
@@ -8,33 +56,38 @@
                 <div class="table_border">
                     <h2>Fabric Type: <t t-esc="item.type"/></h2>
                     <table class="ppc_plan_table border">
-                    <thead class="table_head">
-                        <tr>
-                            <th>Contract</th>
-                            <th>Quality</th>
-                            <th>Shade</th>
-                            <th>PP. Lot</th>
-                            <th>Job Card</th>
-                            <th>Grey Meter</th>
-                            <th>Plan Approved</th>
-                        </tr>
-                    </thead>
-                    <tbody calss="table_body">
-                        <t t-foreach="item.data" t-as="machine" t-key="machine.id">
+                        <thead class="table_head">
                             <tr>
-                                <td><t t-esc="machine.contract"/></td>
-                                <td><t t-esc="machine.quality"/></td>
-                                <td><t t-esc="machine.shade"/></td>
-                                <td><t t-esc="machine.ppLotNum"/></td>
-                                <td><t t-esc="machine.jobCard"/></td>
-                                <td><t t-esc="machine.greyMeter"/></td>
-                                <td><input class="ppc_table_checkbox" type="checkbox" t-att-checked="machine.planApprove" t-on-change="onChangeCheckbox" t-att="{'data-machine-id': machine.id}"/></td>
+                                <th>Contract</th>
+                                <th>Quality</th>
+                                <th>Shade</th>
+                                <th>PP. Lot</th>
+                                <th>Job Card</th>
+                                <th>Grey Meter</th>
+                                <th>Dispatch Date</th>
+                                <th>Plan Approved</th>
                             </tr>
-                        </t>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="table_body">
+                            <t t-foreach="item.data" t-as="machine" t-key="machine.id">
+                                <tr>
+                                    <td><t t-esc="machine.contract"/></td>
+                                    <td><t t-esc="machine.quality"/></td>
+                                    <td><t t-esc="machine.shade"/></td>
+                                    <td><t t-esc="machine.ppLotNum"/></td>
+                                    <td><t t-esc="machine.jobCard"/></td>
+                                    <td><t t-esc="machine.greyMeter"/></td>
+                                    <td><t t-esc="machine.dispatch_date"/></td>
+                                    <td><input class="ppc_table_checkbox" type="checkbox" t-att-checked="machine.planApprove" t-on-change="onChangeCheckbox" t-att="{'data-machine-id': machine.id}"/></td>
+                               </tr>
+                            </t>
+                        </tbody>
+                    </table>
                 </div>
             </t>
+            <div style="text-align: right;">
+                <button class="r_save_btn" id="ppc_plan_save_button" t-on-click="redirectToRoutingScreen">Done</button>
+            </div>
         </div>
     </t>
 </templates>

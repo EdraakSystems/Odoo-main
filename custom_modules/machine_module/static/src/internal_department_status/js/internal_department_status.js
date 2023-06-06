@@ -4,17 +4,6 @@ const { Component, useState, onWillStart } = owl;
 import { useService } from "@web/core/utils/hooks";
 
 export class DepartmentStatus extends Component{
-//    setup(){
-//        this.state = useState({
-//            departmentList:[],
-//        });
-//        this.orm = useService("orm");
-//        onWillStart(async()=>{
-//            this.state.departmentList = await this.orm.searchRead("machine.data", [], ["id" , "departmentNames"]);
-//            console.log(this.state.departmentList);
-//        });
-//    }
-
     setup(){
         this.state = useState({
             departmentList:[],
@@ -36,9 +25,12 @@ export class DepartmentStatus extends Component{
                 };
                 departmentArrays.push(departmentTypeObject);
             }
-            console.log(departmentArrays);
             this.state.departmentArrays = departmentArrays;
         });
+        this.redirectToRoutingScreen = this.redirectToRoutingScreen.bind(this);
+    }
+    redirectToRoutingScreen() {
+       window.location.href = "/web#action=machine_module.ppc_plan_view_js";
     }
 }
 DepartmentStatus.template = 'machine_module.departmentStatus';

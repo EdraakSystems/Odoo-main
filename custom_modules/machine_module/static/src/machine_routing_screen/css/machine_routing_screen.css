@@ -6,9 +6,11 @@ margin-top:3%;
 }
 .machine_select_btn {
 background-color: #EEEEEE;
-border:0px;
-padding: 3px 20px 3px 20px;
-margin-top: 3%;
+border: 0px;
+padding: 7px 25px 7px 25px;
+margin-top: 4%;
+margin-right: 7%;
+font-size: 15px;
 }
 .machine_under_maintenance{
 background-color: red;

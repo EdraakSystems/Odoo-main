@@ -17,6 +17,7 @@
                         <field name="greyMeter" style="border-bottom: 0.5px solid black;"/>
                         <field name="contract" style="border-bottom: 0.5px solid black;"/>
                         <field name="departmentNames" style="border-bottom: 0.5px solid black;"/>
+                        <field name="dispatch_date" style="border-bottom: 0.5px solid black;"/>
                         <field name="planApprove"/>
                         <field name="reprocess"/>
                     </group>
@@ -92,13 +93,24 @@
         <field name="tag">machine_module.machine_route_screen_js</field>
     </record>
 
+    <!--  Machine Params Action  -->
+    <record id="action_machine_params" model="ir.actions.client">
+        <field name="name">Machine Params View</field>
+        <field name="tag">machine_module.machine_params_screen_js</field>
+    </record>
+
 
     <menuitem name="Machines" id="machine_menu" sequence="-1" action="action_machine" />
     <menuitem name="Add Machine" id="machine_params_menu" sequence="0" action="action_machine_details" parent="machine_menu" />
     <menuitem name="Internal Plan Selection" id="ppc_plan_approval" sequence="1" action="action_ppc_plan_approval" parent="machine_menu"/>
     <menuitem name="Create Internal Plan" id="ppc_plan_view" sequence="2" action="action_ppc_plan_view" parent="machine_menu"/>
+    <menuitem name="Machine Params" id="machine_params_view" sequence="3" action="action_machine_params" parent="machine_menu"/>
 <!--    <menuitem name="Internal Department Status" id="internal_department_status" sequence="3" action="action_internal_department_status" parent="machine_menu"/>-->
 <!--    <menuitem name="Machines Status" id="machine_status" sequence="4" action="action_machine_status" parent="machine_menu"/>-->
-    <menuitem name="Machine Routing" id="machine_route" sequence="5" action="action_machine_route" parent="machine_menu"/>
+<!--    <menuitem name="Machine Routing" id="machine_route" sequence="5" action="action_machine_route" parent="machine_menu"/>-->
 
 </odoo>
+
+
+
+
