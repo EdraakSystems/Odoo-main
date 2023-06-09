@@ -101,8 +101,6 @@ const { Component, useState, onWillStart } = owl;
 import { useService } from "@web/core/utils/hooks";
 import { hooks } from '@odoo/owl';
 
-
-
 export class MachineStatus extends Component {
     setup() {
         this.state = useState({

@@ -1,0 +1,71 @@
+<templates xml:space="preserve">
+    <t t-name="ppc.PpcOrderViewTemplate" owl="1">
+        <div class="div_container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="table_heads">ID</th>
+                        <t t-foreach="state.fieldNames" t-as="field" t-key="field.name">
+                            <t t-if="field.name != 'id' and field.name != 'urgencyStatus'">
+                                <th t-esc="field.actualName" class="table_heads"/>
+                            </t>
+                            <t t-elif="field.name == 'urgencyStatus'">
+                                <th class="table_heads">Urgency Status</th>
+                            </t>
+                        </t>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="sortedOrderData" t-value="state.orderData.sort((a, b) => a.sequence - b.sequence)">
+                    </t>
+                    <t t-set="counter" t-value="0" />
+                    <t t-foreach="state.alignedOrderData" t-as="fabricTypeData" t-key="fabricTypeData.key">
+                        <tr class="fabric_type_row">
+                            <td colspan="100%" class="fabric_type_heading">
+                                <span style="font-weight:600;">Fabric Type: </span>
+                                <t t-esc="fabricTypeData.key"/>
+                            </td>
+                        </tr>
+                        <t t-foreach="sortedOrderData" t-as="order" t-key="'order-' + order.id">
+                            <t t-if="order.fabricType == fabricTypeData.key">
+                                <tr class="table_rows">
+                                    <td t-esc="order.id" class="table_row_data"/>
+                                    <t t-foreach="state.fieldNames" t-as="field" t-key="field.name">
+                                        <t t-if="field.name != 'id' and field.name != 'urgencyStatus'">
+                                            <t t-if="field.name != 'remarks'">
+                                                <td class="table_row_data">
+                                                    <t t-esc="order[field.name]"/>
+                                                </td>
+                                            </t>
+                                            <t t-elif="field.name == 'remarks'">
+                                                <td class="table_row_data">
+                                                    <input t-att-value="order[field.name]" class="editable_remarks"
+                                                        t-on-blur="event => typingCompleted(order.id, event)"/>
+                                                </td>
+                                            </t>
+                                        </t>
+                                        <t t-elif="field.name == 'urgencyStatus'">
+                                            <td class="table_row_data">
+                                                <select class="selector_field">
+                                                    <t t-set="urgencyStatusOptions" t-value="state.orderData.filter(otherOrder => otherOrder.fabricType === fabricTypeData.key).map(otherOrder => otherOrder[field.name])"/>
+                                                    <t t-set="optionCounter" t-value="counter" />
+                                                    <t t-foreach="urgencyStatusOptions" t-as="option" t-key="'option-' + optionCounter">
+                                                        <option t-att-value="option" t-att-selected="option === order[field.name] ? 'selected' : ''">
+                                                            <t t-esc="option"/>
+                                                        </option>
+                                                        <t t-set="optionCounter" t-value="optionCounter + 1" />
+                                                    </t>
+                                                </select>
+                                            </td>
+                                        </t>
+                                    </t>
+                                </tr>
+                            </t>
+                        </t>
+                        <t t-set="counter" t-value="counter + 1" />
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

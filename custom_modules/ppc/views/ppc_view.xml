@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- FORM VIEW For PPC Order Data -->
+    <record id="ppc_order_form" model="ir.ui.view">
+        <field name="name">ppc.order.form</field>
+        <field name="model">order.data</field>
+        <field name="arch" type="xml">
+            <form autocommit="0">
+                <sheet>
+                    <div id="ppc_order_form">
+                        <group col="2">
+                        <group>
+                            <field name="ppLot"/>
+                            <field name="fabricType"/>
+                            <field name="orderStatus"/>
+                            <field name="urgencyStatus"/>
+                            <field name="placement_date"/>
+                            <field name="dispatch_date"/>
+                            <field name="greigeWidth"/>
+                            <field name="finishedGreigeWidth"/>
+                            <field name="rel"/>
+                            <field name="tol"/>
+                            <field name="requiredQuantity"/>
+                            <field name="totalRequiredQuantity"/>
+                        </group>
+                        <group>
+                            <field name="finish"/>
+                            <field name="orderNumber"/>
+                            <field name="articleNumber"/>
+                            <field name="greyLotNumber"/>
+                            <field name="color"/>
+                            <field name="weave"/>
+                            <field name="meters"/>
+                            <field name="supplier"/>
+                            <field name="sourceWeft"/>
+                            <field name="sourceWarp"/>
+                            <field name="remarks"/>
+                        </group>
+                    </group>
+                    <div style="text-align: right;">
+                        <button name="save_data" string="Save" type="object" class="btn-primary ppc_order_save_btn"/>
+                    </div>
+                    </div>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action For Machine Data View -->
+    <record id="ppc_order_form_action" model="ir.actions.act_window">
+        <field name="name">PPC Order Form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">order.data</field>
+        <field name="view_mode">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Order
+            </p>
+        </field>
+    </record>
+
+        <!--  PPC Orders View Action  -->
+    <record id="ppc_order_view_action" model="ir.actions.client">
+        <field name="name">PPC Orders View</field>
+        <field name="tag">ppc.ppc_order_view_js</field>
+    </record>
+
+    <menuitem name="PPC Orders" id="ppc_order_view" sequence="-2" action="ppc_order_view_action" />
+    <menuitem name="Add New Order" id="ppc_main_menu" sequence="0" action="ppc_order_form_action" parent="ppc_order_view"/>
+
+</odoo>
+

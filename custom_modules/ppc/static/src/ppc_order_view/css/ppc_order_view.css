@@ -1,0 +1,27 @@
+th.table_heads {
+    min-width: 160px !important;
+    border: 2px solid black;
+    font-size: 14px;
+    padding: 15px 0px 15px 0px;
+    text-align: center;
+    font-weight: 700;
+}
+.div_container {
+    width: fit-content;
+    padding: 4% 4% 4% 4%;
+}
+.table_rows {
+    border: 0.5px solid grey;
+}
+.table_row_data{
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+}
+.fabric_type_heading{
+    padding: 35px 0px 5px 0px;
+    color: black;
+    font-size: 19px;
+}
+.editable_remarks {
+    margin-right: 10px !important;
+}

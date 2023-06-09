@@ -12,7 +12,7 @@ export class PpcPlanApproval extends Component{
         });
         this.orm = useService("orm");
         onWillStart(async()=>{
-            this.state.ppcPlansList = await this.orm.searchRead("machine.data", [["reprocess", "=", false]], ["id", "machineName", "ppLotNum", "planApprove", "greyMeter", "jobCard", "shade", "quality", "fabricType", "contract", "dispatch_date", "red_alert", "niceone", "ggs", "simms", "kks", "giki", "puurppl" , "odoo6", "goonzquad"]);
+            this.state.ppcPlansList = await this.orm.searchRead("machine.data", [["reprocess", "=", false]], ["id", "machineName", "ppLotNum", "planApprove", "greyMeter", "jobCard", "shade", "quality", "fabricType", "contract", "dispatch_date", "red_alert"]);
             const fabricTypes = new Set(this.state.ppcPlansList.map(plan => plan.fabricType));
             const fabricTypeArrays = [];
             for (const fabricType of fabricTypes) {
