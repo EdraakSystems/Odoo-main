@@ -16,104 +16,90 @@
                             <h5>Machine Name: <span t-esc="machines.subMachines"/></h5>
                             <h5>Machine ID : <span t-esc="machines.id"/></h5>
                             <h5>Machine Type: <span style="text-transform: capitalize;" t-esc="machines.nameOfMachines"/></h5>
-                            <div class="container">
-                              <div class="row">
-                                <div class="col-md-4">
-                                  <h3 class="text-center" style="margin-top:15%">Queue</h3>
-                                    <table class="table">
-                                        <tbody>
-                                          <t>
-                                            <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span>0000</span>
-                                                </td>
-                                            </tr>
-                                              <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span>0000</span>
-                                                </td>
-                                            </tr>
-                                              <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span>0000</span>
-                                                </td>
-                                            </tr>
-                                          </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-md-4">
-                                  <h3 class="text-center" style="margin-top:15%">Current</h3>
-                                    <table class="table">
-                                        <tbody>
-                                          <t>
-                                            <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span class="text-center">0000</span>
-                                                </td>
-                                            </tr>
-                                              <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span class="text-center">0000</span>
-                                                </td>
-                                            </tr>
-                                              <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span class="text-center">0000</span>
-                                                </td>
-                                            </tr>
-                                          </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-md-4">
-                                  <h3 class="text-center" style="margin-top:15%">Pending</h3>
-                                    <table class="table">
-                                        <tbody>
-                                          <t>
-                                            <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span class="text-center">0000</span>
-                                                </td>
-                                            </tr>
-                                              <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span class="text-center">0000</span>
-                                                </td>
-                                            </tr>
-                                              <tr>
-                                                <td scope="row" style="border: 0.1px solid #0000006e;">
-                                                    <span class="text-center">0000</span>
-                                                </td>
-                                            </tr>
-                                          </t>
-                                        </tbody>
-                                    </table>
-                                </div>
-                              </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-             <div style="text-align: right;">
-                <button class="r_save_btn" id="ppc_plan_save_button" t-on-click="redirectToRoutingScreen">Done</button>
-             </div>
             <div>
-                <input class="column_Input" id="create_new_col"></input>
-                <button id="newColBtn" t-on-click="columnCreation">save</button>
+                <span>UPLOAD:</span>
+                <input type="file" id="fileUploadInput" />
+                <button id="uploadFile" type="button" t-on-click="handleFileUpload">Upload</button>
             </div>
-            <div>
-                <input class="data_input" id="create_new_data"></input>
-                <button id="newDataBtn" t-on-click="dataCreation">save</button>
+            <div t-if="state.excelData !== undefined">
+                <h2>Excel Data:</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <t t-foreach="Object.keys(state.excelData)" t-as="key" t-key="generateRandomNumber()">
+                                <th><t t-esc="key" /></th>
+                            </t>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <t t-foreach="Object.keys(state.excelData)" t-as="key" t-key="generateRandomNumber()">
+                                <td>
+                                    <t t-foreach="Object.keys(state.excelData[key])" t-as="nestedKey" t-key="generateRandomNumber() + 'type-'">
+                                        <span><t t-esc="nestedKey" />: <t t-esc="state.excelData[key][nestedKey]" /></span><br/>
+                                    </t>
+                                </td>
+                            </t>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div>
-                <span>READ:</span>
-                <input class="read_input" id="read_data"></input>
-                <button id="readDataBtn" t-on-click="dataRead">save</button>
-            </div>
+
         </div>
     </t>
 </templates>
+
+
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<templates xml:space="preserve">-->
+<!--    <t t-name="machine_module.Machines" owl="1">-->
+<!--&lt;!&ndash;        BOOTSTRAP ACCORDIAN&ndash;&gt;-->
+<!--        <div class="container">-->
+<!--            <div>-->
+<!--                <h1>Internal Machine status</h1>-->
+<!--                <div class="accordion-item" t-foreach="state.machineList" t-as="machines" t-key="machines.id" style="width: 75%;">-->
+<!--                    <h2 class="accordion-header" id="heading-{{ machines.id }}">-->
+<!--                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-' + machines.id" aria-expanded="false" aria-controls="collapseOne">-->
+<!--                            <h3><span style="text-transform: capitalize;" t-esc="machines.nameOfMachines"/> : <span style="font-size: 15px;font-weight: 400;" t-esc="machines.subMachines"/></h3>-->
+<!--                        </button>-->
+<!--                    </h2>-->
+<!--                    <div t-att-id="'collapse-' + machines.id" class="accordion-collapse collapse" aria-labelledby="heading-{{ machines.id }}" data-bs-parent="#accordionExample">-->
+<!--                        <div class="accordion-body">-->
+<!--                            <h5>Machine Name: <span t-esc="machines.subMachines"/></h5>-->
+<!--                            <h5>Machine ID : <span t-esc="machines.id"/></h5>-->
+<!--                            <h5>Machine Type: <span style="text-transform: capitalize;" t-esc="machines.nameOfMachines"/></h5>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--&lt;!&ndash;             <div style="text-align: right;">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button class="r_save_btn" id="ppc_plan_save_button" t-on-click="redirectToRoutingScreen">Done</button>&ndash;&gt;-->
+<!--&lt;!&ndash;             </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="column_Input" id="create_new_col"></input>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button id="newColBtn" t-on-click="columnCreation">save</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="data_input" id="create_new_data"></input>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button id="newDataBtn" t-on-click="dataCreation">save</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            <div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <span>READ:</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                <input class="read_input" id="read_data"></input>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button id="readDataBtn" t-on-click="dataRead">save</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+<!--            <div>-->
+<!--                <span>UPLOAD:</span>-->
+<!--                <input type="file" id="fileUploadInput" />-->
+<!--                <button id="uploadFile" type="button" t-on-click="handleFileUpload">Upload</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
 
 

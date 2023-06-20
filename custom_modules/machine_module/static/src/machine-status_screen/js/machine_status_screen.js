@@ -101,17 +101,20 @@ const { Component, useState, onWillStart } = owl;
 import { useService } from "@web/core/utils/hooks";
 import { hooks } from '@odoo/owl';
 
+
 export class MachineStatus extends Component {
     setup() {
         this.state = useState({
             machineList: [],
             dynamicList: [],
+            excelData: [],
         });
         this.orm = useService("orm");
         onWillStart(async () => {
             this.state.machineList = await this.orm.searchRead("machine.details", [], ["id", "subMachines", "nameOfMachines"]);
         });
         this.redirectToRoutingScreen = this.redirectToRoutingScreen.bind(this);
+        this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
     redirectToRoutingScreen() {
@@ -200,6 +203,73 @@ async dataRead() {
         }
     } catch (error) {
         console.error("Error calling API:", error);
+    }
+}
+
+generateRandomNumber() {
+    const randomNum = Math.floor(Math.random() * 1000000);
+    return randomNum;
+}
+
+
+// WORKING FINE AND GETTING CSRF TOKEN
+handleFileUpload() {
+    const fileInput = document.getElementById('fileUploadInput');
+    const file = fileInput.files[0]; // Get the selected file
+
+    if (file) {
+        if (file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+            // Send a separate request to obtain the CSRF token
+            fetch('/machine_module/get_csrf_token', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const csrfToken = data.csrf_token;
+                console.log('CSRF Token:', csrfToken);
+
+                // Create a FormData object to send the file and CSRF token
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('csrf_token', csrfToken);
+
+                // Send the file and CSRF token to the Python function
+                fetch('/machine_module/upload_excel_file', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    // Handle the response from the server
+                    console.log('Response:', result);
+
+                    // Parse the JSON string back to a JavaScript object
+                    const df = JSON.parse(result);
+
+                    // Log the DataFrame in the console
+                    this.state.excelData = df;
+                    console.log('DataFrame:', df);
+
+                    console.log('this.state.excelData : ', this.state.excelData);
+                    // ...
+                })
+                .catch(error => {
+                    console.error('Error uploading file:', error);
+                    // Display an error message or take appropriate action
+                });
+            })
+            .catch(error => {
+                console.error('Error retrieving CSRF token:', error);
+                // Display an error message or take appropriate action
+            });
+        } else {
+            console.log('Invalid file type. Only Excel files are allowed.');
+        }
+    } else {
+        console.log('No file selected');
     }
 }
 

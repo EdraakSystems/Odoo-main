@@ -1,8 +1,42 @@
 from odoo import models, fields, api, registry, SUPERUSER_ID, sql_db, http, tools
-import json
-import odoo
-import uuid
-import time
+import json, odoo, uuid, time, openpyxl,  io
+from odoo.http import request, Response
+import pandas as pd
+
+class ExcelData(http.Controller):
+
+    @http.route('/machine_module/get_csrf_token', type='http', auth='public', csrf=False)
+    def get_csrf_token(self, **post):
+        csrf_token = request.csrf_token()
+        return Response(json.dumps({'csrf_token': csrf_token}), content_type='application/json')
+
+    @http.route('/machine_module/upload_excel_file', type='http', auth='public', csrf=False)
+    def upload_excel_file(self, **post):
+        # Get the uploaded file and CSRF token
+        uploaded_file = request.httprequest.files.get('file')
+        csrf_token = post.get('csrf_token')
+
+        # Handle the uploaded file and CSRF token
+        if uploaded_file and csrf_token:
+            # Check if the file is of Excel type
+            allowed_file_types = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+            if uploaded_file.content_type in allowed_file_types:
+                print('Uploaded file is of Excel type')
+
+                # Read the Excel file using pandas
+                df = pd.read_excel(uploaded_file)
+
+                # Convert DataFrame to JSON
+                df_json = df.to_json()
+
+                return df_json
+            else:
+                print('Invalid file type. Only Excel files are allowed.')
+                return json.dumps({'success': False, 'message': 'Invalid file type. Only Excel files are allowed.'})
+        else:
+            return json.dumps({'success': False, 'message': 'Invalid file or CSRF token'})
+
+
 
 class MachineDataController(http.Controller):
     @http.route('/machine_module/js_function', type='json', auth='public')

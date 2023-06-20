@@ -1,5 +1,6 @@
 from odoo import models, fields, api, registry, SUPERUSER_ID, sql_db, http, tools
 import json
+import time
 
 class PpcOrderView(http.Controller):
     @http.route('/api/ppc_order_view/get_model_fields', type='http', auth='user', methods=['POST'], csrf=False)
@@ -18,8 +19,8 @@ class PpcModel(models.Model):
 
     ppLot = fields.Integer(string='PP Lot Number')
     fabricType = fields.Selection([('flat', 'Flat'), ('lycra', 'Lycra'), ('cotton', 'Cotton'), ('silk', 'Silk')], string='Fabric Type', required=True)
-    orderStatus = fields.Selection([('pending', 'Pending'), ('managerApproval', 'PPC Manager Approval')], string='Order Status')
-    urgencyStatus = fields.Selection([('redAlert', 'Red Alert'), ('orderLate', 'Order Late')], string='Urgency Status')
+    status = fields.Char(string='Status')
+    urgencyStatus = fields.Selection([('redAlert', 'Red Alert'), ('orderLate', 'Order Late'), ('dispatchDate','Dispatch Date')], string='Urgency Status', required='True')
     placement_date = fields.Date(string='Order Placement Date')
     dispatch_date = fields.Date(string='Order Dispatch Date')
     finish = fields.Char(string='Fabric Finish')
@@ -40,6 +41,9 @@ class PpcModel(models.Model):
     sourceWeft = fields.Char(string='Source Weft')
     sourceWarp = fields.Char(string='Source Warp')
     sequence = fields.Integer(string='Sequence')
+    classification_name = fields.Char(string='Order Classification', related='classification.classification_name', store=True)
+    classification = fields.Many2one('order.classification', string='Classification Name', store=True , required='True')
+    customers = fields.Many2one('customers', string='Customer Name')
     remarks = fields.Char(string='Remarks')
 
     # Function to save form for custom save button.
@@ -54,21 +58,23 @@ class PpcModel(models.Model):
     def save_data(self):
         # This is for getting fabric type of the submitted form
         fabric_type = self.fabricType  # Get the selected fabricType value
+        classification_name = self.classification_name
         print("Selected Fabric Type: ", fabric_type)
+        print("Selected Classification Name: ", classification_name)
 
         # This is for getting urgency Status of the submitted form
         urgency_status = self.urgencyStatus
         print("Selected Urgency Status: ", urgency_status)
 
         # This is for getting sequences of the same fabric Type as the submitted form
-        sequences_fabric_type = self.env['order.data'].sudo().search([('fabricType', '=', fabric_type)],
+        sequences_classification_name = self.env['order.data'].sudo().search([('classification_name', '=', classification_name)],
                                                                      order='sequence')
-        sequence_values_fabric_type = [record.sequence for record in sequences_fabric_type]
-        print("Sequence Values:", sequence_values_fabric_type)
+        sequence_values_classification_name = [record.sequence for record in sequences_classification_name]
+        print("Sequence Values:", sequence_values_classification_name)
 
         # This is for getting the max sequence of the same fabric Type as the submitted form
-        max_sequence_value_fabric_type = max(sequence_values_fabric_type) if sequence_values_fabric_type else 0
-        print("Max Sequence Value (Fabric Type):", max_sequence_value_fabric_type)
+        max_sequence_value_classification_name = max(sequence_values_classification_name) if sequence_values_classification_name else 0
+        print("Max Sequence Value (Fabric Type):", max_sequence_value_classification_name)
 
         found_more_urgency = False
         red_alert_sequence_values = []
@@ -76,7 +82,7 @@ class PpcModel(models.Model):
         # Check if urgency_status is 'redAlert'
         if urgency_status == 'redAlert':
             print("Found Red Alert")
-            for record in sequences_fabric_type:
+            for record in sequences_classification_name:
                 if record != self and record.urgencyStatus == 'redAlert':
                     found_more_urgency = True
                     red_alert_sequence_values.append(record.sequence)
@@ -89,7 +95,7 @@ class PpcModel(models.Model):
                 red_alert_final_value = red_alert_final_value + 1
                 self.sequence = red_alert_final_value
 
-                for record in sequences_fabric_type:
+                for record in sequences_classification_name:
                     if record != self and record.urgencyStatus != 'redAlert':
                         record.sequence += 1
 
@@ -99,7 +105,7 @@ class PpcModel(models.Model):
                 # Set the 'sequence' value to 1
                 self.sequence = 1
                 # Increment all the sequence values of the same fabric type by 1
-                for record in sequences_fabric_type:
+                for record in sequences_classification_name:
                     if record != self:
                         record.sequence += 1
 
@@ -108,11 +114,59 @@ class PpcModel(models.Model):
             # Get the max sequence value from the table that is of the same fabric type and set the sequence of the newly added
             sequences = self.search([], order='sequence')
             sequence_values = [record.sequence for record in sequences]
-            max_sequence_value = max_sequence_value_fabric_type + 1 if sequence_values else 1
+            max_sequence_value = max_sequence_value_classification_name + 1 if sequence_values else 1
             # Update the sequence value for the current record
             self.sequence = max_sequence_value
 
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
-        }
+        self.status = 'PPC Operator'
+        self.env.user.notify_success("Data saved successfully!")
+
+        action = self.env.ref('ppc.ppc_order_view_action', raise_if_not_found=False)
+        if action:
+            return action.read()[0]
+        else:
+            return self.env['ir.actions.act_window'].read()[0]
+
+
+class Classification(models.Model):
+    _name = "order.classification"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _description = "Order Classification"
+
+    classification_name = fields.Char(string='Classification Name')
+
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.classification_name
+            result.append((record.id, name))
+        return result
+
+    def addClassification(self):
+        existing_classification = self.env['order.classification'].search(
+            [('classification_name', '=', self.classification_name)], limit=1)
+        if existing_classification:
+            print("Classification already exists:", existing_classification.classification_name)
+        else:
+            new_classification = self.create({'classification_name': self.classification_name})
+            print("Classification saved:", new_classification.classification_name)
+
+
+class Customers(models.Model):
+    _name = "customers"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _description = "Customers"
+
+    name = fields.Char(string='Customer Name')
+
+
+class OrderOperations(models.Model):
+    _name= "order.operations"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _description = "Order Operations"
+
+    status = fields.Char(string='Order status')
+
+
+
+

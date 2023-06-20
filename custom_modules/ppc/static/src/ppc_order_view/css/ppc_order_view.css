@@ -12,16 +12,22 @@ th.table_heads {
 }
 .table_rows {
     border: 0.5px solid grey;
+    cursor: -webkit-grab;
 }
 .table_row_data{
     text-align: center;
     padding: 10px 0px 10px 0px;
 }
-.fabric_type_heading{
+.fabric_type_heading {
     padding: 35px 0px 5px 0px;
     color: black;
-    font-size: 19px;
+    font-size: 21px;
+    font-weight: 500;
 }
 .editable_remarks {
     margin-right: 10px !important;
+}
+select.selector_field {
+    text-align: center;
+    padding: 4px 0px 4px 0px;
 }

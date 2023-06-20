@@ -22,7 +22,9 @@
             'ppc/static/css_main/css_main.css',
             'ppc/static/src/ppc_order_view/js/ppc_order_view.js',
             'ppc/static/src/ppc_order_view/xml/ppc_order_view.xml',
-            'ppc/static/src/ppc_order_view/css/ppc_order_view.css'
+            'ppc/static/src/ppc_order_view/css/ppc_order_view.css',
+            'ppc/static/src/approve_ppc_orders/js/approve_ppc_orders.js',
+            'ppc/static/src/approve_ppc_orders/xml/approve_ppc_orders.xml',
         ],
     },
     'license': 'LGPL-3'

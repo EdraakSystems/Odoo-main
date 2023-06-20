@@ -32,3 +32,19 @@
     color: inherit !important;
     cursor: pointer;
 }
+#ppc_order_form label.o_form_label {
+    margin-top: 10%;
+}
+.black_button{
+    border: 0px;
+    background-color: black;
+    color: white;
+    padding: 10px 25px 10px 25px;
+    font-size: 15px;
+    margin-top: 2%;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 10px 15px;
+}
+.black_button:hover{
+    background-color:white;
+    color:black;
+}

@@ -25,10 +25,6 @@ export class PpcPlanView extends Component {
     this.redirectToSetParamsScreen = this.redirectToSetParamsScreen.bind(this);
 
 
-
-
-//    this.generateRandomNumber = this.generateRandomNumber.bind(this);
-
   }
 
 
@@ -78,9 +74,10 @@ export class PpcPlanView extends Component {
       await this.orm.write("machine.data", [machine.id], updatedFields);
       machine.executionApproval = checked;
       await this.reloadInternalApprovedPlan();
-      this.render();
     }
   }
+
+
 
 async checkboxActionOnReprocess(ev) {
   console.log("REPROCESS", ev);
@@ -90,11 +87,9 @@ async checkboxActionOnReprocess(ev) {
   if (reprocess) {
     const updatedFields = { executionApproval: checked };
     try {
-      console.log("RUNNING");
       await this.orm.write("machine.data", [reprocess.id], updatedFields);
       reprocess.executionApproval = checked;
       await this.reloadInternalApprovedPlan();
-      this.render();
     } catch (error) {
       console.error("Error occurred during write operation:", error);
     }
@@ -121,7 +116,6 @@ async checkboxActionOnReprocess(ev) {
       console.log({data})
       this.state.internalApprovedList=data;
       console.log("STATE",this.state.internalApprovedList)
-      this.render();
     }
 
   redirectToMachineStatusScreen() {
