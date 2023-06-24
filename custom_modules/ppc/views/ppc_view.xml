@@ -147,11 +147,19 @@
         <field name="tag">ppc.approve_ppc_order_js</field>
     </record>
 
+
+
+    <record id="get_excel_data_action" model="ir.actions.client">
+        <field name="name">Upload Excel File</field>
+        <field name="tag">ppc.get_excel_data_js</field>
+    </record>
+
     <menuitem name="PPC Orders" id="ppc_order_view" sequence="-2" action="ppc_order_view_action" />
     <menuitem name="Add Order" id="ppc_main_menu" sequence="0" parent="ppc_order_view"/>
     <menuitem name="Add New Order" id="ppc_add_order_menu" sequence="0" action="ppc_order_form_action" parent="ppc_main_menu"/>
     <menuitem name="Add New Classification" id="ppc_order_classification" sequence="1" action="ppc_add_classification_form_action" parent="ppc_main_menu"/>
     <menuitem name="Add New Customer" id="ppc_order_customer" sequence="2" action="ppc_add_customer_form_action" parent="ppc_main_menu"/>
+    <menuitem name="Upload Excel Data" id="upload_excel_data" sequence="3" action="get_excel_data_action" parent="ppc_main_menu"/>
     <menuitem name="Approve PPC Orders" id="approve_ppc_order" sequence="0" action="approve_ppc_order_action" />
 </odoo>
 

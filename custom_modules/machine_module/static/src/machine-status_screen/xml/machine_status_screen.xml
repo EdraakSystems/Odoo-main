@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <t t-foreach="Object.keys(state.excelData)" t-as="key" t-key="generateRandomNumber()">
-                                <th><t t-esc="key" /></th>
+                                <th class="excel_data_table_heads"><t t-esc="key"/></th>
                             </t>
                         </tr>
                     </thead>
@@ -40,7 +40,7 @@
                             <t t-foreach="Object.keys(state.excelData)" t-as="key" t-key="generateRandomNumber()">
                                 <td>
                                     <t t-foreach="Object.keys(state.excelData[key])" t-as="nestedKey" t-key="generateRandomNumber() + 'type-'">
-                                        <span><t t-esc="nestedKey" />: <t t-esc="state.excelData[key][nestedKey]" /></span><br/>
+                                        <tr class="excel_data_table_rows"><t t-esc="state.excelData[key][nestedKey]"/></tr>
                                     </t>
                                 </td>
                             </t>

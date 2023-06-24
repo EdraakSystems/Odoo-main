@@ -1,6 +1,51 @@
 from odoo import models, fields, api, registry, SUPERUSER_ID, sql_db, http, tools
-import json
-import time
+import json, odoo, uuid, time, openpyxl,  io
+from odoo.http import request, Response
+import pandas as pd
+import numpy as np
+
+class ExcelData(http.Controller):
+    @http.route('/ppc/get_csrf_token', type='http', auth='public', csrf=False)
+    def get_csrf_token(self, **post):
+        csrf_token = request.csrf_token()
+        return Response(json.dumps({'csrf_token': csrf_token}), content_type='application/json')
+
+    @http.route('/ppc/upload_excel_file', type='http', auth='public', csrf=False)
+    def upload_excel_file(self, **post):
+        # Get the uploaded file and CSRF token
+        uploaded_file = request.httprequest.files.get('file')
+        csrf_token = post.get('csrf_token')
+        if uploaded_file and csrf_token:
+            # Check if the file is of Excel type
+            allowed_file_types = ['application/vnd.ms-excel',
+                                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+            if uploaded_file.content_type in allowed_file_types:
+                print('File is of Excel type')
+
+                # Read the Excel file using pandas
+                df = pd.read_excel(uploaded_file)
+
+                # Convert DataFrame to JSON with formatting
+                data = []
+                for row in df.itertuples(index=False):
+                    row_dict = {}
+                    for idx, value in enumerate(row):
+                        if pd.api.types.is_datetime64_any_dtype(df.dtypes[idx]):
+                            # Format date as string if present, otherwise write null
+                            value = value.strftime('%Y-%m-%d') if not pd.isnull(value) else None
+                        elif pd.isna(value) or (isinstance(value, str) and value.strip() == ''):
+                            # Replace empty or whitespace-only values with None
+                            value = None
+                        row_dict[df.columns[idx]] = value
+                    data.append(row_dict)
+
+                df_json = json.dumps(data)
+                return df_json
+            else:
+                print('Invalid file type. Only Excel files are allowed.')
+                return json.dumps({'success': False, 'message': 'Invalid file type. Only Excel files are allowed.'})
+        else:
+            return json.dumps({'success': False, 'message': 'Invalid file or CSRF token'})
 
 class PpcOrderView(http.Controller):
     @http.route('/api/ppc_order_view/get_model_fields', type='http', auth='user', methods=['POST'], csrf=False)
@@ -42,7 +87,7 @@ class PpcModel(models.Model):
     sourceWarp = fields.Char(string='Source Warp')
     sequence = fields.Integer(string='Sequence')
     classification_name = fields.Char(string='Order Classification', related='classification.classification_name', store=True)
-    classification = fields.Many2one('order.classification', string='Classification Name', store=True , required='True')
+    classification = fields.Many2one('order.classification', string='Classification Name', store=True)
     customers = fields.Many2one('customers', string='Customer Name')
     remarks = fields.Char(string='Remarks')
 

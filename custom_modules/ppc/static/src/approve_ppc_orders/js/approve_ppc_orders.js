@@ -38,6 +38,7 @@ export class ApprovePpcOrder extends Component {
     this.onDragStart = this.onDragStart.bind(this);
     this.onDrop = this.onDrop.bind(this);
     this.onDragOver = this.onDragOver.bind(this);
+    this.typingCompleted = this.typingCompleted.bind(this);
     this.state.notification =useService("notification");
   }
 
@@ -169,6 +170,20 @@ async onDrop(ev) {
       }
     }
   }
+      async typingCompleted(orderId, event) {
+        const updatedInput = event.target.value;
+        try {
+        const result = await this.orm.call('order.data', 'write', [[orderId], { remarks: updatedInput }]);
+        if (result) {
+            console.log('Remarks updated successfully');
+        } else {
+            console.error('Error occurred while updating remarks');
+        }
+        } catch (error) {
+        }
+    }
+
+
 }
 
 ApprovePpcOrder.template = 'ppc.ApprovePpcOrderTemplate';

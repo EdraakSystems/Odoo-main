@@ -1,0 +1,37 @@
+.excel_data th.excel_data_table_heads {
+    max-width: 200px;
+    min-width: 170px;
+    text-align: center;
+    font-size: 18px;
+    border: 2px solid black;
+    padding: 15px 0px 15px 0px;
+}
+
+td.excel_data_table_rows {
+    text-align: center;
+    padding: 15px 0px 15px 0px;
+
+}
+.excel_data tr.excel_data_table_rows{
+    border: 0.5px solid black;
+}
+.highlighted {
+    background-color: #ff00008a;
+    color: white;
+}
+.excel_input_fields {
+    background-color: transparent;
+    border: 0.2px solid black;
+    color: black;
+    padding: 5px 0px 5px 0px;
+    text-align: center;
+    border-radius: 5px;
+    width: 150px;
+    max-width: 150px;
+    margin: 0px 15px 0px 15px;
+}
+
+.highlighted .excel_input_fields{
+    border: 0.2px solid white;
+    color: white;
+}

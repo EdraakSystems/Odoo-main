@@ -5,18 +5,12 @@
         <field name="description">PPC users category</field>
         <field name="sequence">0</field>
     </record>
-
     <record id="ppc_operator_group" model="res.groups">
         <field name="name">PPC Operator</field>
         <field name="category_id" ref="ppc_module_category"/>
     </record>
-
     <record id="ppc_manager_group" model="res.groups">
         <field name="name">PPC Manager</field>
         <field name="category_id" ref="ppc_module_category"/>
     </record>
 </odoo>
-
-
-
-<!-- ppc_order_view-->

@@ -25,6 +25,9 @@
             'ppc/static/src/ppc_order_view/css/ppc_order_view.css',
             'ppc/static/src/approve_ppc_orders/js/approve_ppc_orders.js',
             'ppc/static/src/approve_ppc_orders/xml/approve_ppc_orders.xml',
+            'ppc/static/src/get_excel_data/js/get_excel_data.js',
+            'ppc/static/src/get_excel_data/xml/get_excel_data.xml',
+            'ppc/static/src/get_excel_data/css/get_excel_data.css',
         ],
     },
     'license': 'LGPL-3'

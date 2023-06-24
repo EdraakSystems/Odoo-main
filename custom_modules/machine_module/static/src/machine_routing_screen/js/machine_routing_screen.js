@@ -59,13 +59,9 @@ retrieveSelectedIdForRoute() {
   this.state.savedRouteId = parseInt(selectedIdForRoute);
 }
 generateRandomNumber() {
-    const randomNum = Math.floor(Math.random() * 10000000000000000000);
+    const randomNum = Math.floor(Math.random() * 1000000);
     return randomNum;
 }
-
-
-
-
 
 removeRoute(event) {
 const index = event.target.getAttribute("route");
