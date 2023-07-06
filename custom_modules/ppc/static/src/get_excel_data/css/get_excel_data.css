@@ -1,8 +1,12 @@
+.excel_container {
+    width: 100%;
+    padding: 4% 4% 4% 4%;
+}
 .excel_data th.excel_data_table_heads {
     max-width: 200px;
     min-width: 170px;
     text-align: center;
-    font-size: 18px;
+    font-size: 17px;
     border: 2px solid black;
     padding: 15px 0px 15px 0px;
 }
@@ -34,4 +38,61 @@ td.excel_data_table_rows {
 .highlighted .excel_input_fields{
     border: 0.2px solid white;
     color: white;
+}
+.heading_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 auto;
+    border: 2px solid gray;
+    border-radius: 15px;
+    padding: 40px 0px 40px 0px;
+}
+.heading_container h1{
+    text-align: center;
+}
+.input_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  border: none;
+  border-right: 1px solid black;
+  background: none;
+  padding: 0px 5px 0px 0px ;
+}
+
+.custom-file-input {
+    border: 1px solid black;
+    padding: 5px 5px 5px 5px;
+    margin-top: 10px;
+    text-align: center;
+    border-radius: 3px;
+    cursor:pointer;
+}
+
+button#uploadFile {
+    margin-top: 20px;
+    padding: 3px 25px 3px 25px;
+    background: transparent;
+    border-radius: 3px;
+    font-size: 15px;
+    color: black;
+}
+button#uploadFile:hover{
+    color: white;
+    background: black;
+}
+
+.urgencyStatusSelector option {
+   color: black;
+}
+
+.classificationSelector option {
+   color: black;
 }

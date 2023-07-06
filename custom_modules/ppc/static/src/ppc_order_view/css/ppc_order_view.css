@@ -13,6 +13,7 @@ th.table_heads {
 .table_rows {
     border: 0.5px solid grey;
     cursor: -webkit-grab;
+    color: black;
 }
 .table_row_data{
     text-align: center;
@@ -30,4 +31,10 @@ th.table_heads {
 select.selector_field {
     text-align: center;
     padding: 4px 0px 4px 0px;
+}
+tr.disabled_row {
+    color: gray;
+}
+.disabled{
+    color: gray;
 }

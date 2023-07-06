@@ -17,6 +17,8 @@ export class PpcOrderView extends Component {
         onWillStart(async () => {
             const fields = await this.fetchModelFields();
             this.state.fields = fields;
+            console.log( 'fields : ', fields)
+
             // Unwanted fields
             const excludedFields = ['message_main_attachment_id', 'create_uid', 'write_uid', 'create_date', 'write_date', 'activity_date_deadline', 'activity_exception_decoration', 'activity_exception_icon', 'activity_ids', 'activity_state', 'activity_summary', 'activity_type_icon', 'activity_type_id', 'activity_user_id', "my_activity_date_deadline", "message_is_follower", "message_follower_ids",
                                     "message_follower_ids", "message_partner_ids","message_ids","has_message","message_needaction","message_needaction_counter","message_has_error","message_has_error_counter", "message_attachment_count", "message_has_sms_error", "website_message_ids", "__last_update", "display_name" ];
@@ -54,14 +56,13 @@ export class PpcOrderView extends Component {
     alignOrderDataByClassificationType(orderData) {
         const alignedData = {};
         for (const order of orderData) {
-            if (order.status === 'PPC Manager') { // Filter orders by status
-                const classification_name = order.classification_name;
-                if (!alignedData.hasOwnProperty(classification_name)) {
-                    alignedData[classification_name] = [];
-                }
-                alignedData[classification_name].push(order);
+            const classification_name = order.classification_name;
+            if (!alignedData.hasOwnProperty(classification_name)) {
+                alignedData[classification_name] = [];
             }
+            alignedData[classification_name].push(order);
         }
+        console.log('alignedData: ', alignedData);
         // Sort the orders within each classification_name group based on sequence
         for (const key in alignedData) {
             alignedData[key].sort((a, b) => a.sequence - b.sequence);
@@ -130,8 +131,11 @@ async onDrop(ev) {
             },
         });
         const result = await response.json();
+        console.log('result : ', result);
+
         return result.fields;
     }
+
     async fetchOrderData() {
         const fieldNames = this.state.fieldNames.map(field => field.name);
         const orderData = await this.orm.searchRead('order.data', [], fieldNames);
@@ -183,44 +187,58 @@ async onDrop(ev) {
             }
         }
     }
+
     ppc_plan_approval() {
-        this.orm
-            .search('order.data', [['status', '=', 'PPC Operator']])
-            .then((ordersWithPPCOperatorStatus) => {
-                if (!ordersWithPPCOperatorStatus || ordersWithPPCOperatorStatus.length === 0) {
-                    this.state.notification.add('No orders to send.', {
-                        title: 'Info',
-                        type: 'info',
-                    });
-                    return;
-                }else{
-                    ordersWithPPCOperatorStatus.forEach((orderId) => {
-                        this.orm
-                            .call('order.data', 'write', [[orderId], { status: 'PPC Manager' }])
-                            .then((result) => {
-                                if (result) {
-                                    console.log(`Status updated successfully for Order ID ${orderId}`);
-                                } else {
-                                    console.error(`Error occurred while updating status for Order ID ${orderId}`);
-                                }
-                            })
-                            .catch((error) => {
-                                console.error(`Error occurred while updating status for Order ID ${orderId}:`, error);
-                            });
-                    });
-                    this.state.notification.add('Sent for Manager Approval.', {
-                        title: 'Success',
-                        type: 'success',
-                    });
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 700);
-                }
-            })
-            .catch((error) => {
-                console.error('Error occurred while retrieving orders:', error);
+        const checkedOrderIds = [];
+
+        // Iterate over the table rows to find the checked checkboxes
+        const checkboxes = document.getElementsByClassName('row_checkbox');
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                // Get the row ID and add it to the array
+                const rowId = checkboxes[i].closest('tr').getAttribute('data-row-id');
+                checkedOrderIds.push(rowId);
+            }
+        }
+
+        if (checkedOrderIds.length === 0) {
+            this.state.notification.add('No orders selected.', {
+                title: 'Info',
+                type: 'info',
             });
+            return;
+        }
+
+        checkedOrderIds.forEach((orderId) => {
+            this.orm
+                .call('order.data', 'write', [[orderId], { status: 'PPC Manager' }])
+                .then((result) => {
+                    if (result) {
+                        console.log(`Status updated successfully for Order ID ${orderId}`);
+                    } else {
+                        console.error(`Error occurred while updating status for Order ID ${orderId}`);
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Error occurred while updating status for Order ID ${orderId}:`, error);
+                });
+        });
+
+        this.state.notification.add('Sent for Manager Approval.', {
+            title: 'Success',
+            type: 'success',
+        });
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 700);
     }
+
+
+
+
+
+
 }
 
 PpcOrderView.template = 'ppc.PpcOrderViewTemplate';
