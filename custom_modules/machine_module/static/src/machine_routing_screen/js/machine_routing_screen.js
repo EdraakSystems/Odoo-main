@@ -53,15 +53,16 @@ export class MachineRoute extends Component {
     machineUnderMaintenance(machine) {
         return machine.underMaintenance ? "machine_under_maintenance" : "";
     }
-retrieveSelectedIdForRoute() {
-  const url = new URL(window.location.href);
-  const selectedIdForRoute = url.searchParams.get("selectedIdForRoute");
-  this.state.savedRouteId = parseInt(selectedIdForRoute);
-}
-generateRandomNumber() {
-    const randomNum = Math.floor(Math.random() * 1000000);
-    return randomNum;
-}
+    retrieveSelectedIdForRoute() {
+      const url = new URL(window.location.href);
+      const selectedIdForRoute = url.searchParams.get("selectedIdForRoute");
+      this.state.savedRouteId = parseInt(selectedIdForRoute);
+    }
+
+    generateRandomNumber() {
+        const randomNum = Math.floor(Math.random() * 1000000);
+        return randomNum;
+    }
 
 removeRoute(event) {
 const index = event.target.getAttribute("route");
@@ -69,36 +70,36 @@ console.log('CLicked', index);
 this.state.selectedRoute.splice(index, 1);
 }
 
-saveRoute() {
-  const routeId = this.state.savedRouteId;
-  const selectedRouteIdsString = this.state.selectedRouteIds.join(", ");
-  if (routeId) {
-    this.orm.write("machine.data", [routeId], { machineRoute: selectedRouteIdsString })
-      .then(() => {
-        console.log("Successfully saved the selectedRouteIdsString to the database.");
-        this.state.notification.add("Data Successfully Saved",{
-        title: "Success",
-        type: "success",
-        });
-        setTimeout(() => {
-          window.location.href = "/web#action=machine_module.ppc_plan_view_js";
-        }, 1500);
-      })
-      .catch((error) => {
-        console.error("Error saving the selectedRouteIdsString to the database:", error);
+    saveRoute() {
+      const routeId = this.state.savedRouteId;
+      const selectedRouteIdsString = this.state.selectedRouteIds.join(", ");
+      if (routeId) {
+        this.orm.write("machine.data", [routeId], { machineRoute: selectedRouteIdsString })
+          .then(() => {
+            console.log("Successfully saved the selectedRouteIdsString to the database.");
+            this.state.notification.add("Data Successfully Saved",{
+            title: "Success",
+            type: "success",
+            });
+            setTimeout(() => {
+              window.location.href = "/web#action=machine_module.ppc_plan_view_js";
+            }, 1500);
+          })
+          .catch((error) => {
+            console.error("Error saving the selectedRouteIdsString to the database:", error);
+            this.state.notification.add("Failed to Save Data", {
+            title: "Warning",
+            type: "warning",
+          });
+          });
+      } else {
+        console.error("No savedRouteId available.");
         this.state.notification.add("Failed to Save Data", {
-        title: "Warning",
-        type: "warning",
-      });
-      });
-  } else {
-    console.error("No savedRouteId available.");
-    this.state.notification.add("Failed to Save Data", {
-        title: "Warning",
-        type: "warning",
-      });
-  }
-}
+            title: "Warning",
+            type: "warning",
+          });
+      }
+    }
 }
 MachineRoute.template = 'machine_module.MachineRoute';
 registry.category('actions').add('machine_module.machine_route_screen_js', MachineRoute);

@@ -14,7 +14,6 @@
 td.excel_data_table_rows {
     text-align: center;
     padding: 15px 0px 15px 0px;
-
 }
 .excel_data tr.excel_data_table_rows{
     border: 0.5px solid black;
@@ -96,3 +95,4 @@ button#uploadFile:hover{
 .classificationSelector option {
    color: black;
 }
+

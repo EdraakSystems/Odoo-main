@@ -21,34 +21,8 @@
                 </div>
             </div>
             <div>
-                <span>UPLOAD:</span>
-                <input type="file" id="fileUploadInput" />
-                <button id="uploadFile" type="button" t-on-click="handleFileUpload">Upload</button>
+                <button t-on-click="columnCreation">create</button>
             </div>
-            <div t-if="state.excelData !== undefined">
-                <h2>Excel Data:</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <t t-foreach="Object.keys(state.excelData)" t-as="key" t-key="generateRandomNumber()">
-                                <th class="excel_data_table_heads"><t t-esc="key"/></th>
-                            </t>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <t t-foreach="Object.keys(state.excelData)" t-as="key" t-key="generateRandomNumber()">
-                                <td>
-                                    <t t-foreach="Object.keys(state.excelData[key])" t-as="nestedKey" t-key="generateRandomNumber() + 'type-'">
-                                        <tr class="excel_data_table_rows"><t t-esc="state.excelData[key][nestedKey]"/></tr>
-                                    </t>
-                                </td>
-                            </t>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
         </div>
     </t>
 </templates>

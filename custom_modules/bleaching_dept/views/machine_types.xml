@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <odoo>
+        <record id="bleaching_add_machine_type_tree" model="ir.ui.view">
+            <field name="name">bleaching_machine.types.tree</field>
+            <field name="model">bleaching_machine.types</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="machine_type_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="bleaching_add_machine_type_tree_action" model="ir.actions.act_window">
+            <field name="name">Add Machine Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bleaching_machine.types</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Machine Type
+                </p>
+            </field>
+        </record>
+    </odoo>

@@ -11,7 +11,9 @@
     'data': [
         'C:/Edraak/Odoo main/odoo project 2/custom_modules/ppc/security/ir.model.access.csv',
         'C:/Edraak/Odoo main/odoo project 2/custom_modules/ppc/views/ppc_view.xml',
-        'C:/Edraak/Odoo main/odoo project 2/custom_modules/ppc/security/ppc_security.xml'
+        'C:/Edraak/Odoo main/odoo project 2/custom_modules/ppc/security/ppc_security.xml',
+        'C:/Edraak/Odoo main/odoo project 2/custom_modules/ppc/views/classification.xml',
+        'C:/Edraak/Odoo main/odoo project 2/custom_modules/ppc/views/customers.xml',
     ],
     'demo': [],
     'application':True,

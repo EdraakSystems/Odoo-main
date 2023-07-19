@@ -5,16 +5,16 @@ text-transform: capitalize;
 margin-top:3%;
 }
 .machine_select_btn {
-    background-color: #EEEEEE;
-    border: 0px;
-    padding: 7px 25px 7px 25px;
-    margin-top: 4%;
-    margin-right: 7%;
-    font-size: 15px;
+background-color: #EEEEEE;
+border: 0px;
+padding: 7px 25px 7px 25px;
+margin-top: 4%;
+margin-right: 7%;
+font-size: 15px;
 }
-.machineUnderMaintenance {
-    background-color: red !important;
-    color: white;
+.machine_under_maintenance{
+background-color: red;
+color:white;
 }
 .empty_btn{
 background-color: red;

@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="machine_module.ppcPlanView" owl="1">
-        <div class="container">
+    <t t-name="bleaching_dept.createInternalPlanTemplate" owl="1">
+        <div class="div_container internal_plan_container">
             <div class="row">
               <div class="col ppc_plan_view_columns">
                   <div class="ppc_plan_heading">
@@ -10,10 +9,10 @@
                   </div>
                   <table class="create_plan_table">
                       <tbody>
-                          <t t-foreach="state.approvedPlanList" t-as="plan" t-key="plan.id">
+                          <t t-foreach="state.orders" t-as="plan" t-key="plan.id">
                               <tr class="department_table_body">
-                                  <td><span t-esc="plan.ppLotNum"/>_<span t-esc="plan.shade"/>_<span t-esc="plan.contract"/></td>
-                                  <td><input class="ppc_table_checkbox" type="checkbox" t-att-checked="plan.executionApproval" t-on-change="checkboxAction" t-att="{'data-plan-id': plan.id}"/></td>
+                                  <td><span t-esc="plan.ppLot"/></td>
+                                  <td><input class="ppc_table_checkbox" type="checkbox" t-on-change="() => addOrder(plan.id)"/></td>
                               </tr>
                           </t>
                       </tbody>
@@ -25,12 +24,6 @@
                   </div>
                   <table class="reprocess_table">
                       <tbody>
-                          <t t-foreach="state.reprocessList" t-as="reprocess" t-key="reprocess.id">
-                              <tr class="department_table_body">
-                                  <td><span t-esc="reprocess.ppLotNum"/>_<span t-esc="reprocess.shade"/>_<span t-esc="reprocess.contract"/></td>
-                                  <td><input class="ppc_table_checkbox" type="checkbox" t-att-checked="reprocess.executionApproval" t-on-change="checkboxActionOnReprocess" t-att="{'data-reprocess-id': reprocess.id}"/></td>
-                              </tr>
-                          </t>
                       </tbody>
                   </table>
               </div>
@@ -42,30 +35,27 @@
                   <button class="internal_plan_buttons" id="next_dept_btn" t-on-click="redirectToDepartmentScreen">Show Department Status</button>
               </div>
             </div>
-        </div>
-            <div class="container">
+            <div class="internal_plan_table">
                 <table class="internal_approved_plan_table" t-att-data="state.internalApprovedList">
-                    <thead class="table_head">
+                    <thead class="table_head internal_plan_table_head">
                         <tr>
                             <th>PP. Lot</th>
-                            <th>Job Card</th>
                             <th>Machine Route</th>
                             <th>Machine Params</th>
                             <th>Define Route</th>
                         </tr>
                     </thead>
                     <tbody class="table_body">
-                        <t t-foreach="state.internalApprovedList" t-as="executionApproved" t-key="executionApproved.id">
+                        <t t-foreach="state.internalPlanOrders" t-as="executionApproved" t-key="executionApproved.id">
                             <tr>
-                                <td width="30%"><span t-esc="executionApproved.ppLotNum"/>_<span t-esc="executionApproved.shade"/>_<span t-esc="executionApproved.jobCard"/></td>
-                                <td width="10%"><t t-esc="executionApproved.jobCard"/></td>
-                                <td width="30%">
+                                <td width="15%"><span t-esc="executionApproved.ppLot"/></td>
+                                <td width="45%">
                                     <span t-foreach="executionApproved.machineRoute" t-as="routes" t-key="'machine' + routes.id + routes.index">
-                                        <span t-esc="routes.subMachines" /> -->
+                                        <span t-esc="routes.machine_name" /> -->
                                     </span>
                                 </td>
-                                <td width="15%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Enter Machine Params</buttons></td>
-                                <td width="15%">
+                                <td width="20%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Enter Machine Params</buttons></td>
+                                <td width="20%">
                                   <button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">
                                     Define Machine Route
                                   </button>
@@ -75,10 +65,6 @@
                     </tbody>
                 </table>
             </div>
+        </div>
     </t>
 </templates>
-
-
-
-
-

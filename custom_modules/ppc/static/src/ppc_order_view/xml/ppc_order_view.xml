@@ -27,9 +27,7 @@
                         </tr>
                         <t t-foreach="sortedOrderData" t-as="order" t-key="'order-' + order.id">
                             <t t-if="order.classification_name == fabricTypeData.key">
-                                <tr class="table_rows" t-att-data-row-id="order.id" t-att-data-sequence="order.sequence" t-att-data-classification-name="order.classification_name" draggable="true" t-on-dragstart="event => onDragStart(event, order.id)" t-on-dragover="onDragOver" t-on-drop="onDrop" t-att-class="{'disabled_row': order.status === 'PPC Manager'}">
-
-<!--                                <tr class="table_rows" t-att-data-row-id="order.id" t-att-data-sequence="order.sequence" t-att-data-classification-name= "order.classification_name" draggable="true" t-on-dragstart="event => onDragStart(event, order.id)" t-on-dragover="onDragOver" t-on-drop="onDrop">-->
+                                <tr class="table_rows" t-att-data-row-id="order.id" t-att-data-sequence="order.sequence" t-att-data-classification-name="order.classification_name" draggable="true" t-on-dragstart="event => onDragStart(event, order.id)" t-on-dragover="onDragOver" t-on-drop="onDrop" t-att-class="{'disabled_row': order.status !== 'PPC Operator'}">
                                     <td t-esc="order.id" class="table_row_data"/>
                                     <t t-foreach="state.fieldNames" t-as="field" t-key="field.name">
                                         <t t-if="field.name != 'id' and field.name != 'classification_name' and field.name != 'classification' and field.name != 'urgencyStatus'">
@@ -42,15 +40,15 @@
                                                 <td class="table_row_data">
                                                     <input t-att-value="order[field.name]" class="editable_remarks"
                                                         t-on-blur="event => typingCompleted(order.id, event)"
-                                                        t-att-disabled="order.status === 'PPC Manager' ? 'disabled' : ''"
-                                                        t-att-class="{'disabled': order.status === 'PPC Manager'}"
+                                                        t-att-disabled="order.status !== 'PPC Operator' ? 'disabled' : ''"
+                                                        t-att-class="{'disabled': order.status !== 'PPC Operator'}"
                                                     />
                                                 </td>
                                             </t>
                                         </t>
                                         <t t-elif="field.name == 'urgencyStatus'">
                                             <td class="table_row_data">
-                                                <select class="selector_field" t-on-change="event => changeUrgencyStatus(order.id, event)" t-att-disabled="order.status === 'PPC Manager' ? 'disabled' : ''" t-att-class="{'disabled': order.status === 'PPC Manager'}">
+                                                <select class="selector_field" t-on-change="event => changeUrgencyStatus(order.id, event)" t-att-disabled="order.status !== 'PPC Operator' ? 'disabled' : ''" t-att-class="{'disabled': order.status !== 'PPC Operator'}">
                                                     <option value="redAlert" t-att-selected="order[field.name] === 'redAlert' ? 'selected' : ''">Red Alert</option>
                                                     <option value="orderLate" t-att-selected="order[field.name] === 'orderLate' ? 'selected' : ''">Order Late</option>
                                                     <option value="dispatchDate" t-att-selected="order[field.name] === 'dispatchDate' ? 'selected' : ''">Dispatch Date</option>
@@ -59,7 +57,7 @@
                                         </t>
                                     </t>
                                     <td class="table_row_data">
-                                        <input type="checkbox" class="row_checkbox" checked="checked" t-att-disabled="order.status === 'PPC Manager' ? 'disabled' : ''" />
+                                        <input type="checkbox" class="row_checkbox" checked="checked" t-att-disabled="order.status !== 'PPC Operator' ? 'disabled' : ''" />
                                     </td>
                                 </tr>
                             </t>

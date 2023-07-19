@@ -33,7 +33,7 @@
     'depends': ['base'],
     'data': [
         'views/res_users.xml',
-        'security/security.xml'
+        'security/security.xml',
     ],
     'license': 'LGPL-3',
     'images': ['static/description/banner.png'],

@@ -3,6 +3,8 @@ import json, odoo, uuid, time, openpyxl,  io
 from odoo.http import request, Response
 import pandas as pd
 import numpy as np
+import pyodbc
+
 
 class ExcelData(http.Controller):
     @http.route('/ppc/get_csrf_token', type='http', auth='public', csrf=False)
@@ -47,6 +49,7 @@ class ExcelData(http.Controller):
         else:
             return json.dumps({'success': False, 'message': 'Invalid file or CSRF token'})
 
+
 class PpcOrderView(http.Controller):
     @http.route('/api/ppc_order_view/get_model_fields', type='http', auth='user', methods=['POST'], csrf=False)
     def get_model_fields(self, **kw):
@@ -56,6 +59,7 @@ class PpcOrderView(http.Controller):
             return http.Response(json.dumps({'fields': fields}), content_type='application/json')
         except Exception as e:
             return http.Response(json.dumps({'error': str(e)}), content_type='application/json', status=500)
+
 
 class PpcModel(models.Model):
     _name = "order.data"
@@ -90,6 +94,7 @@ class PpcModel(models.Model):
     classification = fields.Many2one('order.classification', string='Classification Name', store=True)
     customers = fields.Many2one('customers', string='Customer Name')
     remarks = fields.Char(string='Remarks')
+    machineRoute = fields.Char(string='Machine Route')
 
     # Function to save form for custom save button.
     @api.model

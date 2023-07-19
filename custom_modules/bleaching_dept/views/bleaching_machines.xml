@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="bleaching_add_machine_tree" model="ir.ui.view">
+        <field name="name">bleaching.machines.tree</field>
+        <field name="model">bleaching.machines</field>
+        <field name="arch" type="xml">
+            <tree editable="top">
+                <field name="machine_name"/>
+                <field name="machine_type"/>
+                <field name="underMaintenance"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="bleaching_add_machine_tree_action" model="ir.actions.act_window">
+        <field name="name">Add Machines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bleaching.machines</field>
+        <field name="view_mode">tree</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Machine
+            </p>
+        </field>
+    </record>
+</odoo>

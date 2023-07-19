@@ -1,0 +1,141 @@
+<templates xml:space="preserve">
+    <t t-name="bleaching_dept.machineRouteTemplate" owl="1">
+        <div class="div_container internal_plan_container">
+            <button class="empty_btn" />
+            <h2 class="preventive_maintenance_title">Machine's under Preventive Maintenance</h2>
+            <div class="row">
+                <t t-foreach="state.machineTypes" t-as="item" t-key="item.id">
+                    <div class="col-md-4 routing_row">
+                        <h2 class="machine_title">
+                            <t t-esc="item.machine_type_name" />
+                        </h2>
+                        <div class="span-container">
+                            <t t-set="spanCount" t-value="0" />
+                            <t t-foreach="item.data" t-as="machine" t-key="machine.id">
+                                <t t-set="spanCount" t-value="spanCount + 1" />
+                                <t t-if="spanCount &lt;= 2">
+                                    <span>
+                                        <button class="machine_select_btn" id="select_machine_button" t-esc="machine.machine_name"
+                                                t-on-click="onButtonClicked" t-att-data-machine-id="machine.id"
+                                                t-att-class="machine.underMaintenance ? 'machineUnderMaintenance' : ''" />
+                                        </span>
+                                    </t>
+                                    <t t-if="spanCount === 2">
+                                        <br/>
+                                        <t t-set="spanCount" t-value="0" />
+                                    </t>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            <div class="route_representation" t-if="state.selectedRoute.length > 0">
+                <h3>Selected Route:</h3>
+                <h1>
+                    <t t-esc="state.selectedRoute.join(' --> ')" />
+                </h1>
+            </div>
+            <div style="text-align: right; border-top: 1.5px solid #80808054; margin-top: 5%;">
+                <button class="r_save_btn" id="route_save_button" t-on-click="saveRoute">Save</button>
+            </div>
+        </div>
+    </t>
+</templates>
+
+
+
+
+
+
+<!--<templates xml:space="preserve">-->
+<!--    <t t-name="bleaching_dept.machineRouteTemplate" owl="1">-->
+<!--        <div class="div_container">-->
+<!--            <h1>Machine Route</h1>-->
+<!--            <button class="empty_btn" />-->
+<!--            <h2 class="preventive_maintenance_title">Machine's under Preventive Maintenance</h2>-->
+<!--            <div class="row">-->
+<!--                <t t-foreach="state.machineTypes" t-as="item" t-key="item.id">-->
+<!--                    <div class="col-md-4 routing_row">-->
+<!--                        <h2 class="machine_title">-->
+<!--                            <t t-esc="item.machine_type_name" />-->
+<!--                        </h2>-->
+<!--                        <div class="span-container">-->
+<!--                            <t t-set="spanCount" t-value="0" />-->
+<!--                            <t t-foreach="item.data" t-as="machine" t-key="machine.id">-->
+<!--                                <t t-set="spanCount" t-value="spanCount + 1" />-->
+<!--                                    <t t-if="spanCount &lt;= 2">-->
+<!--                                        <span>-->
+<!--                                            <button class="machine_select_btn" id="select_machine_button"-->
+<!--                                                t-esc="machine.subMachines" t-att-class="machineUnderMaintenance(machine)"-->
+<!--                                                t-on-click="onButtonClicked" t-att-data-machine-id="machine.id" />-->
+<!--                                        </span>-->
+<!--                                    </t>-->
+<!--                                    <t t-if="spanCount === 2">-->
+<!--                                    <br />-->
+<!--                                    <t t-set="spanCount" t-value="0" />-->
+<!--                                </t>-->
+<!--                            </t>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </div>-->
+<!--            <div class="route_representation"  t-if="state.selectedRoute.length > 0">-->
+<!--                <h3>Selected Route:</h3>-->
+<!--                <h1>-->
+<!--                    <t t-esc="state.selectedRoute.join(' &ndash;&gt; ')" />-->
+<!--                </h1>-->
+<!--            </div>-->
+<!--            <div style="text-align: right; border-top: 1.5px solid #80808054; margin-top: 5%;">-->
+<!--                <button class="r_save_btn" id="route_save_button" t-on-click="saveRoute">Save</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->
+
+
+
+
+<!--<templates xml:space="preserve">-->
+<!--    <t t-name="bleaching_dept.machineRouteTemplate" owl="1">-->
+<!--        <div class="div_container">-->
+<!--            <h1>Machine Route</h1>-->
+<!--            <button class="empty_btn" />-->
+<!--            <h2 class="preventive_maintenance_title">Machine's under Preventive Maintenance</h2>-->
+<!--            <div class="row">-->
+<!--                <t t-foreach="state.machineTypes" t-as="item" t-key="item.id">-->
+<!--                    <div class="col-md-4 routing_row">-->
+<!--                        <h2 class="machine_title">-->
+<!--                            <t t-esc="item.machine_type_name" />-->
+<!--                        </h2>-->
+<!--                        <div class="span-container">-->
+<!--                            <t t-set="spanCount" t-value="0" />-->
+<!--                            <t t-foreach="item.data" t-as="machine" t-key="machine.id">-->
+<!--                                <t t-set="spanCount" t-value="spanCount + 1" />-->
+<!--                                    <t t-if="spanCount &lt;= 2">-->
+<!--                                        <span>-->
+<!--                                            <button class="machine_select_btn" id="select_machine_button"-->
+<!--                                                t-esc="machine.subMachines" t-att-class="machineUnderMaintenance(machine)"-->
+<!--                                                t-on-click="onButtonClicked" t-att-data-machine-id="machine.id" />-->
+<!--                                        </span>-->
+<!--                                    </t>-->
+<!--                                    <t t-if="spanCount === 2">-->
+<!--                                    <br />-->
+<!--                                    <t t-set="spanCount" t-value="0" />-->
+<!--                                </t>-->
+<!--                            </t>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </div>-->
+<!--            <div class="route_representation"  t-if="state.selectedRoute.length > 0">-->
+<!--                <h3>Selected Route:</h3>-->
+<!--                <h1>-->
+<!--                    <t t-esc="state.selectedRoute.join(' &ndash;&gt; ')" />-->
+<!--                </h1>-->
+<!--            </div>-->
+<!--            <div style="text-align: right; border-top: 1.5px solid #80808054; margin-top: 5%;">-->
+<!--                <button class="r_save_btn" id="route_save_button" t-on-click="saveRoute">Save</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->

@@ -33,8 +33,8 @@ select.selector_field {
     padding: 4px 0px 4px 0px;
 }
 tr.disabled_row {
-    color: gray;
+    color: #808080a3;
 }
 .disabled{
-    color: gray;
+    color: #808080a3;
 }

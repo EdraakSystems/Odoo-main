@@ -14,12 +14,14 @@ export class ApprovePpcOrder extends Component {
       orderData: [],
       alignedOrderData: [], // New property to store aligned order data
       pendingApprovalOrders: [],
+      selectedOrders: [], //selectedOrders property
+
     });
     onWillStart(async () => {
       const fields = await this.fetchModelFields();
       this.state.fields = fields;
       const excludedFields = ['message_main_attachment_id', 'create_uid', 'write_uid', 'create_date', 'write_date', 'activity_date_deadline', 'activity_exception_decoration', 'activity_exception_icon', 'activity_ids', 'activity_state', 'activity_summary', 'activity_type_icon', 'activity_type_id', 'activity_user_id', "my_activity_date_deadline", "message_is_follower", "message_follower_ids",
-        "message_follower_ids", "message_partner_ids", "message_ids", "has_message", "message_needaction", "message_needaction_counter", "message_has_error", "message_has_error_counter", "message_attachment_count", "message_has_sms_error", "website_message_ids", "__last_update", "display_name"];
+        "message_follower_ids", "message_partner_ids", "message_ids", "has_message", "message_needaction", "message_needaction_counter", "message_has_error", "message_has_error_counter", "message_attachment_count", "message_has_sms_error", "website_message_ids", "__last_update", "display_name", "machineRoute"];
       const filteredFields = Object.keys(this.state.fields)
         .filter(fieldName => !excludedFields.includes(fieldName))
         .map(fieldName => ({
@@ -39,6 +41,7 @@ export class ApprovePpcOrder extends Component {
     this.onDrop = this.onDrop.bind(this);
     this.onDragOver = this.onDragOver.bind(this);
     this.typingCompleted = this.typingCompleted.bind(this);
+    this.ppc_plan_approval = this.ppc_plan_approval.bind(this);
     this.state.notification =useService("notification");
   }
 
@@ -53,7 +56,7 @@ export class ApprovePpcOrder extends Component {
 alignOrderDataByClassificationType(orderData) {
   const alignedData = {};
   for (const order of orderData) {
-    if (order.status === 'PPC Manager') { // Filter orders by status
+    if (order.status === 'PPC Manager' || order.status === 'PPC Manager Approved') { // Filter orders by status
       const classification_name = order.classification_name;
       if (!alignedData.hasOwnProperty(classification_name)) {
         alignedData[classification_name] = [];
@@ -183,6 +186,33 @@ async onDrop(ev) {
         }
     }
 
+    ppc_plan_approval() {
+      const { orderData } = this.state;
+      const selectedOrders = orderData.filter(order => {
+        const checkbox = document.querySelector(`[data-row-id="${order.id}"] .row_checkbox`);
+        return checkbox && checkbox.checked;
+      });
+
+      const orderIds = selectedOrders.map(order => order.id);
+      console.log('Selected Orders:', orderIds);
+
+
+      orderIds.forEach((orderId) => {
+            this.orm
+                .call('order.data', 'write', [[orderId], { status: 'PPC Manager Approved' }])
+                .then((result) => {
+                    if (result) {
+                        console.log(`Status updated successfully for Order ID ${orderId}`);
+                    } else {
+                        console.error(`Error occurred while updating status for Order ID ${orderId}`);
+                    }
+                })
+                .catch((error) => {
+                    console.error(`Error occurred while updating status for Order ID ${orderId}:`, error);
+                });
+        });
+
+    }
 
 }
 
