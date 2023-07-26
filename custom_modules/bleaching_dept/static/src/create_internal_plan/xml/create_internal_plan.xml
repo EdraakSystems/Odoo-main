@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="internal_plan_table">
-                <table class="internal_approved_plan_table" t-att-data="state.internalApprovedList">
+                <table class="internal_approved_plan_table" t-att-data="state.internalPlanOrders">
                     <thead class="table_head internal_plan_table_head">
                         <tr>
                             <th>PP. Lot</th>
@@ -47,18 +47,17 @@
                     </thead>
                     <tbody class="table_body">
                         <t t-foreach="state.internalPlanOrders" t-as="executionApproved" t-key="executionApproved.id">
+                            <t t-set="formatted_machineRoute" t-value="formatMachineRoute(executionApproved.id)"/>
                             <tr>
                                 <td width="15%"><span t-esc="executionApproved.ppLot"/></td>
                                 <td width="45%">
-                                    <span t-foreach="executionApproved.machineRoute" t-as="routes" t-key="'machine' + routes.id + routes.index">
-                                        <span t-esc="routes.machine_name" /> -->
-                                    </span>
+                                    <span t-att-title="formatted_machineRoute" t-esc="formatted_machineRoute"/>
                                 </td>
                                 <td width="20%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Enter Machine Params</buttons></td>
                                 <td width="20%">
-                                  <button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">
-                                    Define Machine Route
-                                  </button>
+                                    <button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">
+                                        Define Machine Route
+                                    </button>
                                 </td>
                             </tr>
                         </t>

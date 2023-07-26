@@ -18,10 +18,17 @@
         <field name="tag">bleaching_dept.machine_route_js</field>
     </record>
 
+    <!--  Machine Params action  -->
+    <record id="machine_params_action" model="ir.actions.client">
+        <field name="name">Bleaching Machine Params</field>
+        <field name="tag">bleaching_dept.machine_params_js</field>
+    </record>
+
     <menuitem name="Bleaching Dept" id="create_internal_plan" sequence="-3" action="create_internal_plan_action"/>
     <menuitem name="Order Selection" id="order_selection" sequence="1" action="order_selection_action" parent="create_internal_plan"/>
     <menuitem name="Machine Types" id="machine_type" sequence="2" action="bleaching_add_machine_type_tree_action" parent="create_internal_plan"/>
     <menuitem name="Machines" id="bleaching_add_machine" sequence="3" action="bleaching_add_machine_tree_action" parent="create_internal_plan"/>
     <menuitem name="Routing" id="machine_routing" sequence="4" action="machine_route_selection_action" parent="create_internal_plan"/>
+    <menuitem name="Params" id="machine_params" sequence="5" action="machine_params_action" parent="create_internal_plan"/>
 </odoo>
 

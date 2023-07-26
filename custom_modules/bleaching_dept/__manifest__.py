@@ -29,6 +29,8 @@
             'bleaching_dept/static/src/machine_route/js/machine_route.js',
             'bleaching_dept/static/src/machine_route/xml/machine_route.xml',
             'bleaching_dept/static/src/machine_route/css/machine_route.css',
+            'bleaching_dept/static/src/machine_params/js/machine_params.js',
+            'bleaching_dept/static/src/machine_params/xml/machine_params.xml',
         ],
     },
     'license': 'LGPL-3'

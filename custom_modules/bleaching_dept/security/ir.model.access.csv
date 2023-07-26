@@ -2,4 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 bleaching_dept.access_bleaching_dept,access_bleaching_dept,bleaching_dept.model_bleaching_dept,base.group_user,1,1,1,1
 bleaching_dept.access_bleaching_machine_types,access_bleaching_machine_types,bleaching_dept.model_bleaching_machine_types,base.group_user,1,1,1,1
 bleaching_dept.access_bleaching_machines,access_bleaching_machines,bleaching_dept.model_bleaching_machines,base.group_user,1,1,1,1
+bleaching_dept.access_machine_routing,access_machine_routing,bleaching_dept.model_machine_routing,base.group_user,1,1,1,1
+bleaching_dept.access_bleaching_machines_params,access_bleaching_machines_params,bleaching_dept.model_bleaching_machines_params,base.group_user,1,1,1,1
 

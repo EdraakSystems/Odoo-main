@@ -34,6 +34,8 @@ export class OrderSelection extends Component {
 
             const alignedOrderData = this.alignOrderDataByClassificationType(orderData);
             this.state.alignedOrderData = alignedOrderData;
+
+            console.log('this.state.fields : ', this.state.fields);
         });
         this.state.notification =useService("notification");
         this.typingCompleted = this.typingCompleted.bind(this);
