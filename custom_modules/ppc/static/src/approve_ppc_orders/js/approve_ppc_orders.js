@@ -56,7 +56,7 @@ export class ApprovePpcOrder extends Component {
 alignOrderDataByClassificationType(orderData) {
   const alignedData = {};
   for (const order of orderData) {
-    if (order.status === 'PPC Manager' || order.status === 'PPC Manager Approved') { // Filter orders by status
+    if (order.status !== 'PPC Operator') { // Filter orders by status
       const classification_name = order.classification_name;
       if (!alignedData.hasOwnProperty(classification_name)) {
         alignedData[classification_name] = [];
@@ -123,96 +123,105 @@ async onDrop(ev) {
     });
   }
 }
-
-  async fetchModelFields() {
-    const response = await fetch('/api/ppc_order_view/get_model_fields', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const result = await response.json();
-    return result.fields;
-  }
-  async fetchOrderData() {
-    const fieldNames = this.state.fieldNames.map(field => field.name);
-    const orderData = await this.orm.searchRead('order.data', [], fieldNames);
-    return orderData;
-  }
-
-  async changeUrgencyStatus(orderId, event) {
-    const order = this.state.orderData.find(order => order.id === orderId);
-    if (order) {
-      if ((order.urgencyStatus === 'orderLate' || order.urgencyStatus === 'dispatchDate') && event.target.value === 'redAlert') {
-        // Retrieve the max sequence value with urgencyStatus 'redAlert' for the same classification_name
-        const maxSequence = this.state.orderData
-          .filter(otherOrder => otherOrder.classification_name === order.classification_name && otherOrder.urgencyStatus === 'redAlert')
-          .reduce((max, otherOrder) => (otherOrder.sequence > max ? otherOrder.sequence : max), -Infinity);
-        const newSequence = maxSequence + 1;
-        this.state.orderData
-          .filter(otherOrder => otherOrder.classification_name === order.classification_name && otherOrder.sequence > maxSequence && otherOrder.id !== order.id)
-          .forEach(otherOrder => {
-            otherOrder.sequence++;
-          });
-        try {
-          // Update the sequence value in the order.data model using Odoo's ORM
-          await this.orm.call('order.data', 'write', [[order.id], { sequence: newSequence, urgencyStatus: 'redAlert' }]);
-          console.log("Sequence and urgencyStatus values updated successfully");
-          // Update the sequence values in the order.data model for other orders
-          const updatePromises = this.state.orderData
-            .filter(otherOrder => otherOrder.classification_name === order.classification_name && otherOrder.sequence > maxSequence && otherOrder.id !== order.id)
-            .map(otherOrder => this.orm.call('order.data', 'write', [[otherOrder.id], { sequence: otherOrder.sequence }]));
-
-          await Promise.all(updatePromises);
-          console.log("Sequence values updated for higher orders");
-        } catch (error) {
-          console.error(error);
-        }
-        order.sequence = newSequence;
-        order.urgencyStatus = 'redAlert';
-      }
+    async fetchModelFields() {
+        const response = await fetch('/api/ppc_order_view/get_model_fields', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const result = await response.json();
+        return result.fields;
     }
-  }
-      async typingCompleted(orderId, event) {
+    async fetchOrderData() {
+        const fieldNames = this.state.fieldNames.map(field => field.name);
+        const orderData = await this.orm.searchRead('order.data', [], fieldNames);
+        orderData.forEach(data => {
+            if (data.customers && Array.isArray(data.customers) && data.customers.length >= 2) {
+                data.customers = data.customers[1];
+            }
+        });
+        return orderData;
+    }
+
+    async changeUrgencyStatus(orderId, event) {
+        const order = this.state.orderData.find(order => order.id === orderId);
+        if (order) {
+            if ((order.urgencyStatus === 'orderLate' || order.urgencyStatus === 'dispatchDate') && event.target.value === 'redAlert') {
+                // Retrieve the max sequence value with urgencyStatus 'redAlert' for the same classification_name
+                const maxSequence = this.state.orderData
+                    .filter(otherOrder => otherOrder.classification_name === order.classification_name && otherOrder.urgencyStatus === 'redAlert')
+                    .reduce((max, otherOrder) => (otherOrder.sequence > max ? otherOrder.sequence : max), -Infinity);
+                const newSequence = maxSequence + 1;
+                this.state.orderData
+                    .filter(otherOrder => otherOrder.classification_name === order.classification_name && otherOrder.sequence > maxSequence && otherOrder.id !== order.id)
+                    .forEach(otherOrder => {
+                        otherOrder.sequence++;
+                    });
+                try {
+                    // Update the sequence value in the order.data model using Odoo's ORM
+                     await this.orm.call('order.data', 'write', [[order.id], { sequence: newSequence, urgencyStatus: 'redAlert' }]);
+                    console.log("Sequence and urgencyStatus values updated successfully");
+                    // Update the sequence values in the order.data model for other orders
+                    const updatePromises = this.state.orderData
+                        .filter(otherOrder => otherOrder.classification_name === order.classification_name && otherOrder.sequence > maxSequence && otherOrder.id !== order.id)
+                        .map(otherOrder => this.orm.call('order.data', 'write', [[otherOrder.id], { sequence: otherOrder.sequence }]));
+
+                    await Promise.all(updatePromises);
+                    console.log("Sequence values updated for higher orders");
+                } catch (error) {
+                    console.error(error);
+                }
+                order.sequence = newSequence;
+                order.urgencyStatus = 'redAlert';
+            }
+        }
+    }
+    async typingCompleted(orderId, event) {
         const updatedInput = event.target.value;
         try {
-        const result = await this.orm.call('order.data', 'write', [[orderId], { remarks: updatedInput }]);
-        if (result) {
-            console.log('Remarks updated successfully');
-        } else {
-            console.error('Error occurred while updating remarks');
-        }
+            const result = await this.orm.call('order.data', 'write', [[orderId], { remarks: updatedInput }]);
+            if (result) {
+                console.log('Remarks updated successfully');
+            } else {
+                console.error('Error occurred while updating remarks');
+            }
         } catch (error) {
         }
     }
 
+
     ppc_plan_approval() {
-      const { orderData } = this.state;
-      const selectedOrders = orderData.filter(order => {
-        const checkbox = document.querySelector(`[data-row-id="${order.id}"] .row_checkbox`);
-        return checkbox && checkbox.checked;
-      });
-
-      const orderIds = selectedOrders.map(order => order.id);
-      console.log('Selected Orders:', orderIds);
-
-
-      orderIds.forEach((orderId) => {
-            this.orm
-                .call('order.data', 'write', [[orderId], { status: 'PPC Manager Approved' }])
-                .then((result) => {
-                    if (result) {
-                        console.log(`Status updated successfully for Order ID ${orderId}`);
-                    } else {
-                        console.error(`Error occurred while updating status for Order ID ${orderId}`);
-                    }
-                })
-                .catch((error) => {
-                    console.error(`Error occurred while updating status for Order ID ${orderId}:`, error);
-                });
+        const { orderData } = this.state;
+        const selectedOrders = orderData.filter(order => {
+            const checkbox = document.querySelector(`[data-row-id="${order.id}"] .row_checkbox`);
+            return checkbox && checkbox.checked;
         });
 
+        const orderIds = selectedOrders.map(order => order.id);
+        console.log('Selected Orders:', orderIds);
+
+        orderIds.forEach((orderId) => {
+            const orderToUpdate = selectedOrders.find(order => order.id === orderId);
+            if (orderToUpdate.status === 'PPC Manager') {
+                this.orm
+                    .call('order.data', 'write', [[orderId], { status: 'PPC Manager Approved' }])
+                    .then((result) => {
+                        if (result) {
+                            console.log(`Status updated successfully for Order ID ${orderId}`);
+                        } else {
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(`Error occurred while updating status for Order ID ${orderId}:`, error);
+                    });
+            } else {
+                console.log(`Skipping Order ID ${orderId} because it doesn't have the required status.`);
+            }
+        });
     }
+
+
 
 }
 

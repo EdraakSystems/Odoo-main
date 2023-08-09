@@ -36,21 +36,24 @@ export class OrderSelection extends Component {
             this.state.alignedOrderData = alignedOrderData;
 
             console.log('this.state.fields : ', this.state.fields);
+            console.log('this.state.alignedOrderData : ', this.state.alignedOrderData);
         });
         this.state.notification =useService("notification");
         this.typingCompleted = this.typingCompleted.bind(this);
         this.approveOrder = this.approveOrder.bind(this);
     }
-
     alignOrderDataByClassificationType(orderData) {
         const alignedData = {};
         for (const order of orderData) {
-            if (order.status === 'PPC Manager Approved') { // Filter orders by status
-            const classification_name = order.classification_name;
-            if (!alignedData.hasOwnProperty(classification_name)) {
-                alignedData[classification_name] = [];
-            }
-            alignedData[classification_name].push(order);
+            // Exclude orders with status 'PPC Manager' or 'PPC Operator'
+            if (order.status !== 'PPC Manager' && order.status !== 'PPC Operator') {
+                const classification_name = order.classification_name;
+
+                if (!alignedData.hasOwnProperty(classification_name)) {
+                    alignedData[classification_name] = [];
+                }
+
+                alignedData[classification_name].push(order);
             }
         }
         // Sort the orders within each classification_name group based on sequence
@@ -59,7 +62,6 @@ export class OrderSelection extends Component {
         }
         return Object.entries(alignedData).map(([key, value]) => ({ key, value }));
     }
-
     async fetchModelFields() {
         const response = await fetch('/api/ppc_order_view/get_model_fields', {
           method: 'POST',
@@ -72,10 +74,12 @@ export class OrderSelection extends Component {
     }
     async fetchOrderData() {
         const fieldNames = this.state.fieldNames.map(field => field.name);
-        const orderData = await this.orm.searchRead('order.data', [], fieldNames);
+        const domain = [
+            ['status', 'not in', ['PPC Manager', 'PPC Operator']]
+        ];
+        const orderData = await this.orm.searchRead('order.data', domain, fieldNames);
         return orderData;
     }
-
     async typingCompleted(orderId, event) {
         const updatedInput = event.target.value;
         try {
@@ -88,7 +92,6 @@ export class OrderSelection extends Component {
         } catch (error) {
         }
     }
-
     async approveOrder(orderId) {
         const writeResult = await this.orm.write('order.data', [orderId], { status: 'Bleaching Manager Approved' });
         // Fetch the updated order data and realign the table
@@ -101,7 +104,6 @@ export class OrderSelection extends Component {
             type: 'success',
         });
     }
-
 }
 
 OrderSelection.template = 'bleaching_dept.orderSelectionTemplate';

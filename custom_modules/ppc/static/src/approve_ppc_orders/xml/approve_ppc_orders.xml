@@ -26,7 +26,7 @@
                             </td>
                         </tr>
                         <t t-foreach="sortedOrderData" t-as="order" t-key="'order-' + order.id">
-                            <t t-if="order.classification_name === fabricTypeData.key and (order.status === 'PPC Manager' or order.status === 'PPC Manager Approved')">
+                            <t t-if="order.classification_name === fabricTypeData.key and (order.status !== 'PPC Operator')">
                             <!--                            <t t-if="order.classification_name == fabricTypeData.key and order.status == 'PPC Manager' || order.status === 'PPC Manager Approved'">-->
                                 <tr class="table_rows" t-att-data-row-id="order.id" t-att-data-sequence="order.sequence" t-att-data-classification-name= "order.classification_name" draggable="true" t-on-dragstart="event => onDragStart(event, order.id)" t-on-dragover="onDragOver" t-on-drop="onDrop">
                                     <td t-esc="order.id" class="table_row_data"/>
@@ -55,7 +55,7 @@
                                         </t>
                                     </t>
                                     <td class="table_row_data">
-                                        <input type="checkbox" class="row_checkbox" checked="checked" t-att-disabled="order.status === 'PPC Manager Approved' ? 'disabled' : ''" />
+                                        <input type="checkbox" class="row_checkbox" checked="checked" t-att-disabled="order.status !== 'PPC Manager' ? 'disabled' : ''" />
                                     </td>
                                 </tr>
                             </t>

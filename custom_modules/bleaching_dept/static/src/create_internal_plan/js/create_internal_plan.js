@@ -78,7 +78,7 @@ export class CreateInternalPlan extends Component {
             const machineNamesArray = filteredRoutes.map(route => {
                 const matchingMachine = this.state.machines.find(machine => machine.id === route.machineId);
                 const machineName = matchingMachine ? matchingMachine.machine_name : '';
-                const delay = route.delay !== 0 ? `(${route.delay} - Delay)` : '';
+                const delay = route.delay !== 0 ? `(${route.delay}-Hours Delay)` : '';
                 return delay ? `${machineName} --> ${delay}` : machineName;
             });
             const machineNamesString = machineNamesArray.join(' --> ');
@@ -89,7 +89,6 @@ export class CreateInternalPlan extends Component {
             return 'No Route Found.';
         }
     }
-
 
     async checkOrdersWithMachineRoute() {
         try {
@@ -122,6 +121,13 @@ export class CreateInternalPlan extends Component {
         this.state.internalPlanOrders = await this.orm.searchRead('order.data', [['status', '=', 'Added To Internal Plan']], ['ppLot', 'id', 'machineRoute']);
         console.log('this.state.internalPlanOrders : ', this.state.internalPlanOrders);
         await this.checkOrdersWithMachineRoute();
+    }
+
+    redirectToOrderSelectionScreen() {
+        window.location.href = "/web#action=bleaching_dept.order_selection_js";
+    }
+    redirectToBleachingMachineStatusScreen() {
+        window.location.href = "/web#action=bleaching_dept.machine_status_js";
     }
 
 }

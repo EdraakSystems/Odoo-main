@@ -27,7 +27,7 @@
                             </td>
                         </tr>
                         <t t-foreach="sortedOrderData" t-as="order" t-key="'order-' + order.id">
-                            <t t-if="order.classification_name === fabricTypeData.key and (order.status ==='Bleaching Manager Approved' or order.status === 'PPC Manager Approved')">
+                            <t t-if="order.classification_name === fabricTypeData.key and (order.status !=='PPC Manager' or order.status !== 'PPC Operator')">
                                 <tr class="table_rows order_selection_for_internal_plan" t-att-data-row-id="order.id" t-att-data-sequence="order.sequence" t-att-data-classification-name= "order.classification_name" data-row-id="order.id">
                                     <td t-esc="order.id" class="table_row_data status_cell"/>
                                     <t t-foreach="state.fieldNames" t-as="field" t-key="field.name">
@@ -46,7 +46,7 @@
                                         </t>
                                         <t t-elif="field.name == 'urgencyStatus'">
                                             <td class="table_row_data status_cell">
-                                                <select class="selector_field" t-on-change="event => changeUrgencyStatus(order.id, event)">
+                                                <select class="selector_field">
                                                     <option value="redAlert" t-att-selected="order[field.name] === 'redAlert' ? 'selected' : ''">Red Alert</option>
                                                     <option value="orderLate" t-att-selected="order[field.name] === 'orderLate' ? 'selected' : ''">Order Late</option>
                                                     <option value="dispatchDate" t-att-selected="order[field.name] === 'dispatchDate' ? 'selected' : ''">Dispatch Date</option>
@@ -55,7 +55,7 @@
                                         </t>
                                     </t>
                                     <td class="table_row_data status_cell">
-                                        <input type="checkbox" class="row_checkbox" t-att-disabled="order.status === 'Bleaching Manager Approved' ? 'disabled' : ''" t-att-checked="order.status === 'Bleaching Manager Approved' ? 'checked' : ''" t-on-change="() => approveOrder(order.id)" />
+                                        <input type="checkbox" class="row_checkbox" t-att-disabled="order.status !== 'PPC Manager Approved' ? 'disabled' : ''" t-att-checked="order.status !== 'PPC Manager Approved' ? 'checked' : ''" t-on-change="() => approveOrder(order.id)" />
                                     </td>
                                 </tr>
                             </t>

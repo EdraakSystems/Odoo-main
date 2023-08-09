@@ -1,0 +1,53 @@
+<templates xml:space="preserve">
+    <t t-name="bleaching_dept.MachineParamsTemplate" owl="1">
+        <div class="div_container internal_plan_container">
+            <h1>Machine Params</h1>
+            <div class="tabsets">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <t t-set="firstTabActive" t-value="True"/>
+                    <li class="nav-item" role="presentation" t-foreach="state.formattedRouteData" t-as="machineRoute" t-key="machineRoute.machine_id">
+                        <button class="nav-link" t-att-id="'nav-link-' + machineRoute.machine_id" t-att-data-bs-toggle="'tab'" t-att-data-bs-target="'#tab-' + machineRoute.machine_id" type="button" role="tab" t-att-aria-controls="'tab-' + machineRoute.machine_id" t-att-aria-selected="machineRoute === state.selectedMachineRoute.machine_name" t-att-class="{'active': machineRoute === state.formattedRouteData[0]}">
+                            <t t-esc="machineRoute.machine_name"/>
+                        </button>
+                        <t t-set="firstTabActive" t-value="False"/>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane" t-foreach="state.formattedRouteData" t-as="machineRoute" t-att-id="'tab-' + machineRoute.machine_id" t-att-role="'tabpanel'" t-att-aria-labelledby="'nav-link-' + machineRoute.machine_id" t-key="'tab-' + machineRoute.machine_id" t-att-class="{'active': machineRoute === state.formattedRouteData[0]}">
+                        <h3>Machine Parameters for <t t-esc="machineRoute.machine_name"/></h3>
+                        <div>
+                            <t t-set="inputCounter" t-value="0"/>
+                            <div class="row">
+                                <t t-foreach="machineRoute.machine_params" t-as="param" t-key="generateRandomNumber()">
+                                    <div class="col-md-6 param_fields">
+                                        <div class="param-field">
+                                            <label class="input_label"><t t-esc="param.param_name"/></label>
+                                            <input class="param-input" t-att-id="'param_input_' + machineRoute.machine_id + '_' + param.name" t-att-value="param.value" t-att-name="param" t-att-placeholder="'Enter ' + param.param_name" t-model="param.value"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                            <button class="btn-save r_save_btn" id="param_save_btn" t-on-click="saveParams" t-att-machineId="machineRoute.machine_id">Save</button>
+                        </div>
+
+                        <div>
+                            <t t-set="inputCounter" t-value="0"/>
+                            <div class="row">
+                                <t t-foreach="machineRoute.machine_recipes" t-as="recipe" t-key="generateRandomNumber()">
+                                    <div class="col-md-6 param_fields">
+                                        <div class="param-field">
+                                            <label class="input_label"><t t-esc="recipe.recipe_name"/></label>
+                                            <input class="param-input" t-att-id="'recipe_input_' + machineRoute.machine_id + '_' + recipe.name" t-att-value="recipe.value" t-att-name="recipe" t-att-placeholder="'Enter ' + recipe.recipe_name" t-model="recipe.value"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                            <button class="btn-save r_save_btn" id="param_save_btn" t-on-click="saveRecipe" t-att-machineId="machineRoute.machine_id">Save</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

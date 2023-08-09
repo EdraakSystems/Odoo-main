@@ -12,7 +12,7 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane" t-foreach="state.machineRouteNames" t-as="machineRoute" t-att-id="'tab-' + machineRoute.machineId" t-att-role="'tabpanel'" t-att-aria-labelledby="'nav-link-' + machineRoute.machineId" t-key="'tab-' + machineRoute.machineId + generateRandomNumber()" t-att-class="{'active': machineRoute === state.machineRouteNames[0]}">
+                    <div class="tab-pane" t-foreach="state.machineRouteNames" t-as="machineRoute" t-att-id="'tab-' + machineRoute.machineId" t-att-role="'tabpanel'" t-att-aria-labelledby="'nav-link-' + machineRoute.machineId" t-key="'tab-' + machineRoute.machineId + generateRandomNumber()" t-att-class="{'active': machineRoute === state.machineRouteNames[0]}" t-log="state.machineRouteNames[0]">
                         <h3 style="text-transform:capitalize;"><t t-esc="machineRoute.machineData.nameOfMachines"/></h3>
                         <h3 style="text-transform:capitalize;">ID: <t t-esc="machineRoute.machineId"/></h3>
                         <div id="mac_params_forms">

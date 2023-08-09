@@ -1,7 +1,5 @@
 from odoo import models, fields, api, registry, SUPERUSER_ID, sql_db, http, tools
-import json, odoo, uuid, time, openpyxl,  io
-from odoo.http import request, Response
-from lxml import etree
+
 
 class MachineDataController(http.Controller):
     @http.route('/machine_module/js_function', type='json', auth='public')

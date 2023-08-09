@@ -1,0 +1,91 @@
+<templates xml:space="preserve">
+    <t t-name="bleaching_dept.ParamsSelectorTemplate" owl="1">
+        <div class="div_container internal_plan_container">
+            <h1>Add/Remove Parameters</h1>
+            <div class="mac_selector">
+                <div class="colored_div">
+                    <h2>Select Machine</h2>
+                        <select class="selector machine_selector" t-on-change="macSelector">
+                            <option value="none" t-att-selected="state.selectedMachineTypeId === 'none'">None</option>
+                            <t t-foreach="state.machineType" t-as="machinesArray" t-key="generateRandomNumber()">
+                                <option t-att-value="machinesArray.id" t-att-selected="machinesArray.id === state.selectedMachineTypeId">
+                                    <t t-esc="machinesArray.machine_type_name"/>
+                                </option>
+                            </t>
+                        </select>
+                    <div class="left_aligned_btn_div">
+                        <button class="add_btn left_aligned_btn" id="add_param_button" t-on-click="addParam">Add</button>
+                        <button class="add_btn right_aligned_btn" id="remove_param_button" t-on-click="removeParam">Remove</button>
+                    </div>
+                    <t t-if="state.machineSelected or state.machineParams == []">
+                        <h2>Existing Parameters</h2>
+                        <t t-if="state.machineParams.length === 0">
+                            <h3>No Existing Parameters</h3>
+                        </t>
+                        <ol>
+                            <t t-foreach="state.machineParams" t-as="param" t-key="generateRandomNumber()">
+                                <li style="text-align:left;"><span t-esc="param"/></li>
+                            </t>
+                        </ol>
+                    </t>
+                </div>
+
+
+<!--                <div class="colored_div">-->
+<!--                    <h2>Select Machine</h2>-->
+<!--                    <select class="selector machine_selector" t-on-change="macSelector">-->
+<!--                        <option value="none">None</option>-->
+<!--                        <t t-foreach="state.machineType" t-as="machinesArray" t-key="generateRandomNumber()">-->
+<!--                            <option t-att-value="machinesArray.id">-->
+<!--                                <t t-esc="machinesArray.machine_type_name"/>-->
+<!--                            </option>-->
+<!--                        </t>-->
+<!--                    </select>-->
+<!--                    <div class="left_aligned_btn_div">-->
+<!--                        <button class="add_btn left_aligned_btn" id="add_param_button" t-on-click="addParam">Add</button>-->
+<!--                        <button class="add_btn right_aligned_btn" id="remove_param_button" t-on-click="removeParam">Remove</button>-->
+<!--                    </div>-->
+<!--                    <h2>Existing Parameters</h2>-->
+<!--                    <ol>-->
+<!--                        <t t-foreach="state.machineParams" t-as="param" t-key="generateRandomNumber()">-->
+<!--                            <li style="text-align:left;"><span t-esc="param"/></li>-->
+<!--                        </t>-->
+<!--                    </ol>-->
+<!--                </div>-->
+                <div class="colored_div">
+                    <h2>Select Parameter</h2>
+                    <select class="selector param_selector">
+                        <option t-att-value="none">None</option>
+                        <t t-foreach="state.fields" t-as="key" t-key="generateRandomNumber()">
+                            <option t-att-value="key.name"> <span style="color:black;" t-esc="key.actualName"/></option>
+                        </t>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </t>
+</templates>
+
+
+
+<!--                <div class="colored_div">-->
+<!--                    <h2>Select Machine</h2>-->
+<!--                    <select class="selector machine_selector" t-on-change="macSelector">-->
+<!--                        <option value="none">None</option>-->
+<!--                        <t t-foreach="state.machineType" t-as="machinesArray" t-key="generateRandomNumber()">-->
+<!--                            <option t-att-value="machinesArray.id" t-att-selected="machinesArray.id == state.selectedMachineTypeId">-->
+<!--                                <t t-esc="machinesArray.machine_type_name"/>-->
+<!--                            </option>-->
+<!--                        </t>-->
+<!--                    </select>-->
+<!--                    <div style="padding:20px;">-->
+<!--                        <button class="add_btn left_aligned_btn" id="add_param_button" t-on-click="addParam">Add</button>-->
+<!--                    </div>-->
+<!--                    <h2>Existing Parameters</h2>-->
+<!--                    <ol>-->
+<!--                        <t t-foreach="state.machineParams" t-as="param" t-key="generateRandomNumber()">-->
+<!--                            <li style="text-align:left;"><span t-esc="param"/></li>-->
+<!--                        </t>-->
+<!--                    </ol>-->
+<!--                </div>-->

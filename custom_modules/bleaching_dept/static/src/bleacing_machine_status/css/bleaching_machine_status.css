@@ -1,0 +1,16 @@
+.machine_status_table{
+    width:100%;
+}
+.machine_status_table_heads{
+    border:1px solid black;
+    text-align: center;
+}
+.machine_status_table_rows{
+    border:1px solid black;
+}
+.machine_status_table_rows h5{
+    text-align:center;
+}
+.machine_status_table_rows td {
+    border: 1px solid black;
+}

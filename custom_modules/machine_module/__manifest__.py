@@ -8,10 +8,8 @@
     'description': """Machine ERP Module""",
     'depends': ['base', 'mail', 'web', 'web_notify'],
     'data': [
-        # 'C:\Edraak\Odoo main\odoo project 2\custom_modules\machine_module\migrations\machine_module_migrations.py',
-        'C:/Edraak/Odoo main/odoo project 2/custom_modules/machine_module/security/ir.model.access.csv',
-        'C:/Edraak/Odoo main/odoo project 2/custom_modules/machine_module/views/Machine_view.xml',
-        # 'C:\Edraak\Odoo main\odoo project 2\custom_modules\machine_module\python.py',
+        '/machine_module/views/Machine_view.xml',
+        '/machine_module/security/ir.model.access.csv',
     ],
     'demo': [],
     'application':True,

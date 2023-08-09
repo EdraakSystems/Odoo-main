@@ -9,3 +9,19 @@
 .internal_plan_table_head th{
     text-align:center;
 }
+.table_button {
+    background-color: #0015FF;
+    border: 0px;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+    width:100%
+}
+.table_button2 {
+    background-color: #EA2B1F;
+}
+.internal_plan_table_blocks{
+    padding: 8px 10px 8px 10px !important;
+}

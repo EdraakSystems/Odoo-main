@@ -1,10 +1,7 @@
 from odoo import models, fields, api, registry, SUPERUSER_ID, sql_db, http, tools
-import json, odoo, uuid, time, openpyxl,  io
+import json, odoo
 from odoo.http import request, Response
 import pandas as pd
-import numpy as np
-import pyodbc
-
 
 class ExcelData(http.Controller):
     @http.route('/ppc/get_csrf_token', type='http', auth='public', csrf=False)
@@ -14,7 +11,7 @@ class ExcelData(http.Controller):
 
     @http.route('/ppc/upload_excel_file', type='http', auth='public', csrf=False)
     def upload_excel_file(self, **post):
-        # Get the uploaded file and CSRF token
+    #     # Get the uploaded file and CSRF token
         uploaded_file = request.httprequest.files.get('file')
         csrf_token = post.get('csrf_token')
         if uploaded_file and csrf_token:

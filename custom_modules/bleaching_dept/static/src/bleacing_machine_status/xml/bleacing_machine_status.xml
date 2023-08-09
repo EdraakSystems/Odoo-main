@@ -1,0 +1,57 @@
+<templates xml:space="preserve">
+    <t t-name="bleaching_dept.MachineStatusTemplate" owl="1">
+        <div class="div_container internal_plan_container">
+            <h1>Machine Status</h1>
+<!--            <select class="timeSelector" t-on-change="timeSelector">-->
+<!--                <option value="5 Hours">5 Hours</option>-->
+<!--                <option value="10 Hours">10 Hours</option>-->
+<!--                <option value="24 Hours">24 Hours</option>-->
+<!--                <option value="7 Days">7 Days</option>-->
+<!--            </select>-->
+            <div>
+                <div class="accordion" id="accordionExample">
+                    <t t-foreach="state.machineStatus" t-as="machinesArray" t-key="generateRandomNumber()">
+                        <t t-foreach="machinesArray" t-as="machines" t-key="generateRandomNumber()">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-{{ machines.machine_id }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-' + machines.machine_id" aria-expanded="false" aria-controls="collapseOne">
+                                        <h3><span style="text-transform: capitalize;" t-esc="machines.machine_type_name"/> : <span style="font-size: 15px;font-weight: 400;" t-esc="machines.machine_name"/></h3>
+                                    </button>
+                                </h2>
+                                <div t-att-id="'collapse-' + machines.machine_id" class="accordion-collapse collapse" aria-labelledby="heading-{{ machines.machine_id }}" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5>Machine Name: <span t-esc="machines.machine_name"/></h5>
+                                        <h5>Machine ID: <span t-esc="machines.machine_id"/></h5>
+                                        <h5>Machine Type: <span style="text-transform: capitalize;" t-esc="machines.machine_type_name"/></h5>
+                                        <h5>Work in Progress:</h5>
+                                        <table class="machine_status_table">
+                                            <thead>
+                                                <tr>
+                                                    <t t-foreach="Object.keys(machines.wip)" t-as="status" t-key="status">
+                                                        <th class="machine_status_table_heads"><t t-esc="status"/></th>
+                                                    </t>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="machine_status_table_rows">
+                                                    <t t-foreach="Object.values(machines.wip)" t-as="orders" t-key="generateRandomNumber()">
+                                                        <td>
+                                                            <t t-foreach="orders" t-as="orderId" t-key="generateRandomNumber()">
+                                                                <h5 t-esc="orderId"/>
+                                                                <br/>
+                                                            </t>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

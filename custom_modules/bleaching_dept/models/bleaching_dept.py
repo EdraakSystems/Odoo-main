@@ -24,6 +24,16 @@ class ParamsFields(http.Controller):
             return http.Response(json.dumps({'error': str(e)}), content_type='application/json', status=500)
 
 
+class RecipeFields(http.Controller):
+    @http.route('/api/recipe_fields/get_model_fields', type='http', auth='user', methods=['POST'], csrf=False)
+    def get_model_fields(self, **kw):
+        try:
+            model = http.request.env['bleaching.machines.recipe']
+            fields = model.fields_get()
+            return http.Response(json.dumps({'fields': fields}), content_type='application/json')
+        except Exception as e:
+            return http.Response(json.dumps({'error': str(e)}), content_type='application/json', status=500)
+
 class BleachingDept(models.Model):
     _name = "bleaching.dept"
     _inherit = ["mail.thread", "mail.activity.mixin"]
@@ -39,6 +49,7 @@ class BleachingMachineTypes(models.Model):
 
     machine_type_name = fields.Char(string='Machine Type Name')
     machineParams = fields.Char(string='Machine Params')
+    machineRecipes = fields.Char(string='Machine Params')
 
     def name_get(self):
         result = []
@@ -76,6 +87,7 @@ class BleachingMachineParams(models.Model):
     _description = "Bleaching Machine Params"
 
     orderId = fields.Integer(string='Order Id')
+    machineId = fields.Integer(string='Machine Id')
     speed = fields.Integer(string='Speed')
     chemicalTemp = fields.Integer(string='Chemical Temperature')
     flamePressure = fields.Integer(string='Flame Pressure')
@@ -111,3 +123,18 @@ class BleachingMachineParams(models.Model):
     emery = fields.Integer(string='Emery')
     scouringTime = fields.Char(string='Scouring Time')
     bleachingTime = fields.Char(string='Bleaching Time')
+
+
+class BleachingMachineRecipe(models.Model):
+    _name = "bleaching.machines.recipe"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _description = "Bleaching Machine Recipe"
+
+    orderId = fields.Integer(string='Order Id')
+    machineId = fields.Integer(string='Machine Id')
+    hydrogenPeroxide = fields.Integer(string='Hydrogen Peroxide(H2O2)')
+    sodiumHypochlorite = fields.Integer(string='Sodium Hypochlorite(NaClO)')
+    sodiumPercarbonate = fields.Integer(string='Sodium Percarbonate(2Na2CO3·3H2O2)')
+    sodiumMetabisulfite = fields.Integer(string='Sodium MetabisulfiteSodium(Na2S2O5)')
+    sodiumHydroxide = fields.Integer(string='Sodium Hydroxide(NaOH)')
+    aceticAcid = fields.Integer(string='Acetic Acid(CH3COOH)')

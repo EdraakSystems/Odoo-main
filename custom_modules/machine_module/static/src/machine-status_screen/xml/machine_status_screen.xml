@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
     <t t-name="machine_module.Machines" owl="1">
-<!--        BOOTSTRAP ACCORDIAN-->
         <div class="container">
             <div>
                 <h1>Internal Machine status</h1>

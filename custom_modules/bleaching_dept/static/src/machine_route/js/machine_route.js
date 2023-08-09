@@ -162,7 +162,7 @@ export class MachineRoute extends Component {
             }
 
              // Add the delay value to the newFormattedRoute
-            this.state.newFormattedRoute += ` --> (${delayValue}-Delay)`;
+            this.state.newFormattedRoute += ` --> (${delayValue}-Hours Delay)`;
 
             await this.orm.write("machine.routing", [lastRowId], { delay: delayValue }); // Pass the ID as a list
         }

@@ -53,6 +53,7 @@ export class PpcOrderView extends Component {
     onDragOver(ev) {
         ev.preventDefault(); // Prevent the default behavior of the browser
     }
+
     alignOrderDataByClassificationType(orderData) {
         const alignedData = {};
         for (const order of orderData) {
@@ -139,6 +140,11 @@ async onDrop(ev) {
     async fetchOrderData() {
         const fieldNames = this.state.fieldNames.map(field => field.name);
         const orderData = await this.orm.searchRead('order.data', [], fieldNames);
+        orderData.forEach(data => {
+            if (data.customers && Array.isArray(data.customers) && data.customers.length >= 2) {
+                data.customers = data.customers[1];
+            }
+        });
         return orderData;
     }
     async typingCompleted(orderId, event) {

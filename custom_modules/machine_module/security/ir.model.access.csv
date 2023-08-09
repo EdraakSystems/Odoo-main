@@ -2,5 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 machine_module.access_machine_data,access_machine_data,machine_module.model_machine_data,base.group_user,1,1,1,1
 machine_module.access_machine_details,access_machine_details,machine_module.model_machine_details,base.group_user,1,1,1,1
 machine_module.access_machine_params,access_machine_params,machine_module.model_machine_params,base.group_user,1,1,1,1
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 machine_module.access_machine_rec,access_machine_rec,machine_module.model_machine_rec,base.group_user,1,1,1,1

@@ -30,9 +30,9 @@
               <div class="col ppc_plan_view_columns">
                 <div class="ppc_plan_heading">
                 </div>
-                  <button class="internal_plan_buttons" id="internal_plan_btn" t-on-click="redirectToInternalPlanScreen">Show Internal Plan</button>
-                  <button class="internal_plan_buttons" id="machine_status_btn" t-on-click="redirectToMachineStatusScreen">Show Machine Status</button>
-                  <button class="internal_plan_buttons" id="next_dept_btn" t-on-click="redirectToDepartmentScreen">Show Department Status</button>
+                  <button class="internal_plan_buttons" id="internal_plan_btn" t-on-click="redirectToOrderSelectionScreen">Show PPC Plan</button>
+                  <button class="internal_plan_buttons" id="machine_status_btn" t-on-click="redirectToBleachingMachineStatusScreen">Show Machine Status</button>
+                  <button class="internal_plan_buttons" id="next_dept_btn">Show Department Status</button>
               </div>
             </div>
             <div class="internal_plan_table">
@@ -49,12 +49,12 @@
                         <t t-foreach="state.internalPlanOrders" t-as="executionApproved" t-key="executionApproved.id">
                             <t t-set="formatted_machineRoute" t-value="formatMachineRoute(executionApproved.id)"/>
                             <tr>
-                                <td width="15%"><span t-esc="executionApproved.ppLot"/></td>
-                                <td width="45%">
+                                <td class="internal_plan_table_blocks" width="10%"><span t-esc="executionApproved.ppLot"/></td>
+                                <td class="internal_plan_table_blocks" width="60%">
                                     <span t-att-title="formatted_machineRoute" t-esc="formatted_machineRoute"/>
                                 </td>
-                                <td width="20%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Enter Machine Params</buttons></td>
-                                <td width="20%">
+                                <td class="internal_plan_table_blocks" width="15%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Enter Machine Params</buttons></td>
+                                <td class="internal_plan_table_blocks" width="15%">
                                     <button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">
                                         Define Machine Route
                                     </button>
