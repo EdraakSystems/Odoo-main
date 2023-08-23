@@ -5,7 +5,7 @@ import { useService } from "@web/core/utils/hooks";
 import { hooks } from '@odoo/owl';
 import { useModel } from '@odoo/owl';
 
-export class OrderSelection extends Component {
+export class ReprocessOrder extends Component {
     setup() {
         this.orm = useService("orm");
         this.state = useState({
@@ -73,26 +73,12 @@ export class OrderSelection extends Component {
         return result.fields;
     }
 
-
     async fetchOrderData() {
         const fieldNames = this.state.fieldNames.map(field => field.name);
-        const domain = [
-            ['status', 'not in', ['PPC Manager', 'PPC Operator']],
-            ['reprocess', '=', false]
-        ];
+        const domain = [['reprocess', '=', true]];
         const orderData = await this.orm.searchRead('order.data', domain, fieldNames);
         return orderData;
     }
-
-
-//    async fetchOrderData() {
-//        const fieldNames = this.state.fieldNames.map(field => field.name);
-//        const domain = [
-//            ['status', 'not in', ['PPC Manager', 'PPC Operator']]
-//        ];
-//        const orderData = await this.orm.searchRead('order.data', domain, fieldNames);
-//        return orderData;
-//    }
 
     async typingCompleted(orderId, event) {
         const updatedInput = event.target.value;
@@ -106,6 +92,7 @@ export class OrderSelection extends Component {
         } catch (error) {
         }
     }
+
     async approveOrder(orderId) {
         const writeResult = await this.orm.write('order.data', [orderId], { status: 'Bleaching Manager Approved' });
         // Fetch the updated order data and realign the table
@@ -120,5 +107,5 @@ export class OrderSelection extends Component {
     }
 }
 
-OrderSelection.template = 'bleaching_dept.orderSelectionTemplate';
-registry.category('actions').add('bleaching_dept.order_selection_js', OrderSelection);
+ReprocessOrder.template = 'bleaching_dept.reprocessOrderTemplate';
+registry.category('actions').add('bleaching_dept.reprocess_order_js', ReprocessOrder);

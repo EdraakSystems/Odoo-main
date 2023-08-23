@@ -1,0 +1,82 @@
+<templates xml:space="preserve">
+    <t t-name="bleaching_dept.OrderDetailsTemplate" owl="1">
+        <div class="div_container internal_plan_container">
+            <h1>ORDERS</h1>
+            <div class="accordion" id="orderAccordion">
+                <t t-foreach="state.orderData" t-as="order" t-key="generateRandomNumber()">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-{{ order.ID }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-' + order.ID" aria-expanded="false" aria-controls="collapse-{{ order.ID }}">
+                                <t t-foreach="Object.entries(order)" t-as="keyAndValue" t-key="generateRandomNumber()">
+                                    <h3 class="order_detail_title">
+                                        <t t-if="keyAndValue[0] != 'ID'">
+                                            <span class="separator"> &#124; </span>
+                                        </t>
+                                        <span t-esc="keyAndValue[0]"/> : <span t-esc="keyAndValue[1]" class="border_span"/>
+                                    </h3>
+                                </t>
+                            </button>
+                        </h2>
+                        <div t-att-id="'collapse-' + order.ID" class="accordion-collapse collapse" aria-labelledby="heading-{{ order.ID }}" data-bs-parent="#orderAccordion">
+                            <div class="accordion-body">
+                                <p>ID: <span t-esc="order['ID']"/></p>
+                                <p>Order Placement Date: <span t-esc="order['Order Placement Date']"/></p>
+                                <p>Order Dispatch Date: <span t-esc="order['Order Dispatch Date']"/></p>
+                                <p>PP Lot Number: <span t-esc="order['PP Lot Number']"/></p>
+                                <p>Urgency Status: <span t-esc="order['Urgency Status']"/></p>
+                                <p>Machine Route: <span class="machineRoute" t-esc="state.machineRoutingData[order.ID].machineRouteString" /></p>
+                                <button class="btn-save r_save_btn update_btn" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="order['ID']">Edit Machine Route</button>
+                                <hr class="solid"/>
+                                <div class="machine-names">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <t t-foreach="state.paramRecipeData[order.ID]" t-as="machine" t-key="generateRandomNumber()">
+                                            <li class="nav-item">
+                                                <a class="nav-link" t-att-href="'#tab-' + machine.machine_id" data-bs-toggle="tab" role="tab" t-att-aria-controls="'tab-' + machine.machine_id">
+                                                    <span t-esc="machine.machine_name"/>
+                                                </a>
+                                            </li>
+                                        </t>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <t t-foreach="state.paramRecipeData[order.ID]" t-as="machine" t-key="generateRandomNumber()">
+                                            <div class="tab-pane fade" t-att-id="'tab-' + machine.machine_id" role="tabpanel" t-att-aria-labelledby="'tab-' + machine.machine_id" t-att-class="{'active show': machine === state.paramRecipeData[order.ID][0]}">
+                                                <h3>Parameters for Machine : <span t-esc="machine.machine_name"/></h3>
+                                                <div class="content">
+                                                    <div class="row">
+                                                        <t t-foreach="machine.machine_params" t-as="param" t-key="generateRandomNumber()">
+                                                            <div class="col-md-6 form-group">
+                                                                <label class="input_label"><span t-esc="param.param_name"/></label>
+                                                                <input type="text" class="form-control param-input" t-att-placeholder="param.param_name" t-att-value="param.param_value" t-att-name="param.name" t-on-input="updateInputValue(param.name, param)"/>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                 <button class="btn-save r_save_btn update_btn" t-on-click="updateParams(machine.machine_id, machine.param_id, order.ID, machine.machine_params)">Save</button>
+                                                </div>
+
+                                                <hr class="solid"/>
+                                                <div>
+                                                    <div class="content">
+                                                        <div class="row">
+                                                            <t t-foreach="machine.machine_recipes" t-as="recipe" t-key="generateRandomNumber()">
+                                                                <div class="col-md-6 form-group">
+                                                                    <label class="input_label"><span t-esc="recipe.recipe_name"/></label>
+                                                                    <input type="text" class="form-control param-input" t-att-placeholder="recipe.recipe_name" t-att-value="recipe.recipe_value" t-att-name="recipe.name" t-on-input="updateRecipeValue(recipe.name, recipe)"/>
+                                                                </div>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                    <button class="btn-save r_save_btn update_btn" id="param_save_btn" t-on-click="updateRecipe(machine.machine_id, machine.recipe_id, order.ID, machine.machine_recipes)">Save</button>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                                <button class="r_save_btn finalize_order_btn" t-on-click="() => approve_order(order.ID)">Approve Order</button>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

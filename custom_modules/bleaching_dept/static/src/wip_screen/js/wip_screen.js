@@ -37,7 +37,6 @@ export class MachineParams extends Component {
         this.getData = this.getData.bind(this);
         this.saveParams = this.saveParams.bind(this);
     }
-
     async getData() {
         const { savedRouteId } = this.state;
         this.state.selectedMachineRoute = await this.orm.searchRead("machine.routing", [['orderId', '=', savedRouteId]], ['machineId', 'delay', 'route_name', 'orderId']);
@@ -78,7 +77,6 @@ export class MachineParams extends Component {
             };
         });
     }
-
     async saveParams(event) {
         const machineId = event.target.getAttribute("machineId");
         console.log('machineId:', machineId);
@@ -151,18 +149,10 @@ export class MachineParams extends Component {
         return result.fields;
     }
 
-    retrieveSelectedIdForRoute() {
-        const url = new URL(window.location.href);
-        const selectedIdForRoute = url.searchParams.get("selectedIdForRoute");
-        this.state.savedRouteId = parseInt(selectedIdForRoute);
-        console.log('this.state.savedRouteId :', this.state.savedRouteId);
-    }
-
     generateRandomNumber() {
         const randomNum = Math.floor(Math.random() * 10000000);
         return randomNum;
     }
-
 }
 MachineParams.template = 'bleaching_dept.MachineParamsTemplate';
 registry.category('actions').add('bleaching_dept.machine_params_js', MachineParams);

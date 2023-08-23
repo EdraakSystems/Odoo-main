@@ -1,0 +1,7 @@
+<templates xml:space="preserve">
+    <t t-name="bleaching_dept.MachineParamsTemplate" owl="1">
+        <div class="div_container internal_plan_container">
+        <h1>Machine Parameters &amp; Recipe</h1>
+        </div>
+    </t>
+</templates>

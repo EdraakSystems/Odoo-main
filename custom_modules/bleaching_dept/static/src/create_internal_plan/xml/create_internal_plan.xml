@@ -24,6 +24,12 @@
                   </div>
                   <table class="reprocess_table">
                       <tbody>
+                          <t t-foreach="state.reprocessOrders" t-as="plan" t-key="plan.id">
+                              <tr class="department_table_body">
+                                  <td><span t-esc="plan.ppLot"/></td>
+                                  <td><input class="ppc_table_checkbox" type="checkbox" t-on-change="() => addOrder(plan.id)"/></td>
+                              </tr>
+                          </t>
                       </tbody>
                   </table>
               </div>
@@ -40,24 +46,32 @@
                     <thead class="table_head internal_plan_table_head">
                         <tr>
                             <th>PP. Lot</th>
+                            <th>Job Card No.</th>
                             <th>Machine Route</th>
                             <th>Machine Params</th>
                             <th>Define Route</th>
+                            <th>Confirm</th>
+                            <th>Reprocess</th>
                         </tr>
                     </thead>
                     <tbody class="table_body">
                         <t t-foreach="state.internalPlanOrders" t-as="executionApproved" t-key="executionApproved.id">
                             <t t-set="formatted_machineRoute" t-value="formatMachineRoute(executionApproved.id)"/>
                             <tr>
-                                <td class="internal_plan_table_blocks" width="10%"><span t-esc="executionApproved.ppLot"/></td>
-                                <td class="internal_plan_table_blocks" width="60%">
-                                    <span t-att-title="formatted_machineRoute" t-esc="formatted_machineRoute"/>
+                                <td class="internal_plan_table_blocks" width="7.5%"><span t-esc="executionApproved.ppLot"/></td>
+                                <td class="internal_plan_table_blocks" width="7.5%"><input type="number" t-att-value="executionApproved.jobCard" t-on-blur="event => typingCompleted(executionApproved.id, event)"/></td>
+                                <td class="internal_plan_table_blocks" width="45%">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span t-att-title="formatted_machineRoute" t-esc="formatted_machineRoute" t-log="formatted_machineRoute"/>
+                                    </div>
                                 </td>
-                                <td class="internal_plan_table_blocks" width="15%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Enter Machine Params</buttons></td>
-                                <td class="internal_plan_table_blocks" width="15%">
-                                    <button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">
-                                        Define Machine Route
-                                    </button>
+                                <td class="internal_plan_table_blocks" width="12.5%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Machine Params</buttons></td>
+                                <td class="internal_plan_table_blocks" width="12.5%"><button class="table_button table_button2" id="machine_route_button" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="executionApproved.id">Machine Route</button></td>
+                                <td width="7.5%" style="text-align: center;">
+                                    <input type="checkbox" class="add_finalize_checkbox" t-on-change="() => approveOrder(executionApproved.id)"/>
+                                </td>
+                                <td class="internal_plan_table_blocks" style="text-align: center;" width="7.5%">
+                                    <img t-if="executionApproved.reprocess" class="reprocess_icon" src="bleaching_dept/static/img/icons8.png" alt="Image" />
                                 </td>
                             </tr>
                         </t>

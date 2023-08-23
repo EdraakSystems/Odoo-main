@@ -36,14 +36,35 @@
         <field name="tag">bleaching_dept.params_selector_js</field>
     </record>
 
+    <!--  Order Details action  -->
+    <record id="bleaching_order_details_action" model="ir.actions.client">
+        <field name="name">Bleaching Order Details</field>
+        <field name="tag">bleaching_dept.order_details_js</field>
+    </record>
+
+    <!--  Order Details action  -->
+    <record id="bleaching_order_receiving_action" model="ir.actions.client">
+        <field name="name">Bleaching Order Details</field>
+        <field name="tag">bleaching_dept.order_receiving_js</field>
+    </record>
+
+    <!--  Reprocess Orders action  -->
+    <record id="bleaching_order_reprocess_action" model="ir.actions.client">
+        <field name="name">Bleaching Order Details</field>
+        <field name="tag">bleaching_dept.reprocess_order_js</field>
+    </record>
+
 
     <menuitem name="Bleaching Dept" id="create_internal_plan" sequence="-3" action="create_internal_plan_action"/>
     <menuitem name="Order Selection" id="order_selection" sequence="1" action="order_selection_action" parent="create_internal_plan"/>
     <menuitem name="Machine Types" id="machine_type" sequence="2" action="bleaching_add_machine_type_tree_action" parent="create_internal_plan"/>
     <menuitem name="Machines" id="bleaching_add_machine" sequence="3" action="bleaching_add_machine_tree_action" parent="create_internal_plan"/>
-    <menuitem name="Routing" id="machine_routing" sequence="4" action="machine_route_selection_action" parent="create_internal_plan"/>
-    <menuitem name="Params" id="machine_params" sequence="5" action="machine_params_action" parent="create_internal_plan"/>
-    <menuitem name="Status" id="machine_status" sequence="6" action="machine_status_action" parent="create_internal_plan"/>
-    <menuitem name="Select Params" id="machine_params_selector" sequence="7" action="machine_params_selector_action" parent="create_internal_plan"/>
+    <menuitem name="Select Params" id="machine_params_selector" sequence="4" action="machine_params_selector_action" parent="create_internal_plan"/>
+    <menuitem name="Finalized Orders" id="bleaching_order_details" sequence="5" action="bleaching_order_details_action" parent="create_internal_plan"/>
+    <menuitem name="Received Orders" id="bleaching_order_receiving" sequence="6" action="bleaching_order_receiving_action" parent="create_internal_plan"/>
+    <menuitem name="Reprocess Orders" id="bleaching_reprocess_order" sequence="7" action="bleaching_order_reprocess_action" parent="create_internal_plan"/>
 </odoo>
 
+<!--    <menuitem name="Status" id="machine_status" sequence="4" action="machine_status_action" parent="create_internal_plan"/>-->
+<!--    <menuitem name="Routing" id="machine_routing" sequence="4" action="machine_route_selection_action" parent="create_internal_plan"/>-->
+<!--    <menuitem name="Params" id="machine_params" sequence="5" action="machine_params_action" parent="create_internal_plan"/>-->

@@ -38,6 +38,13 @@
             'bleaching_dept/static/src/params_selector/xml/params_selector.xml',
             'bleaching_dept/static/src/machine_params_recipes/css/machine_params.css',
             'bleaching_dept/static/src/params_selector/css/params_selector.css',
+            'bleaching_dept/static/src/order_details/js/order_details.js',
+            'bleaching_dept/static/src/order_details/xml/order_details.xml',
+            'bleaching_dept/static/src/order_details/css/order_details.css',
+            'bleaching_dept/static/src/supervisor/order_receiving_screen/js/order_receiving.js',
+            'bleaching_dept/static/src/supervisor/order_receiving_screen/xml/order_receiving.xml',
+            'bleaching_dept/static/src/reprocess_orders/js/reprocess_orders.js',
+            'bleaching_dept/static/src/reprocess_orders/xml/reprocess_orders.xml',
         ],
     },
     'license': 'LGPL-3'

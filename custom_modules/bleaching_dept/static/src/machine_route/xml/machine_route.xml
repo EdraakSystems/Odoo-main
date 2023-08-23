@@ -8,36 +8,37 @@
                 <t t-foreach="state.machineTypes" t-as="item" t-key="item.id">
                     <div class="col-md-4 routing_row">
                         <h2 class="machine_title">
-                            <t t-esc="item.machine_type_name" />
+                            <t t-esc="item.machine_type_name"/>
                         </h2>
                         <div class="span-container">
-                            <t t-set="spanCount" t-value="0" />
+                            <t t-set="spanCount" t-value="0"/>
                             <t t-foreach="item.data" t-as="machine" t-key="machine.id">
-                                <t t-set="spanCount" t-value="spanCount + 1" />
+                                <t t-set="spanCount" t-value="spanCount + 1"/>
                                 <t t-if="spanCount &lt;= 2">
                                     <span>
                                         <button class="machine_select_btn" id="select_machine_button" t-esc="machine.machine_name"
                                                 t-on-click="onButtonClicked" t-att-data-machine-id="machine.id"
-                                                t-att-class="machine.underMaintenance ? 'machineUnderMaintenance' : ''" />
+                                                t-att-class="machine.underMaintenance ? 'machineUnderMaintenance' : ''"/>
                                     </span>
                                 </t>
                                 <t t-if="spanCount === 2">
                                     <br/>
-                                    <t t-set="spanCount" t-value="0" />
+                                    <t t-set="spanCount" t-value="0"/>
                                 </t>
                             </t>
                         </div>
                     </div>
                 </t>
             </div>
-            <div>
+            <div t-if="state.newFormattedRoute.length > 0">
                 <input type="number" id="delayInput">Enter Delay</input>
                 <button class="add_delay_btn" t-on-click="add_delay">submit</button>
             </div>
-            <div class="route_representation" t-if="state.selectedRoute.length > 0">
+            <button class="r_save_btn edit_machine_route_btn" t-on-click="delete_route">Delete</button>
+
+            <div class="route_representation" t-if="state.newFormattedRoute.length > 0">
                 <h3>Selected Route:</h3>
                 <h1 t-esc="state.newFormattedRoute"/>
-
             </div>
             <div style="text-align: right; border-top: 1.5px solid #80808054; margin-top: 5%;">
                 <button class="r_save_btn" id="route_save_button" t-on-click="saveRoute">Save</button>

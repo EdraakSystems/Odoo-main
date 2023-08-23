@@ -1,7 +1,7 @@
 <templates xml:space="preserve">
     <t t-name="bleaching_dept.MachineParamsTemplate" owl="1">
         <div class="div_container internal_plan_container">
-            <h1>Machine Params</h1>
+        <h1>Machine Parameters &amp; Recipe</h1>
             <div class="tabsets">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <t t-set="firstTabActive" t-value="True"/>
@@ -14,7 +14,7 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane" t-foreach="state.formattedRouteData" t-as="machineRoute" t-att-id="'tab-' + machineRoute.machine_id" t-att-role="'tabpanel'" t-att-aria-labelledby="'nav-link-' + machineRoute.machine_id" t-key="'tab-' + machineRoute.machine_id" t-att-class="{'active': machineRoute === state.formattedRouteData[0]}">
-                        <h3>Machine Parameters for <t t-esc="machineRoute.machine_name"/></h3>
+                        <h2>Machine Parameters for <t t-esc="machineRoute.machine_name"/></h2>
                         <div>
                             <t t-set="inputCounter" t-value="0"/>
                             <div class="row">
@@ -29,8 +29,9 @@
                             </div>
                             <button class="btn-save r_save_btn" id="param_save_btn" t-on-click="saveParams" t-att-machineId="machineRoute.machine_id">Save</button>
                         </div>
-
+                        <hr class="solid"/>
                         <div>
+                            <h2>Machine Recipe for <t t-esc="machineRoute.machine_name"/></h2>
                             <t t-set="inputCounter" t-value="0"/>
                             <div class="row">
                                 <t t-foreach="machineRoute.machine_recipes" t-as="recipe" t-key="generateRandomNumber()">
@@ -44,7 +45,6 @@
                             </div>
                             <button class="btn-save r_save_btn" id="param_save_btn" t-on-click="saveRecipe" t-att-machineId="machineRoute.machine_id">Save</button>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -11,14 +11,16 @@ export class CreateInternalPlan extends Component {
         this.state = useState({
             machines:[],
             orders:[],
+            reprocessOrders:[],
             internalPlanOrders : [],
             machineRout:[],
             formattedMachineRoute:[],
         });
         onWillStart(async () => {
             this.state.machineRout = await this.orm.searchRead("order.data", [], ["id", "machineRoute"]);
-            this.state.orders = await this.orm.searchRead('order.data', [['status', '=', 'Bleaching Manager Approved']], ['ppLot', 'id']);
-            this.state.internalPlanOrders = await this.orm.searchRead('order.data', [['status', '=', 'Added To Internal Plan']], ['ppLot', 'id', "machineRoute"]);
+            this.state.orders = await this.orm.searchRead('order.data', [['status', '=', 'Bleaching Manager Approved'],['reprocess', '=', false]], ['ppLot', 'id']);
+            this.state.reprocessOrders = await this.orm.searchRead('order.data', [['status', '=', 'Bleaching Manager Approved'],['reprocess', '=', true]], ['ppLot', 'id']);
+            this.state.internalPlanOrders = await this.orm.searchRead('order.data', [['status', '=', 'Added To Internal Plan']], ['ppLot', 'id', "machineRoute", 'jobCard']);
             this.state.formattedMachineRoute = await this.orm.searchRead("machine.routing", [], ['machineId', 'delay', 'route_name', 'orderId']);
             this.state.machines = await this.orm.searchRead("bleaching.machines", [], ["id", "machine_name", "machine_type", "underMaintenance"]);
 
@@ -34,12 +36,16 @@ export class CreateInternalPlan extends Component {
         this.loadInternalOrders = this.loadInternalOrders.bind(this);
         this.redirectToSetParamsScreen = this.redirectToSetParamsScreen.bind(this);
         this.checkOrdersWithMachineRoute = this.checkOrdersWithMachineRoute.bind(this);
+        this.typingCompleted = this.typingCompleted.bind(this);
+        this.approveOrder = this.approveOrder.bind(this);
     }
 
     async addOrder(orderId) {
         const writeResult = await this.orm.write('order.data', [orderId], { status: 'Added To Internal Plan' });
         // Fetch the updated order data and realign the table
         const orderData = await this.orm.searchRead('order.data', [['status', '=', 'Bleaching Manager Approved']], ['ppLot', 'id']);
+        this.state.reprocessOrders = await this.orm.searchRead('order.data', [['status', '=', 'Bleaching Manager Approved'],['reprocess', '=', true]], ['ppLot', 'id']);
+
         this.state.orders = orderData;
         this.state.notification.add('Order Added.', {
             title: 'Success',
@@ -49,6 +55,8 @@ export class CreateInternalPlan extends Component {
         await this.loadInternalOrders();
         await this.checkOrdersWithMachineRoute();
     }
+
+
 
     async loadInternalOrders(){
         this.state.internalPlanOrders = await this.orm.searchRead('order.data', [['status', '=', 'Added To Internal Plan']], ['ppLot', 'id']);
@@ -95,15 +103,16 @@ export class CreateInternalPlan extends Component {
             const ordersWithMachineRoute = await this.orm.searchRead(
                 'order.data',
                 [['status', '=', 'Added To Internal Plan']],
-                ['id', 'ppLot', 'machineRoute']
+                ['id', 'ppLot', 'machineRoute', 'jobCard', 'reprocess']
             );
             const machines = await this.orm.searchRead('bleaching.machines',[],['id', 'machine_name']);
             const ordersInfoWithMachineRoute = ordersWithMachineRoute.map(order => ({
                 id: order.id,
                 machineRoute: order.machineRoute ? order.machineRoute.split(',').map(route => route.trim()) : [],
                 ppLot:order.ppLot,
+                jobCard:order.jobCard,
+                reprocess:order.reprocess,
             }));
-            // Modify 'machineRoute' to replace IDs with machine names
             ordersInfoWithMachineRoute.forEach(order => {
                 order.machineRoute = order.machineRoute.map(route => {
                     const matchingMachine = machines.find(machine => machine.id === parseInt(route));
@@ -118,7 +127,7 @@ export class CreateInternalPlan extends Component {
     }
 
     async loadInternalOrders(){
-        this.state.internalPlanOrders = await this.orm.searchRead('order.data', [['status', '=', 'Added To Internal Plan']], ['ppLot', 'id', 'machineRoute']);
+        this.state.internalPlanOrders = await this.orm.searchRead('order.data', [['status', '=', 'Added To Internal Plan']], ['ppLot', 'id', 'machineRoute', 'reprocess']);
         console.log('this.state.internalPlanOrders : ', this.state.internalPlanOrders);
         await this.checkOrdersWithMachineRoute();
     }
@@ -126,9 +135,35 @@ export class CreateInternalPlan extends Component {
     redirectToOrderSelectionScreen() {
         window.location.href = "/web#action=bleaching_dept.order_selection_js";
     }
+
     redirectToBleachingMachineStatusScreen() {
         window.location.href = "/web#action=bleaching_dept.machine_status_js";
     }
+
+    async typingCompleted(orderId, event) {
+        const updatedInput = event.target.value;
+
+        try {
+            const writeResult = await this.orm.write('order.data', [orderId], { jobCard: updatedInput });
+        if (writeResult) {
+            console.log('Job Card Number updated successfully');
+        } else {
+            console.error('Error occurred while updating Job Card Number');
+        }
+        } catch (error) {
+            console.error('Error occurred during API call:', error);
+        }
+    }
+
+    async approveOrder(orderId) {
+        const writeResult = await this.orm.write('order.data', [orderId], { status: 'Bleaching Manager Finalized Plan' });
+        await this.loadInternalOrders();
+        this.state.notification.add('Order Added.', {
+            title: 'Success',
+            type: 'success',
+        });
+    }
+
 
 }
 

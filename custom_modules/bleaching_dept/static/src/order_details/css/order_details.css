@@ -1,0 +1,27 @@
+span.order_detail_title {
+    font-size: 17px;
+    font-weight: 500;
+}
+span.separator {
+    font-size: 23px;
+    color: #8080808a;
+}
+span.border_span {
+    padding-right: 5px;
+}
+.internal_plan_container button.accordion-button.collapsed {
+    padding: 20px;
+}
+.update_btn{
+    margin-left:0px;
+}
+span.machineRoute {
+    font-weight: 700;
+    font-size: 20px;
+    display: block;
+    padding: 1% 0% 1% 3%;
+}
+button.finalize_order_btn {
+    margin-left: 2%;
+    margin-bottom: 2%;
+}

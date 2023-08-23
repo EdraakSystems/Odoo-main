@@ -25,3 +25,17 @@
 .internal_plan_table_blocks{
     padding: 8px 10px 8px 10px !important;
 }
+button.edit_machine_route_btn {
+    margin-top: 0px;
+    background-color: transparent;
+    color: black;
+    height: fit-content;
+}
+input.add_finalize_checkbox {
+    width: 20px;
+    height: 20px;
+}
+.reprocess_icon{
+    width:25px;
+    height:25px;
+}
