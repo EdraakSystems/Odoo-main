@@ -10,9 +10,11 @@
     'depends': ['base', 'mail', 'web', 'web_notify'],
     'data': [
         'C:/Edraak/Odoo main/odoo project 2/custom_modules/bleaching_dept/security/ir.model.access.csv',
+        'C:/Edraak/Odoo main/odoo project 2/custom_modules/bleaching_dept/security/bleaching_security.xml',
         'C:/Edraak/Odoo main/odoo project 2/custom_modules/bleaching_dept/views/bleaching_dept.xml',
         'C:/Edraak/Odoo main/odoo project 2/custom_modules/bleaching_dept/views/machine_types.xml',
         'C:/Edraak/Odoo main/odoo project 2/custom_modules/bleaching_dept/views/bleaching_machines.xml',
+        # 'C:/Edraak/Odoo main/odoo project 2/custom_modules/bleaching_dept/views/issuance_form.xml',
     ],
     'demo': [],
     'application':True,
@@ -43,8 +45,11 @@
             'bleaching_dept/static/src/order_details/css/order_details.css',
             'bleaching_dept/static/src/supervisor/order_receiving_screen/js/order_receiving.js',
             'bleaching_dept/static/src/supervisor/order_receiving_screen/xml/order_receiving.xml',
+            'bleaching_dept/static/src/supervisor/order_receiving_screen/css/order_receiving_screen.css',
             'bleaching_dept/static/src/reprocess_orders/js/reprocess_orders.js',
             'bleaching_dept/static/src/reprocess_orders/xml/reprocess_orders.xml',
+            'bleaching_dept/static/src/production_coplete_orders/js/production_complete_orders.js',
+            'bleaching_dept/static/src/production_coplete_orders/xml/production_complete_orders.xml',
         ],
     },
     'license': 'LGPL-3'

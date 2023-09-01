@@ -10,6 +10,7 @@
     'depends': ['base', 'mail', 'web', 'web_notify'],
     'data': [
         'security/ir.model.access.csv',
+        'security/ppc_security.xml',
         'views/ppc_view.xml',
         'security/ppc_security.xml',
         'views/classification.xml',

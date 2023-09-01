@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--    <odoo>-->
+<!--     &lt;!&ndash; FORM VIEW For PPC Order Data &ndash;&gt;-->
+<!--        <record id="view_form_fabric_issuance_request" model="ir.ui.view">-->
+<!--            <field name="name">fabric.issuance.request.form</field>-->
+<!--            <field name="model">fabric.issuance.request</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form autocommit="0">-->
+<!--                    <header>-->
+<!--                        <field name="state" widget="statusbar"/>-->
+<!--                    </header>-->
+<!--                    <sheet>-->
+<!--                        <div id="ppc_order_form">-->
+<!--                            <group>-->
+<!--                                <field name="name"/>-->
+<!--                                <field name="quantity"/>-->
+<!--                                <field name="fabricType"/>-->
+<!--                            </group>-->
+<!--                        </div>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--        &lt;!&ndash; Action For PPC Add Order &ndash;&gt;-->
+<!--        <record id="action_fabric_issuance_request_form" model="ir.actions.act_window">-->
+<!--            <field name="name">Fabric Issuance Request Form</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">fabric.issuance.request</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="o_view_nocontent_smiling_face">-->
+<!--                    Create a new Request-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </odoo>-->
+
+
+
+
+
+    <odoo>
+        <record id="fabric_issuance_approval_tree" model="ir.ui.view">
+            <field name="name">fabric.issuance.approval.tree</field>
+            <field name="model">fabric.issuance.approval</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="request_id"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="fabric_issuance_approval_tree_action" model="ir.actions.act_window">
+            <field name="name">fabric Issuance Approval</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fabric.issuance.approval</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new
+                </p>
+            </field>
+        </record>
+    </odoo>
+
+
+
+
+<!--        <record id="view_form_fabric_issuance_request" model="ir.ui.view">-->
+<!--            <field name="name">fabric.issuance.request.form</field>-->
+<!--            <field name="model">fabric.issuance.request</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Fabric Issuance Request">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="name" required="1"/>-->
+<!--                            <field name="department_id"/>-->
+<!--                            &lt;!&ndash; Add more fields here, e.g., requested_quantity, fabric_type, etc. &ndash;&gt;-->
+<!--                            <field name="state" invisible="1"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="state" readonly="1"/>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="action_fabric_issuance_request_form" model="ir.actions.act_window">-->
+<!--            <field name="name">Fabric Issuance Request Form</field>-->
+<!--            <field name="res_model">fabric.issuance.request</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="view_id" ref="view_form_fabric_issuance_request"/>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
+

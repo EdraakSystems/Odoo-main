@@ -54,6 +54,12 @@
         <field name="tag">bleaching_dept.reprocess_order_js</field>
     </record>
 
+    <!--  Production Completed orders action  -->
+    <record id="production_completed_orders_action" model="ir.actions.client">
+        <field name="name">Production Completed Orders</field>
+        <field name="tag">bleaching_dept.production_completed_orders</field>
+    </record>
+
 
     <menuitem name="Bleaching Dept" id="create_internal_plan" sequence="-3" action="create_internal_plan_action"/>
     <menuitem name="Order Selection" id="order_selection" sequence="1" action="order_selection_action" parent="create_internal_plan"/>
@@ -63,6 +69,8 @@
     <menuitem name="Finalized Orders" id="bleaching_order_details" sequence="5" action="bleaching_order_details_action" parent="create_internal_plan"/>
     <menuitem name="Received Orders" id="bleaching_order_receiving" sequence="6" action="bleaching_order_receiving_action" parent="create_internal_plan"/>
     <menuitem name="Reprocess Orders" id="bleaching_reprocess_order" sequence="7" action="bleaching_order_reprocess_action" parent="create_internal_plan"/>
+    <menuitem name="Production Completed Orders" id="production_completed_orders" sequence="8" action="production_completed_orders_action" parent="create_internal_plan"/>
+    <menuitem name="Fabric Issuance Form" id="fabric" sequence="9" action="fabric_issuance_approval_tree_action" parent="create_internal_plan"/>
 </odoo>
 
 <!--    <menuitem name="Status" id="machine_status" sequence="4" action="machine_status_action" parent="create_internal_plan"/>-->

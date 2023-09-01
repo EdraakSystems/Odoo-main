@@ -79,6 +79,11 @@ export class MachineParams extends Component {
         });
     }
 
+    updateParamValue(param, newValue) {
+        param.value = newValue;
+    }
+
+
     async saveParams(event) {
         const machineId = event.target.getAttribute("machineId");
         console.log('machineId:', machineId);
@@ -98,6 +103,10 @@ export class MachineParams extends Component {
                 ...Object.fromEntries(inputValues.map(({ param, value }) => [param, value]))
             }]);
             console.log('New row created with orderId:', this.state.savedRouteId, 'and machineId:', machineId);
+            this.state.notification.add('Data Uploaded.', {
+                title: 'Success',
+                type: 'success',
+            });
         } else {
             console.log('Machine Route not found for machineId:', machineId);
         }
@@ -123,6 +132,10 @@ export class MachineParams extends Component {
                 ...Object.fromEntries(inputValues.map(({ recipe, value }) => [recipe, value]))
             }]);
             console.log('New row created with orderId:', this.state.savedRouteId, 'and machineId:', machineId);
+            this.state.notification.add('Data Uploaded.', {
+                title: 'Success',
+                type: 'success',
+            });
         } else {
             console.log('Machine Route not found for machineId:', machineId);
         }

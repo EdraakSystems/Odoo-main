@@ -22,7 +22,7 @@ export class GetExcelData extends Component{
         this.state.fields = fields;
                     // Unwanted fields
             const excludedFields = ['message_main_attachment_id', 'create_uid', 'write_uid', 'create_date', 'write_date', 'activity_date_deadline', 'activity_exception_decoration', 'activity_exception_icon', 'activity_ids', 'activity_state', 'activity_summary', 'activity_type_icon', 'activity_type_id', 'activity_user_id', "my_activity_date_deadline", "message_is_follower", "message_follower_ids",
-                                    "message_follower_ids", "message_partner_ids","message_ids","has_message","message_needaction","message_needaction_counter","message_has_error","message_has_error_counter", "message_attachment_count", "message_has_sms_error", "website_message_ids", "__last_update", "display_name", "classification", "urgencyStatus", "classification_name", "id" , "machineRoute" , "jobCard" ];
+                                    "message_follower_ids", "message_partner_ids","message_ids","has_message","message_needaction","message_needaction_counter","message_has_error","message_has_error_counter", "message_attachment_count", "message_has_sms_error", "website_message_ids", "__last_update", "display_name", "classification", "urgencyStatus", "classification_name", "id" , "machineRoute" , "jobCard", "reprocess", "reprocessCounter" ];
             const filteredFields = Object.keys(this.state.fields)
                 .filter(fieldName => !excludedFields.includes(fieldName))
                 .map(fieldName => ({

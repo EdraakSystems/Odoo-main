@@ -18,6 +18,7 @@ export class MachineRoute extends Component {
             selectedMachineRoute:[],
             formattedRoute:[],
             newFormattedRoute: "",
+            routeString:"",
         });
         onWillStart(async () => {
             this.retrieveSelectedIdForRoute();
@@ -92,6 +93,9 @@ export class MachineRoute extends Component {
 
             console.log(`Route string: ${routeString}`);
             this.state.newFormattedRoute = routeString;
+            this.state.routeString = routeString;
+
+
         } else {
             console.log(`No routes with orderId ${this.state.savedRouteId} found.`);
         }
@@ -204,7 +208,23 @@ export class MachineRoute extends Component {
         }
     }
 
-    saveRoute() {
+    async saveRoute() {
+        const orderData = await this.orm.searchRead("order.data", [['id', '=', this.state.savedRouteId]], ["status"]);
+        const isWIP = orderData[0]?.status === 'WIP';
+
+        if (isWIP) {
+            if(this.state.newFormattedRoute != this.state.routeString){
+                const routeHistoryData = {
+                    routeHistory: this.state.newFormattedRoute,
+                    orderId: this.state.savedRouteId
+                };
+                await this.orm.create("machine.routing.history", [routeHistoryData]);
+                console.log('History row created.');
+            }else{
+                console.log('No ')
+            }
+        }
+
         const routeId = this.state.savedRouteId;
         const selectedRouteIdsString = this.state.selectedRouteIds.join(", ");
         if (routeId) {
@@ -215,9 +235,9 @@ export class MachineRoute extends Component {
                     title: "Success",
                     type: "success",
                 });
-                setTimeout(() => {
-                window.location.href = "/web#action=bleaching_dept.create_internal_plan_js";
-                }, 1500);
+//                setTimeout(() => {
+//                window.location.href = "/web#action=bleaching_dept.create_internal_plan_js";
+//                }, 1500);
             })
             .catch((error) => {
                 console.error("Error saving the selectedRouteIdsString to the database:", error);
@@ -240,44 +260,61 @@ export class MachineRoute extends Component {
         console.log('delete_route, tableValue: ', tableValue);
 
         const filteredRows = tableValue.filter(row => row.orderId === this.state.savedRouteId);
+
+        console.log('filteredRows : ', filteredRows);
+
         if (filteredRows.length > 0) {
             const lastMatchingRow = filteredRows[filteredRows.length - 1];
             console.log('Last matching row: ', lastMatchingRow);
 
-            // Delete the last matching row
-            await this.orm.unlink("machine.routing", [lastMatchingRow.id]);
-            console.log('Last matching row deleted.');
+            console.log("lastMatchingRow.status : ", lastMatchingRow.status);
 
-            // Now you can also delete the row with matching 'id' from the original table
-            await this.orm.unlink("machine.routing", [lastMatchingRow.id]);
-            console.log('Original row deleted.');
-
-            const machineRouteTable = await this.orm.searchRead("machine.routing", [], ["id", "orderId", "route_name", "machineId", "delay", "status"]);
+            const orderData = await this.orm.searchRead("order.data", [['id', '=', this.state.savedRouteId]], ["status"]);
+            const isWIP = orderData[0]?.status === 'WIP';
 
 
-            const matchedRoutes = machineRouteTable.filter(route => route.orderId === this.state.savedRouteId);
+            if(isWIP && (lastMatchingRow.status == 'Completed' || lastMatchingRow.status == 'In Progress')){
+                this.state.notification.add("Can't delete Machine which is In Progress or Completed", {
+                    title: "Warning",
+                    type: "warning",
+                });
+            }else{
+                    // Delete the last matching row
+                await this.orm.unlink("machine.routing", [lastMatchingRow.id]);
+                console.log('Last matching row deleted.');
 
-            matchedRoutes.forEach(route => {
-                const matchingMachine = this.state.machines.find(machine => machine.id === route.machineId);
-                if (matchingMachine) {
-                    route.machine_name = matchingMachine.machine_name;
-                }
-            });
+                // Now you can also delete the row with matching 'id' from the original table
+                await this.orm.unlink("machine.routing", [lastMatchingRow.id]);
+                console.log('Original row deleted.');
 
-            const routeString = matchedRoutes
-                .map(route => {
-                    const delayString = route.delay !== 0 ? ` --> (${route.delay}-Hours Delay)` : '';
-                    return `${route.machine_name}${delayString}`;
-                })
-                .join(' --> ');
+                const machineRouteTable = await this.orm.searchRead("machine.routing", [], ["id", "orderId", "route_name", "machineId", "delay", "status"]);
 
-            console.log(`Route string: ${routeString}`);
-            this.state.newFormattedRoute = routeString;
+                const matchedRoutes = machineRouteTable.filter(route => route.orderId === this.state.savedRouteId);
 
+                matchedRoutes.forEach(route => {
+                    const matchingMachine = this.state.machines.find(machine => machine.id === route.machineId);
+                    if (matchingMachine) {
+                        route.machine_name = matchingMachine.machine_name;
+                    }
+                });
 
-        } else {
+                const routeString = matchedRoutes
+                    .map(route => {
+                        const delayString = route.delay !== 0 ? ` --> (${route.delay}-Hours Delay)` : '';
+                        return `${route.machine_name}${delayString}`;
+                    })
+                    .join(' --> ');
+
+                console.log(`Route string: ${routeString}`);
+                this.state.newFormattedRoute = routeString;
+            }
+        }else{
             console.log('No matching rows found.');
         }
+
+
+
+
     }
 
 

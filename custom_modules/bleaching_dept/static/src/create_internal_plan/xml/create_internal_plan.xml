@@ -2,7 +2,7 @@
     <t t-name="bleaching_dept.createInternalPlanTemplate" owl="1">
         <div class="div_container internal_plan_container">
             <div class="row">
-              <div class="col ppc_plan_view_columns">
+                <div class="col ppc_plan_view_columns">
                   <div class="ppc_plan_heading">
                       <h1>Create Internal Plan</h1>
                       <h5> Click to add to Daily Machine Plan</h5>
@@ -18,22 +18,22 @@
                       </tbody>
                   </table>
               </div>
-              <div class="col ppc_plan_view_columns">
-                  <div class="ppc_plan_heading">
-                      <h1>Reprocess</h1>
-                  </div>
-                  <table class="reprocess_table">
-                      <tbody>
-                          <t t-foreach="state.reprocessOrders" t-as="plan" t-key="plan.id">
-                              <tr class="department_table_body">
-                                  <td><span t-esc="plan.ppLot"/></td>
-                                  <td><input class="ppc_table_checkbox" type="checkbox" t-on-change="() => addOrder(plan.id)"/></td>
-                              </tr>
-                          </t>
-                      </tbody>
-                  </table>
-              </div>
-              <div class="col ppc_plan_view_columns">
+                <div class="col ppc_plan_view_columns">
+                    <div class="ppc_plan_heading">
+                        <h1>Reprocess</h1>
+                    </div>
+                    <table class="reprocess_table">
+                        <tbody>
+                            <t t-foreach="state.reprocessOrders" t-as="plan" t-key="plan.id">
+                                <tr class="department_table_body">
+                                    <td><span t-esc="plan.ppLot"/></td>
+                                    <td><input class="ppc_table_checkbox" type="checkbox" t-on-change="() => addOrder(plan.id)"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col ppc_plan_view_columns">
                 <div class="ppc_plan_heading">
                 </div>
                   <button class="internal_plan_buttons" id="internal_plan_btn" t-on-click="redirectToOrderSelectionScreen">Show PPC Plan</button>
@@ -62,7 +62,7 @@
                                 <td class="internal_plan_table_blocks" width="7.5%"><input type="number" t-att-value="executionApproved.jobCard" t-on-blur="event => typingCompleted(executionApproved.id, event)"/></td>
                                 <td class="internal_plan_table_blocks" width="45%">
                                     <div style="display: flex; justify-content: space-between;">
-                                        <span t-att-title="formatted_machineRoute" t-esc="formatted_machineRoute" t-log="formatted_machineRoute"/>
+                                        <span t-att-title="formatted_machineRoute" t-esc="formatted_machineRoute"/>
                                     </div>
                                 </td>
                                 <td class="internal_plan_table_blocks" width="12.5%"><buttons class="table_button" id="machine_param_button" t-on-click="redirectToSetParamsScreen" t-att-data-machine-id="executionApproved.id">Machine Params</buttons></td>

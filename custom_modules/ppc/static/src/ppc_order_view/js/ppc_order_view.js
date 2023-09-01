@@ -45,6 +45,8 @@ export class PpcOrderView extends Component {
         this.onDrop = this.onDrop.bind(this);
         this.onDragStart = this.onDragStart.bind(this);
         this.onDragOver = this.onDragOver.bind(this);
+        this.ppc_plan_approval = this.ppc_plan_approval.bind(this);
+
         this.state.notification =useService("notification");
     }
     onDragStart(ev, orderId) {
@@ -195,16 +197,23 @@ async onDrop(ev) {
     }
 
 
-    ppc_plan_approval() {
+    async ppc_plan_approval() {
       const checkedOrderIds = [];
+
+      console.log('checkedOrderIds : ', checkedOrderIds);
 
       // Iterate over the table rows to find the checked checkboxes
       const checkboxes = document.getElementsByClassName('row_checkbox');
+
+      console.log("checkboxes : ", checkboxes);
+
       for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
           // Get the row ID and add it to the array
           const rowId = checkboxes[i].closest('tr').getAttribute('data-row-id');
           checkedOrderIds.push(rowId);
+
+          console.log('checkedOrderIds : ', checkedOrderIds);
         }
       }
 

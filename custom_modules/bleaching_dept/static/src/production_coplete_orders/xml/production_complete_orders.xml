@@ -1,5 +1,5 @@
 <templates xml:space="preserve">
-    <t t-name="bleaching_dept.OrderDetailsTemplate" owl="1">
+    <t t-name="bleaching_dept.ProductionCompletedOrdersTemplate" owl="1">
         <div class="div_container internal_plan_container">
             <h1>ORDERS</h1>
             <div class="accordion" id="orderAccordion">
@@ -25,7 +25,6 @@
                                 <p>PP Lot Number: <span t-esc="order['PP Lot Number']"/></p>
                                 <p>Urgency Status: <span t-esc="order['Urgency Status']"/></p>
                                 <p>Machine Route: <span class="machineRoute" t-esc="state.machineRoutingData[order.ID].machineRouteString" /></p>
-                                <button class="btn-save r_save_btn update_btn" t-on-click="redirectToSetRouteScreen" t-att-data-machine-id="order['ID']">Edit Machine Route</button>
                                 <hr class="solid"/>
                                 <div class="machine-names">
                                     <t t-foreach="state.paramRecipeData[order.ID]" t-as="machine" t-key="generateRandomNumber()">
@@ -45,11 +44,10 @@
                                                                 <t t-foreach="machine.machine_params" t-as="param" t-key="generateRandomNumber()">
                                                                     <div class="col-md-6 form-group">
                                                                         <label class="input_label"><span t-esc="param.param_name"/></label>
-                                                                        <input type="text" class="form-control param-input" t-att-placeholder="param.param_name" t-att-value="param.param_value" t-att-name="param.name" t-on-input="updateInputValue(param.name, param)"/>
+                                                                        <input type="text" disabled="true" class="form-control param-input" t-att-placeholder="param.param_name" t-att-value="param.param_value" t-att-name="param.name"/>
                                                                     </div>
                                                                 </t>
                                                             </div>
-                                                            <button class="btn-save r_save_btn update_btn" t-on-click="updateParams(machine.machine_id, machine.param_id, order.ID, machine.machine_params)">Save</button>
                                                         </div>
                                                         <hr class="solid"/>
                                                         <div>
@@ -60,12 +58,11 @@
                                                                         <t t-foreach="machine.machine_recipes" t-as="recipe" t-key="generateRandomNumber()">
                                                                             <div class="col-md-6 form-group">
                                                                                 <label class="input_label"><span t-esc="recipe.recipe_name"/></label>
-                                                                                <input type="text" class="form-control param-input" t-att-placeholder="recipe.recipe_name" t-att-value="recipe.recipe_value" t-att-name="recipe.name" t-on-input="updateRecipeValue(recipe.name, recipe)"/>
+                                                                                <input type="text"  disabled="true" class="form-control param-input" t-att-placeholder="recipe.recipe_name" t-att-value="recipe.recipe_value" t-att-name="recipe.name"/>
                                                                             </div>
                                                                         </t>
                                                                     </div>
                                                                 </div>
-                                                                <button class="btn-save r_save_btn update_btn" id="param_save_btn" t-on-click="updateRecipe(machine.machine_id, machine.recipe_id, order.ID, machine.machine_recipes)">Save</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -75,7 +72,14 @@
                                     </t>
                                 </div>
                             </div>
-                            <button class="r_save_btn finalize_order_btn" t-on-click="() => approve_order(order.ID)">Approve Order</button>
+                            <div class="d-flex align-items-center">
+                                <select class="form-select" style="width:30%; padding: 7px 10px 7px 10px; margin-left: 2%;">
+                                    <option >Dying</option>
+                                    <option>Finishing</option>
+                                    <option>Lab Verification</option>
+                                </select>
+                                <button class="r_save_btn finalize_order_btn" t-on-click="() => approve_order(order.ID)">Approve Order</button>
+                            </div>
                         </div>
                     </div>
                 </t>
@@ -83,50 +87,3 @@
         </div>
     </t>
 </templates>
-
-
-
-<!--                                <div class="machine-names">-->
-<!--                                    <ul class="nav nav-tabs" role="tablist">-->
-<!--                                        <t t-foreach="state.paramRecipeData[order.ID]" t-as="machine" t-key="generateRandomNumber()">-->
-<!--                                            <li class="nav-item">-->
-<!--                                                <a class="nav-link" t-att-href="'#tab-' + machine.machine_id" data-bs-toggle="tab" role="tab" t-att-aria-controls="'tab-' + machine.machine_id">-->
-<!--                                                    <span t-esc="machine.machine_name"/>-->
-<!--                                                </a>-->
-<!--                                            </li>-->
-<!--                                        </t>-->
-<!--                                    </ul>-->
-<!--                                    <div class="tab-content">-->
-<!--                                        <t t-foreach="state.paramRecipeData[order.ID]" t-as="machine" t-key="generateRandomNumber()">-->
-<!--                                            <div class="tab-pane fade" t-att-id="'tab-' + machine.machine_id" role="tabpanel" t-att-aria-labelledby="'tab-' + machine.machine_id" t-att-class="{'active show': machine === state.paramRecipeData[order.ID][0]}">-->
-<!--                                                <h3>Parameters for Machine : <span t-esc="machine.machine_name"/></h3>-->
-<!--                                                <div class="content">-->
-<!--                                                    <div class="row">-->
-<!--                                                        <t t-foreach="machine.machine_params" t-as="param" t-key="generateRandomNumber()">-->
-<!--                                                            <div class="col-md-6 form-group">-->
-<!--                                                                <label class="input_label"><span t-esc="param.param_name"/></label>-->
-<!--                                                                <input type="text" class="form-control param-input" t-att-placeholder="param.param_name" t-att-value="param.param_value" t-att-name="param.name" t-on-input="updateInputValue(param.name, param)"/>-->
-<!--                                                            </div>-->
-<!--                                                        </t>-->
-<!--                                                    </div>-->
-<!--                                                 <button class="btn-save r_save_btn update_btn" t-on-click="updateParams(machine.machine_id, machine.param_id, order.ID, machine.machine_params)">Save</button>-->
-<!--                                                </div>-->
-
-<!--                                                <hr class="solid"/>-->
-<!--                                                <div>-->
-<!--                                                    <div class="content">-->
-<!--                                                        <div class="row">-->
-<!--                                                            <t t-foreach="machine.machine_recipes" t-as="recipe" t-key="generateRandomNumber()">-->
-<!--                                                                <div class="col-md-6 form-group">-->
-<!--                                                                    <label class="input_label"><span t-esc="recipe.recipe_name"/></label>-->
-<!--                                                                    <input type="text" class="form-control param-input" t-att-placeholder="recipe.recipe_name" t-att-value="recipe.recipe_value" t-att-name="recipe.name" t-on-input="updateRecipeValue(recipe.name, recipe)"/>-->
-<!--                                                                </div>-->
-<!--                                                            </t>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                    <button class="btn-save r_save_btn update_btn" id="param_save_btn" t-on-click="updateRecipe(machine.machine_id, machine.recipe_id, order.ID, machine.machine_recipes)">Save</button>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </t>-->
-<!--                                    </div>-->
-<!--                                </div>-->

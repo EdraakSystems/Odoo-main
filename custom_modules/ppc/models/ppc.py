@@ -3,6 +3,7 @@ import json, odoo
 from odoo.http import request, Response
 import pandas as pd
 
+
 class ExcelData(http.Controller):
     @http.route('/ppc/get_csrf_token', type='http', auth='public', csrf=False)
     def get_csrf_token(self, **post):
@@ -216,7 +217,6 @@ class OrderOperations(models.Model):
     _description = "Order Operations"
 
     status = fields.Char(string='Order status')
-
 
 
 

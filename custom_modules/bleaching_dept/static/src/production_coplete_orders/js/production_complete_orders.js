@@ -5,7 +5,7 @@ import { useService } from "@web/core/utils/hooks";
 import { hooks } from '@odoo/owl';
 import { useModel } from '@odoo/owl';
 
-export class OrderDetails extends Component {
+export class ProductionCompletedOrders extends Component {
     setup() {
         this.orm = useService("orm");
         this.state = useState({
@@ -25,26 +25,11 @@ export class OrderDetails extends Component {
             await this.getData();
 
             await this.getParamRecipeData();
-
-
-            this.inputValuesStore = new Map(); // Create the input values store
-            this.inputValuesRecipe = new Map(); // Create the input values store
-
-
-//            console.log('this.state.paramFields : ', this.state.paramFields);
-//            console.log('this.state.recipeFields : ', this.state.recipeFields);
-//            console.log('this.state.machines : ', this.state.machines);
-//            console.log('this.state.machineType : ', this.state.machineType);
-//            console.log('this.state.orderDetailsFields : ', this.state.orderDetailsFields);
-//            console.log('this.state.orderData : ', this.state.orderData);
-//            console.log("this.state.machineRoutingData : ", this.state.machineRoutingData);
-//            console.log("this.state.paramRecipeData : ", this.state.paramRecipeData);
         });
         this.state.notification =useService("notification");
         this.getParamRecipeData = this.getParamRecipeData.bind(this);
         this.approve_order = this.approve_order.bind(this);
     }
-
 
     async getParamRecipeData() {
         const paramRecipeData = {};
@@ -140,15 +125,13 @@ export class OrderDetails extends Component {
             }));
         this.state.orderDetailsFields = filteredFields;
 
-        const status = 'Bleaching Manager Finalized Plan';
-        const status2 = 'WIP';
+        const status = 'Bleaching Production Complete';
+//        const status2 = 'WIP';
         const orderDetailsSelectedFields = this.state.orderDetailsFields.map(field => field.name);
         this.state.orderData = await this.orm.searchRead(
             "order.data",
             [
-                "|",
-                ["status", "=", status],
-                ["status", "=", status2]
+                ["status", "=", status]
             ],
             orderDetailsSelectedFields
         );
@@ -205,163 +188,6 @@ export class OrderDetails extends Component {
         this.state.machineRoutingData = machineRoutingDetails;
     }
 
-//    updateInputValue(paramName, param) {
-//        return function(event) {
-//            const inputValue = event.target.value;
-//            param.param_value = inputValue; // Update param_value directly
-//        };
-//    }
-//
-//
-//
-//    updateParams(machineId, paramId, orderId, machineParams) {
-//        const updateHandler = async (event) => {
-//            console.log('machineId : ', machineId);
-//            console.log('Param ID:', paramId);
-//            console.log('machineParams : ', machineParams);
-//            const updateData = {};
-//            for (const param of machineParams) {
-//                updateData[param.name] = param.param_value;
-//            }
-//            console.log('updateData : ', updateData);
-//            try {
-//                // Update the database record using your ORM's write function
-//                const writeResult = await this.orm.write("bleaching.machines.params", [paramId], updateData);
-//                console.log('Write Result:', writeResult);
-//            } catch (error) {
-//                console.error('Write Error:', error);
-//            }
-//        };
-//        return updateHandler;
-//    }
-//
-//    updateRecipeValue(recipeName, recipe) {
-//        return function(event) {
-//            const inputValue = event.target.value;
-//            recipe.recipe_value = inputValue; // Update param_value directly
-//        };
-//    }
-//
-//    updateRecipe(machineId, recipeId, orderId, machineRecipes) {
-//        const updateHandler = async (event) => {
-//            console.log('recipe ID:', recipeId);
-//            console.log('machineRecipes : ', machineRecipes);
-//            const updateData = {};
-//            for (const recipe of machineRecipes) {
-//                updateData[recipe.name] = recipe.recipe_value;
-//            }
-//            console.log('updateData : ', updateData);
-//            try {
-//                const writeResult = await this.orm.write("bleaching.machines.recipe", [recipeId], updateData);
-//                console.log('Write Result:', writeResult);
-//            } catch (error) {
-//                console.error('Write Error:', error);
-//            }
-//        };
-//        return updateHandler;
-//    }
-
-
-
-
-
-    updateInputValue(paramName, param) {
-        return function(event) {
-            const inputValue = event.target.value;
-            this.inputValuesStore.set(paramName, inputValue); // Store input value in the virtual store
-        };
-    }
-
-    updateParams(machineId, paramId, orderId, machineParams) {
-        const updateHandler = async (event) => {
-            console.log('Param ID:', paramId);
-            console.log('machineParams : ', machineParams);
-            const updateData = {};
-
-            // If paramId is null or empty, create a new row with orderId and machineId
-            if (!paramId) {
-                const createData = [{
-                    orderId: orderId,
-                    machineId: machineId,
-                    ...Object.fromEntries(this.inputValuesStore), // Store all input values in the create data
-                }];
-
-                try {
-                    // Create new records using your ORM's create function
-                    const createResult = await this.orm.create("bleaching.machines.params", createData);
-                    console.log('Create Result:', createResult);
-                } catch (error) {
-                    console.error('Create Error:', error);
-                }
-            } else {
-                for (const param of machineParams) {
-                    const storedValue = this.inputValuesStore.get(param.name); // Retrieve stored input value
-                    updateData[param.name] = storedValue !== undefined ? storedValue : param.param_value;
-                }
-
-                try {
-                    // Update the database record using your ORM's write function
-                    const writeResult = await this.orm.write("bleaching.machines.params", [paramId], updateData);
-                    console.log('Write Result:', writeResult);
-                } catch (error) {
-                    console.error('Write Error:', error);
-                }
-            }
-        };
-        return updateHandler;
-    }
-
-
-    updateRecipeValue(recipeName, recipe) {
-        return function(event) {
-            const inputValue = event.target.value;
-            console.log('inputValue : ', inputValue);
-            this.inputValuesRecipe.set(recipeName,inputValue) // Update recipe_value directly
-        };
-    }
-
-    updateRecipe(machineId, recipeId, orderId, machineRecipes) {
-        const updateHandler = async (event) => {
-            console.log('recipe ID:', recipeId);
-            console.log('machineRecipes : ', machineRecipes);
-            const updateData = {};
-
-            // If paramId is null or empty, create a new row with orderId and machineId
-            if (!recipeId) {
-                const createData = [{
-                    orderId: orderId,
-                    machineId: machineId,
-                    ...Object.fromEntries(this.inputValuesRecipe), // Store all input values in the create data
-                }];
-
-                try {
-                    // Create new records using your ORM's create function
-                    const createResult = await this.orm.create("bleaching.machines.recipe", createData);
-                    console.log('Create Result:', createResult);
-                } catch (error) {
-                    console.error('Create Error:', error);
-                }
-            } else {
-                for (const recipe of machineRecipes) {
-                    const storedValue = this.inputValuesRecipe.get(recipe.name); // Retrieve stored input value
-                    updateData[recipe.name] = storedValue !== undefined ? storedValue : recipe.recipe_value;
-                }
-
-                try {
-                    // Update the database record using your ORM's write function
-                    const writeResult = await this.orm.write("bleaching.machines.recipe", [recipeId], updateData);
-                    console.log('Write Result:', writeResult);
-                } catch (error) {
-                    console.error('Write Error:', error);
-                }
-            }
-        };
-        return updateHandler;
-    }
-
-
-
-
     redirectToSetRouteScreen(ev) {
         const selectedIdForRoute = ev.target.getAttribute('data-machine-id');
         console.log("Selected Id from Sending Page: ", selectedIdForRoute)
@@ -410,13 +236,12 @@ export class OrderDetails extends Component {
 
     async approve_order(orderId){
         console.log('Order Approved : ', orderId);
-        const writeResult = await this.orm.write('order.data', [orderId], { status: 'WIP' });
+//        const writeResult = await this.orm.write('order.data', [orderId], { status: 'WIP' });
         this.state.notification.add('Order Added.', {
             title: 'Success',
             type: 'success',
         });
     }
-
 }
-OrderDetails.template = 'bleaching_dept.OrderDetailsTemplate';
-registry.category('actions').add('bleaching_dept.order_details_js', OrderDetails);
+ProductionCompletedOrders.template = 'bleaching_dept.ProductionCompletedOrdersTemplate';
+registry.category('actions').add('bleaching_dept.production_completed_orders', ProductionCompletedOrders);

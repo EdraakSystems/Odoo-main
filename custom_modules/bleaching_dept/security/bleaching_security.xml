@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.module.category" id="bleaching_module_category">
+        <field name="name">Bleaching Department</field>
+        <field name="description">Bleaching Department users category</field>
+        <field name="sequence">-1</field>
+    </record>
+    <record id="bleaching_manager_group" model="res.groups">
+        <field name="name">Bleaching Manager</field>
+        <field name="category_id" ref="bleaching_module_category"/>
+    </record>
+    <record id="bleaching_supervisor_group" model="res.groups">
+        <field name="name">Bleaching Supervisor</field>
+        <field name="category_id" ref="bleaching_module_category"/>
+    </record>
+</odoo>

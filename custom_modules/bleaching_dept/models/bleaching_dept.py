@@ -168,3 +168,16 @@ class BleachingMachineRecipeHistory(models.Model):
     orderId = fields.Char(string='Order Id')
     machineId = fields.Char(string='Machine Id')
     recipeHistory = fields.Char(string='Recipe History')
+
+
+class FabricIssuanceRequest(models.Model):
+    _name = 'fabric.issuance.request'
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _description = 'Fabric Issuance Request'
+
+    orderId = fields.Char(string='Order ID')
+    ppLot = fields.Char(string='PP Lot Number')
+    quantity = fields.Float(string='Required Fabric Quantity', required=True)
+    fabricType = fields.Selection([('flat', 'Flat'), ('lycra', 'Lycra'), ('cotton', 'Cotton'), ('silk', 'Silk')], string='Fabric Type', required=True)
+    status = fields.Char(string='Status')
+    remarks = fields.Char(string='Remarks')
