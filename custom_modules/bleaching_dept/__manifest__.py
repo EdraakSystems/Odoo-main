@@ -50,6 +50,9 @@
             'bleaching_dept/static/src/reprocess_orders/xml/reprocess_orders.xml',
             'bleaching_dept/static/src/production_coplete_orders/js/production_complete_orders.js',
             'bleaching_dept/static/src/production_coplete_orders/xml/production_complete_orders.xml',
+            'bleaching_dept/static/src/greige_dept/fabric_requests/js/fabric_req.js',
+            'bleaching_dept/static/src/greige_dept/fabric_requests/xml/fabric_req.xml',
+            'bleaching_dept/static/src/greige_dept/fabric_requests/css/fabric_req.css',
         ],
     },
     'license': 'LGPL-3'

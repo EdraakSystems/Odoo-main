@@ -86,6 +86,49 @@
 
 
 
+
+<!--                                <div class="container">-->
+<!--                                    <div class="wrapper">-->
+<!--                                        <div class="arrow-steps clearfix">-->
+<!--                                            <div class="step current"> <span> Draft</span> </div>-->
+<!--                                            <div class="step"> <span>Submitted</span> </div>-->
+<!--                                            <div class="step"> <span> Approved</span> </div>-->
+<!--                                            <div class="step"> <span>Rejected</span> </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="fabric_issuance_fom">-->
+<!--                                    <h1>Fabric Issuance Form:</h1>-->
+<!--                                    <form>-->
+<!--                                        <label for="ppLot" class="input_label" style="margin-top:0px;">PP Lot Number:</label><br/>-->
+<!--                                        <input type="text" disabled="true" t-att-value="order['PP Lot Number']" class="form-control param-input" id="ppLot" name="ppLot" value="John"/><br/>-->
+<!--                                        <label for="quantity" class="input_label" style="margin-top:0px;">Quantity:</label><br/>-->
+<!--                                        <input type="text" class="form-control param-input" id="quantity" name="quantity" value="Doe"/><br/>-->
+<!--                                        <button class="btn-save r_save_btn update_btn" t-on-click="requestFabric" style="cursor:pointer;">Request Fabric</button>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+
+
+
+<!--                                    <form>-->
+<!--                                        <label for="ppLot" class="input_label" style="margin-top:0px;">PP Lot Number:</label><br/>-->
+<!--                                        <input type="text" disabled="true" t-att-value="order['PP Lot Number']" class="form-control param-input" id="ppLot" name="ppLot" value="John"/><br/>-->
+<!--                                        <label for="quantity" class="input_label" style="margin-top:0px;">Quantity:</label><br/>-->
+<!--                                        <input type="text" class="form-control param-input" id="quantity" name="quantity" value="Doe"/><br/>-->
+<!--&lt;!&ndash;                                        <label for="lname" class="input_label" style="margin-top:0px;">Fabric Type:</label><br/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <select class="fabric_type_selector">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <option>Flat Fabric</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <option>Lycra Fabric</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <option>Denim Fabric</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </select>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <label for="lname" class="input_label" style="margin-top:0px;">Remarks:</label><br/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <input type="text" class="form-control param-input" id="lname" name="lname" value="Doe"/><br/>&ndash;&gt;-->
+<!--                                        <buuton class="btn-save r_save_btn update_btn" t-on-click="requestFabric" style="cursor:pointer;">Request Fabric</buuton>-->
+<!--                                    </form>-->
+
+
+
+
 <!--                                <div class="machine-names">-->
 <!--                                    <ul class="nav nav-tabs" role="tablist">-->
 <!--                                        <t t-foreach="state.paramRecipeData[order.ID]" t-as="machine" t-key="generateRandomNumber()">-->

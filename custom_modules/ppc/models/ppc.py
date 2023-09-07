@@ -64,7 +64,9 @@ class PpcModel(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Order Data"
 
+    # ppLot = fields.Integer(string='PP Lot Number')
     ppLot = fields.Integer(string='PP Lot Number')
+    _rec_name = 'ppLot'  # Set the display field to 'ppLot'
     fabricType = fields.Selection([('flat', 'Flat'), ('lycra', 'Lycra'), ('cotton', 'Cotton'), ('silk', 'Silk')], string='Fabric Type', required=True)
     status = fields.Char(string='Status')
     jobCard = fields.Integer(string='Job Card Number')
@@ -212,11 +214,44 @@ class Customers(models.Model):
 
 
 class OrderOperations(models.Model):
-    _name= "order.operations"
+    _name = "order.operations"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Order Operations"
 
     status = fields.Char(string='Order status')
+
+
+class LabVerification(models.Model):
+    _name = "bleaching.lab.verification"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _description = "Bleaching Lab Verification"
+
+    ppLot = fields.Many2one('order.data', string='PP Lot #', _rec_name='ppLot')
+    color = fields.Char(string='Color', related='ppLot.color', store=True, readonly=True)
+    weave = fields.Char(string='Weave', related='ppLot.weave', store=True, readonly=True)
+    finish = fields.Char(string='Finish', related='ppLot.finish', store=True, readonly=True)
+    date = fields.Date(string='Date', required=True)
+    machine_id = fields.Many2one('bleaching.machines', string='Machine', required=True)
+    pH = fields.Char(string='PH')
+    gsm = fields.Char(string='GSM')
+    tensile_warp_req = fields.Char(string='Tensile Warp Required')
+    tensile_warp_actual = fields.Char(string='Tensile Warp Actual')
+    tensile_weft_req = fields.Char(string='Tensile Weft Required')
+    tensile_weft_actual = fields.Char(string='Tensile Weft Actual')
+    tear_warp_req = fields.Char(string='Tear Warp Required')
+    tear_warp_actual = fields.Char(string='Tear Warp Actual')
+    tear_weft_req = fields.Char(string='Tear Weft Required')
+    tear_weft_actual = fields.Char(string='Tear Weft Actual')
+    remarks = fields.Char(string='Remarks', required=True)
+    status = fields.Selection([('validate', 'Validate'), ('pending', 'Pending')], string='Lab Report Status', default='pending')
+
+    def mark_as_validated(self):
+        self.status = 'validate'
+
+    # orderId = fields.Many2one('order.data', string='Order ID', required=True)
+    # ppLot = fields.Integer(string='PP Lot Number', related='orderId.ppLot', store=True, readonly=True)
+    # fabricType = fields.Selection([('flat', 'Flat'), ('lycra', 'Lycra'), ('cotton', 'Cotton'), ('silk', 'Silk')], string='Fabric Type', required=True)
+
 
 
 

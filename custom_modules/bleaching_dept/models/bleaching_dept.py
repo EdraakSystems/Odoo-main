@@ -91,6 +91,7 @@ class MachineRouteHistory(models.Model):
     machineId = fields.Integer(string='Machine Id')
     routeHistory = fields.Char(string='Machine Route History')
 
+
 class BleachingMachineParams(models.Model):
     _name = "bleaching.machines.params"
     _inherit = ["mail.thread", "mail.activity.mixin"]
@@ -169,15 +170,31 @@ class BleachingMachineRecipeHistory(models.Model):
     machineId = fields.Char(string='Machine Id')
     recipeHistory = fields.Char(string='Recipe History')
 
+    def button1(self):
+        result = []
+        for record in self:
+            name = record.machine_type_name
+            result.append((record.id, name))
+        return result
+
+    def button2(self):
+        result = []
+        for record in self:
+            name = record.machine_type_name
+            result.append((record.id, name))
+        return result
+
 
 class FabricIssuanceRequest(models.Model):
     _name = 'fabric.issuance.request'
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = 'Fabric Issuance Request'
 
-    orderId = fields.Char(string='Order ID')
+    orderId = fields.Integer(string='Order ID')
     ppLot = fields.Char(string='PP Lot Number')
     quantity = fields.Float(string='Required Fabric Quantity', required=True)
-    fabricType = fields.Selection([('flat', 'Flat'), ('lycra', 'Lycra'), ('cotton', 'Cotton'), ('silk', 'Silk')], string='Fabric Type', required=True)
     status = fields.Char(string='Status')
     remarks = fields.Char(string='Remarks')
+    requestedFabricType = fields.Char(string='Fabric Type')
+    greigeLotNumber = fields.Char(string='Greige Lot Number')
+    # fabricType = fields.Selection([('flat', 'Flat'), ('lycra', 'Lycra'), ('cotton', 'Cotton'), ('silk', 'Silk')], string='Fabric Type')

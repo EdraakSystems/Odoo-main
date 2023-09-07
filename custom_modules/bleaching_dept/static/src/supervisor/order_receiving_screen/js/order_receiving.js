@@ -20,6 +20,7 @@ export class OrderReceiving extends Component {
             machineRoutingData:[],
             paramRecipe:[],
             reprocessOrders:[],
+            fabricRequestStatus:{},
         });
 
         onWillStart(async () => {
@@ -30,6 +31,7 @@ export class OrderReceiving extends Component {
 
             await this.getParamRecipeData();
             await this.checkReprocessOrders();
+            await this.fabricRequestStatus();
 
             console.log("this.state.paramRecipe : ", this.state.paramRecipe);
 
@@ -40,6 +42,8 @@ export class OrderReceiving extends Component {
         this.state.notification =useService("notification");
         this.getParamRecipeData = this.getParamRecipeData.bind(this);
         this.addOrder = this.addOrder.bind(this);
+        this.requestFabric = this.requestFabric.bind(this);
+        this.fabricRequestStatus = this.fabricRequestStatus.bind(this);
     }
 
     async checkReprocessOrders() {
@@ -389,10 +393,140 @@ export class OrderReceiving extends Component {
             title: 'Success',
             type: 'success',
         });
+        setTimeout(() => {
+            window.location.reload();
+        }, 700);
+    }
 
-    setTimeout(() => {
-        window.location.reload();
-      }, 700);
+//    async fabricRequestStatus() {
+//        for (const orderRecord of this.state.orderData) {
+//            const orderId = orderRecord['ID'];
+//            const issuanceRequest = await this.orm.searchRead("fabric.issuance.request", [["orderId", "=", orderId]], ["status", "orderId", "ppLot", "quantity", "remarks"]);
+//
+//            console.log('issuanceRequest : ', issuanceRequest);
+//            if (issuanceRequest && issuanceRequest.length > 0) {
+//                const status = issuanceRequest[0].status;
+//                console.log(`Order ID: ${orderId}, Status: ${status}`);
+//            } else {
+//                console.log(`No matching record found for Order ID: ${orderId}`);
+//            }
+//        }
+//    }
+
+
+
+//async fabricRequestStatus() {
+//    const fabricRequestStatus = {}; // Initialize an empty object to store the data
+//
+//    for (const orderRecord of this.state.orderData) {
+//        const orderId = orderRecord['ID'];
+//        const issuanceRequest = await this.orm.searchRead("fabric.issuance.request", [["orderId", "=", orderId]], ["status", "orderId", "ppLot", "quantity", "remarks"]);
+//
+//        console.log('issuanceRequest : ', issuanceRequest);
+//
+//        if (issuanceRequest && issuanceRequest.length > 0) {
+//            const status = issuanceRequest[0].status;
+//            console.log(`Order ID: ${orderId}, Status: ${status}`);
+//
+//            // Create a nested object with issuanceRequest data under orderId key
+//            fabricRequestStatus[orderId] = issuanceRequest[0];
+//        } else {
+//            console.log(`No matching record found for Order ID: ${orderId}`);
+//        }
+//    }
+//    // Update state.fabricRequestStatus with the nested objects
+//    this.state.fabricRequestStatus = fabricRequestStatus;
+//    console.log('this.state.fabricRequestStatus : ', this.state.fabricRequestStatus);
+//}
+
+
+
+
+    async fabricRequestStatus() {
+        const fabricRequestStatus = {}; // Initialize an empty object to store the data
+
+        for (const orderRecord of this.state.orderData) {
+            const orderId = orderRecord['ID'];
+            const ppLot = orderRecord['PP Lot Number'];
+
+            // Initialize the default values
+            const defaultValues = {
+                status: 'Draft',
+                quantity: 0,
+                remarks: 'Nill',
+            };
+
+            // Create an object with default values
+            fabricRequestStatus[orderId] = {
+                orderId,
+                ppLot,
+                ...defaultValues,
+            };
+
+            const issuanceRequest = await this.orm.searchRead(
+                "fabric.issuance.request",
+                [["orderId", "=", orderId]],
+                ["status", "quantity", "remarks"]
+            );
+
+            console.log('issuanceRequest : ', issuanceRequest);
+
+            if (issuanceRequest && issuanceRequest.length > 0) {
+                // If status, quantity, and remarks are available in issuanceRequest, update the values
+                if (issuanceRequest[0].status) {
+                    fabricRequestStatus[orderId].status = issuanceRequest[0].status;
+                }
+                if (issuanceRequest[0].quantity) {
+                    fabricRequestStatus[orderId].quantity = issuanceRequest[0].quantity;
+                }
+                if (issuanceRequest[0].remarks) {
+                    fabricRequestStatus[orderId].remarks = issuanceRequest[0].remarks;
+                }
+
+                console.log(`Order ID: ${orderId}, Status: ${fabricRequestStatus[orderId].status}`);
+            } else {
+                console.log(`No matching record found for Order ID: ${orderId}`);
+            }
+        }
+
+        // Update state.fabricRequestStatus with the updated objects
+        this.state.fabricRequestStatus = fabricRequestStatus;
+        console.log('this.state.fabricRequestStatus : ', this.state.fabricRequestStatus);
+    }
+
+    async requestFabric(ppLot, orderId, quantity, remarks) {
+        var orderData = await this.orm.searchRead("order.data", [["id", "=", orderId]], ["fabricType", "greyLotNumber"]);
+        console.log('orderData : ', orderData);
+        console.log('orderData[id] : ', orderData);
+
+        var quantityValue = document.getElementById('quantity').value;
+        var remarksValue = document.getElementById('remarks').value;
+        console.log('ppLot : ', ppLot, 'orderId :', orderId, 'quantity : ', quantityValue);
+
+        const createData = [{
+            orderId: orderId,
+            ppLot: ppLot,
+            quantity: quantityValue,
+            remarks: remarksValue,
+            status: 'Submitted',
+            requestedFabricType: orderData[0].fabricType,
+            greigeLotNumber: orderData[0].greyLotNumber,
+        }];
+        console.log('createData : ', createData);
+        try {
+            const createResult = await this.orm.create("fabric.issuance.request", createData);
+            console.log('Create Result:', createResult);
+            this.state.notification.add('Order Added.', {
+                title: 'Success',
+                type: 'success',
+            });
+            setTimeout(() => {
+                window.location.reload();
+            }, 300);
+            } catch (error) {
+                console.error('Create Error:', error);
+            }
+            console.log('this.state.fabricRequestStatus : ', this.state.fabricRequestStatus);
     }
 }
 OrderReceiving.template = 'bleaching_dept.receivingTemplate';

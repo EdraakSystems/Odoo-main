@@ -93,5 +93,6 @@
     <menuitem name="Customers" id="ppc_order_customer" sequence="2" action="ppc_add_customer_form_action" parent="ppc_main_menu"/>
     <menuitem name="Upload Excel Data" id="upload_excel_data" sequence="3" action="get_excel_data_action" parent="ppc_main_menu"/>
     <menuitem name="Approve PPC Orders" id="approve_ppc_order" sequence="0" action="approve_ppc_order_action" />
+    <menuitem name="bleaching lab verification" id="bleaching_lab_verification" sequence="5" action="bleaching_lab_verification_tree_action" />
 </odoo>
 

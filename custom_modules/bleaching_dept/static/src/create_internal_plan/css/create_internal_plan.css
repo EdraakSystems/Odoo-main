@@ -39,3 +39,10 @@ input.add_finalize_checkbox {
     width:25px;
     height:25px;
 }
+
+
+
+
+th.o_column_sortable[data-name="quantity"]{
+    text-align: center;
+}

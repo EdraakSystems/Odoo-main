@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+    <odoo>
+        <record id="fabric_issuance_approval_tree" model="ir.ui.view">
+            <field name="name">fabric.issuance.approval.tree</field>
+            <field name="model">fabric.issuance.request</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="orderId"/>
+                    <field name="ppLot"/>
+                    <field name="remarks"/>
+                    <field name="quantity"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Define the action to open the view -->
+        <record id="fabric_issuance_approval_tree_action" model="ir.actions.act_window">
+            <field name="name">Fabric Issuance Approval</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fabric.issuance.request</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </odoo>
+
+
+
+
 <!--    <odoo>-->
 <!--     &lt;!&ndash; FORM VIEW For PPC Order Data &ndash;&gt;-->
 <!--        <record id="view_form_fabric_issuance_request" model="ir.ui.view">-->
@@ -39,29 +65,34 @@
 
 
 
-    <odoo>
-        <record id="fabric_issuance_approval_tree" model="ir.ui.view">
-            <field name="name">fabric.issuance.approval.tree</field>
-            <field name="model">fabric.issuance.approval</field>
-            <field name="arch" type="xml">
-                <form>
-                    <field name="request_id"/>
-                </form>
-            </field>
-        </record>
 
-        <record id="fabric_issuance_approval_tree_action" model="ir.actions.act_window">
-            <field name="name">fabric Issuance Approval</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">fabric.issuance.approval</field>
-            <field name="view_mode">tree</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Create a new
-                </p>
-            </field>
-        </record>
-    </odoo>
+
+
+
+
+<!--    <odoo>-->
+<!--        <record id="fabric_issuance_approval_tree" model="ir.ui.view">-->
+<!--            <field name="name">fabric.issuance.approval.tree</field>-->
+<!--            <field name="model">fabric.issuance.request</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree>-->
+<!--                    <field name="orderId"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        <record id="fabric_issuance_approval_tree_action" model="ir.actions.act_window">-->
+<!--            <field name="name">fabric Issuance Approval</field>-->
+<!--            <field name="type">ir.actions.act_window</field>-->
+<!--            <field name="res_model">fabric.issuance.request</field>-->
+<!--            <field name="view_mode">tree</field>-->
+<!--            <field name="help" type="html">-->
+<!--                <p class="o_view_nocontent_smiling_face">-->
+<!--                    Create a new-->
+<!--                </p>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </odoo>-->
 
 
 

@@ -76,6 +76,37 @@
                                         </t>
                                     </div>
                                 </div>
+
+                                <div class="fabric_issuance_fom">
+                                    <div class="wrapper">
+                                        <div class="arrow-steps clearfix" style="text-align: right !important;">
+                                            <div class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Draft'}">
+                                                <span> Draft</span>
+                                            </div>
+                                            <div class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Submitted'}">
+                                                <span>Submitted</span>
+                                            </div>
+                                            <div  class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Approved'}">
+                                                <span> Approved</span>
+                                            </div>
+                                            <div class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Rejected'}">
+                                                <span>Rejected</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <h1>Fabric Issuance Form:</h1>
+                                    <label for="ppLot" class="input_label" style="margin-top:0px;">PP Lot Number:</label><br/>
+                                    <input type="text" disabled="true" t-att-value="order['PP Lot Number']" class="form-control param-input" id="ppLot" name="ppLot" value="John"/><br/>
+                                    <label for="quantity" class="input_label" style="margin-top:0px;">Quantity:</label><br/>
+                                    <input type="number" class="form-control param-input" id="quantity" name="quantity" value="Doe"/><br/>
+                                    <label for="remarks" class="input_label" style="margin-top:0px;">Remarks:</label><br/>
+                                    <input type="text" class="form-control param-input" id="remarks" name="remarks" value="Doe"/><br/>
+                                    <button class="btn-save r_save_btn update_btn" t-on-click="()=>requestFabric(order['PP Lot Number'], order['ID'], quantity, remarks)" style="cursor:pointer;">Request Fabric</button>
+                                </div>
+
+
                                 <button class="r_save_btn finalize_order_btn"  t-on-click="approve_order">Move Forward</button>
                             </div>
                         </div>
@@ -100,6 +131,26 @@
         </div>
     </t>
 </templates>
+
+
+<!--                                <div class="container">-->
+<!--                                    <div class="wrapper">-->
+<!--                                        <div class="arrow-steps clearfix">-->
+<!--                                            <div class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Draft'}">-->
+<!--                                                <span> Draft</span>-->
+<!--                                            </div>-->
+<!--                                            <div class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Submitted'}">-->
+<!--                                                <span>Submitted</span>-->
+<!--                                            </div>-->
+<!--                                            <div  class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Approved'}">-->
+<!--                                                <span> Approved</span>-->
+<!--                                            </div>-->
+<!--                                            <div class="step" t-att-class="{'current': state.fabricRequestStatus[order.ID].status === 'Rejected'}">-->
+<!--                                                <span>Rejected</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
 
 

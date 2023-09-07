@@ -1,0 +1,68 @@
+.req_table_heads{
+    width: 300px;
+}
+button.req_btn {
+    width: 85px;
+    border-radius: 5px;
+    padding: 3px 10px 5px 10px;
+    border: 1px solid black;
+}
+button.reject_btn {
+    margin-left: 3px;
+    background-color: black;
+    color: white;
+}
+button.approve_btn {
+    color: black;
+    background-color: white;
+}
+.req_status_selector{
+    width: 17%;
+    padding: 10px 10px 10px 10px;
+    margin: 2% 0% 1% 0%;
+    border-radius: 5px;
+    text-align: center;
+}
+.table_row{
+    border-bottom: 1px solid #00000045
+}
+
+button.disabled {
+    border: 1px solid lightgray !important;
+    color: lightgray !important;
+}
+button.reject_btn_disabled {
+    background-color: lightgray;
+    border: 1px solid lightgray !important;
+}
+
+.badge-success{
+    color: #0d6832 !important;
+    background-color: #d6f0e0;
+    border: 1px solid;
+}
+
+.badge {
+    min-width: 2.5ch;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 5px 10px 7px 10px;
+}
+
+.badge-primary{
+    color: #273e63 !important;;
+    background-color:#dfe7f6;
+    border: 1px solid;
+}
+
+.badge-warning{
+    color:#73510d !important;;
+    background-color:#fbf0da;
+    border: 1px solid;
+}
+
+.badge-danger{
+    color:#A61001 !important;;
+    background-color: #FFEBE9;
+    border: 1px solid;
+}

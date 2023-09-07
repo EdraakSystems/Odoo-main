@@ -1,0 +1,64 @@
+<templates xml:space="preserve">
+    <t t-name="bleaching_dept.FabricReqTemplate" owl="1">
+        <div class="div_container internal_plan_container">
+            <h3>RECEIVED REQUESTS</h3>
+            <select class="req_status_selector" t-on-change="handleSelectChange">
+                <option>Submitted</option>
+                <option>Approved</option>
+                <option>Rejected</option>
+                <option>All</option>
+            </select>
+            <table>
+                <thead>
+                    <tr class="table_row req_table_head_row">
+                        <th class="req_table_heads">PP Lot</th>
+                        <th class="req_table_heads">Status</th>
+                        <th class="req_table_heads">Quantity</th>
+                        <th class="req_table_heads">Greige Lot No.</th>
+                        <th class="req_table_heads">Fabric Type</th>
+                        <th class="req_table_heads"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="state.issuanceData" t-as="request" t-key="generateRandomNumber()">
+                        <tr class="table_row">
+                            <td><t t-esc="request.ppLot"/></td>
+                            <td>
+                                <span class="badge rounded-pill d-inline"
+                                      t-att-class="{
+                                        'badge-success': request.status === 'Approved',
+                                        'badge-warning': request.status === 'Submitted',
+                                        'badge-danger': request.status === 'Rejected'
+                                      }"
+                                      t-esc="request.status"
+                                />
+                            </td>
+                            <td><t t-esc="request.quantity"/></td>
+                            <td><t t-esc="request.greigeLotNumber"/></td>
+                            <td><t t-esc="request.requestedFabricType"/></td>
+                            <td><button class="req_btn approve_btn" t-on-click="()=> approveRequest(request.orderId)"
+                                        t-att-class="request.status === 'Approved' || request.status === 'Rejected' ? 'disabled' : ''">Approve</button>
+                                <button class="req_btn reject_btn" t-on-click="()=> rejectRequest(request.orderId)"
+                                t-att-class="request.status === 'Approved' || request.status === 'Rejected' ? 'reject_btn_disabled' : ''">Reject</button></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>
+
+
+<!--<button class="req_btn approve_btn" t-on-click="() => approveRequest(request.orderId)"-->
+<!--        t-att-disabled="request.status === 'Approved' || request.status === 'Rejected' ? 'disabled' : ''">-->
+<!--    Approve-->
+<!--</button>-->
+
+
+<!--<templates xml:space="preserve">-->
+<!--    <t t-name="bleaching_dept.FabricReqTemplate" owl="1">-->
+<!--        <div class="div_container internal_plan_container">-->
+<!--            <h3>RECEIVED REQUESTS</h3>-->
+<!--        </div>-->
+<!--    </t>-->
+<!--</templates>-->

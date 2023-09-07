@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <odoo>
+        <record id="bleaching_lab_verification_tree" model="ir.ui.view">
+            <field name="name">bleaching.lab.verification.tree</field>
+            <field name="model">bleaching.lab.verification</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="ppLot" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="color"/>
+                    <field name="status" readonly="1"/>
+                    <field name="weave" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="finish" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="machine_id" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="pH" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="gsm" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tensile_warp_req" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tensile_warp_actual" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tensile_weft_req" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tensile_weft_actual" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tear_warp_req" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tear_warp_actual" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tear_weft_req" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="tear_weft_actual" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="remarks" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <field name="date" attrs="{'readonly': [('status', '=', 'Validated')]}"/>
+                    <button class="btn-primary"
+                            confirm="Are you sure you want to mark this as validated?"
+                            name="mark_as_validated" type="object" string="Mark as Validated"/>
+                </tree>
+            </field>
+        </record>
+
+<!--        <record id="bleaching_lab_verification_tree" model="ir.ui.view">-->
+<!--            <field name="name">bleaching.lab.verification.tree</field>-->
+<!--            <field name="model">bleaching.lab.verification</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree  editable="top">-->
+<!--                    <field name="ppLot"/>-->
+<!--                    <field name="color"/>-->
+<!--                    <field name="weave"/>-->
+<!--                    <field name="finish"/>-->
+<!--                    <field name="machine_id"/>-->
+<!--                    <field name="pH"/>-->
+<!--                    <field name="gsm"/>-->
+<!--                    <field name="tensile_warp_req" attrs="{'readonly': [('status', '=', 'Validated')]}"/>-->
+<!--                    <field name="tensile_warp_actual"/>-->
+<!--                    <field name="tensile_weft_req"/>-->
+<!--                    <field name="tensile_weft_actual"/>-->
+<!--                    <field name="tear_warp_req"/>-->
+<!--                    <field name="tear_warp_actual"/>-->
+<!--                    <field name="tear_weft_req"/>-->
+<!--                    <field name="tear_weft_actual"/>-->
+<!--                    <field name="remarks"/>-->
+<!--                    <field name="date"/>-->
+<!--                    <button name="mark_as_validated" type="object" string="Mark as Validated"/>-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="bleaching_lab_verification_tree_action" model="ir.actions.act_window">
+            <field name="name">Fabric Issuance Approval</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bleaching.lab.verification</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </odoo>
